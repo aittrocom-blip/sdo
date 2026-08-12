@@ -43,11 +43,29 @@ function addMessage(role, text) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
+function addLoading() {
+  const div = document.createElement("div");
+  div.className = "cc-msg assistant cc-msg-loading";
+  div.id = "ccLoading";
+  div.innerHTML = '<span class="cc-loading" aria-label="Escribiendo..."></span>';
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeLoading() {
+  document.getElementById("ccLoading")?.remove();
+}
+
+const sendBtn = document.getElementById("ccSend");
+
 async function send() {
   const message = input.value.trim();
   if (!message) return;
   addMessage("user", message);
   input.value = "";
+  input.disabled = true;
+  sendBtn.disabled = true;
+  addLoading();
   try {
     const resp = await fetch(API_URL, {
       method: "POST",
@@ -55,11 +73,17 @@ async function send() {
       body: JSON.stringify({ message, session_id: sessionId }),
     });
     const data = await resp.json();
+    removeLoading();
     addMessage("assistant", data.message);
   } catch (err) {
+    removeLoading();
     addMessage("assistant", "No pude conectarme al Concierge. Intenta de nuevo.");
+  } finally {
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
   }
 }
 
-document.getElementById("ccSend").addEventListener("click", send);
+sendBtn.addEventListener("click", send);
 input.addEventListener("keydown", (e) => { if (e.key === "Enter") send(); });
