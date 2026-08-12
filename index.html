@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- Security headers (fallback si el servidor no los aplica via HTTP) -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self'; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+<!-- CSP con connect-src ampliado a localhost:8001 SOLO para probar el AI Concierge en local (Fase 1).
+     Quitar "http://localhost:8001" antes de desplegar a producción — la integración real del
+     widget con su dominio final es trabajo de Fase 3/4, no de esta prueba. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' http://localhost:8001; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="robots" content="index, follow" />
@@ -789,5 +792,13 @@
 </footer>
 
 <script src="assets/scripts.js" defer></script>
+
+<!-- ============ AI CONCIERGE — prueba local temporal (Fase 1) ============
+     No es la integración final. Requiere el backend corriendo en localhost:8001
+     (sol-de-oro-concierge/backend). Quitar este bloque + el connect-src del CSP
+     de arriba antes de desplegar a producción. -->
+<link rel="stylesheet" href="sol-de-oro-concierge/frontend/widget/concierge.css" />
+<script src="sol-de-oro-concierge/frontend/widget/concierge.js" defer></script>
+<!-- ============ FIN AI CONCIERGE — prueba local temporal ============ -->
 </body>
 </html>

@@ -1,9 +1,22 @@
 const API_URL = "http://localhost:8001/api/concierge";
 const sessionId = "widget-" + Math.random().toString(36).slice(2);
 
-const root = document.getElementById("concierge-root");
+// El widget crea su propio contenedor si la página anfitriona no trae uno —
+// así se puede soltar en cualquier página solo con el <link>/<script>, sin
+// requerir markup adicional (spec, Sección 26: "el widget debe crear su propia UI").
+let root = document.getElementById("concierge-root");
+if (!root) {
+  root = document.createElement("div");
+  root.id = "concierge-root";
+  document.body.appendChild(root);
+}
 root.innerHTML = `
-  <button class="cc-bubble" id="ccToggle">💬</button>
+  <button class="cc-bubble" id="ccToggle" aria-label="Abrir chat con el Concierge">
+    <span class="cc-blob cc-blob-1"></span>
+    <span class="cc-blob cc-blob-2"></span>
+    <span class="cc-blob cc-blob-3"></span>
+    <span class="cc-blob-sheen"></span>
+  </button>
   <div class="cc-panel" id="ccPanel">
     <div class="cc-header">Concierge · Sol de Oro</div>
     <div class="cc-messages" id="ccMessages"></div>
