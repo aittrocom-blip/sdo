@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin · Sol de Oro</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#b38b3a; --gold-light:#d4a85c; --gold-dim:rgba(179,139,58,.14);
+  --bg:#f7f4ef; --sidebar:#ffffff; --card:#ffffff; --card-hover:#faf7f2; --card2:#f1ece3;
+  --border:rgba(40,32,20,.1); --border-soft:rgba(40,32,20,.06);
+  --text:#2a2318; --text-soft:#7a6f60; --text-faint:#8c8072;
+  --danger:#dc2626; --success:#16a34a;
+  --shadow-sm:0 1px 2px rgba(40,32,20,.05),0 2px 10px rgba(40,32,20,.045);
+  --shadow-md:0 24px 60px -16px rgba(40,32,20,.24);
+  --radius:10px;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
+
+/* ===== LOGIN ===== */
+#loginView{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(179,139,58,.12),transparent),var(--bg);}
+.login-card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:44px 36px;box-shadow:var(--shadow-md);}
+.login-brand{text-align:center;margin-bottom:36px;}
+.login-brand-name{font-size:.72rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px;}
+.login-brand-sub{font-size:.7rem;color:var(--text-faint);letter-spacing:.06em;}
+.fgroup{margin-bottom:16px;}
+.fgroup label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);margin-bottom:7px;}
+.fgroup input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;}
+.fgroup input:focus{border-color:var(--gold);}
+.btn-login{width:100%;padding:11px;background:var(--gold);border:none;border-radius:var(--radius);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:6px;}
+.btn-login:hover{background:var(--gold-light);}
+.btn-login:disabled{opacity:.5;cursor:not-allowed;}
+.login-err{margin-top:12px;padding:10px 14px;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.22);border-radius:var(--radius);color:#b91c1c;font-size:.8rem;display:none;}
+
+/* ===== APP ===== */
+#appView{display:flex;height:100vh;overflow:hidden;}
+#appView[hidden]{display:none;}
+
+/* Sidebar */
+.sb{width:230px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
+.sb-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px;}
+.sb-head-logo{width:30px;height:auto;flex-shrink:0;}
+.sb-head-name{font-size:.7rem;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);}
+.sb-head-sub{font-size:.65rem;color:var(--text-faint);margin-top:2px;}
+.sb-user{padding:12px 20px;border-bottom:1px solid var(--border);font-size:.72rem;color:var(--text-soft);}
+.sb-user span{display:block;color:var(--text);font-weight:600;font-size:.78rem;margin-bottom:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sb-group{padding:18px 12px 6px;}
+.sb-group-label{font-size:.58rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);padding:0 8px;display:block;margin-bottom:4px;}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border:none;background:none;color:var(--text-soft);font-size:.82rem;font-weight:500;cursor:pointer;border-radius:6px;transition:background .15s,color .15s;text-align:left;}
+.nav-btn svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;opacity:.8;}
+.nav-btn:hover{background:rgba(40,32,20,.045);color:var(--text);}
+.nav-btn.active{background:var(--gold-dim);color:var(--gold);}
+.nav-btn.active svg{opacity:1;}
+.sb-footer{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border);}
+.btn-logout{width:100%;padding:8px 12px;background:none;border:1px solid var(--border);border-radius:6px;color:var(--text-soft);font-size:.76rem;cursor:pointer;transition:all .2s;}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger);}
+
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.main-head{padding:18px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px;}
+.main-head-info h2{font-size:1rem;font-weight:700;}
+.main-head-info p{font-size:.74rem;color:var(--text-soft);margin-top:2px;}
+.btn-add{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--gold);border:none;border-radius:var(--radius);color:#fff;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.btn-add:hover{background:var(--gold-light);}
+.btn-add svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;}
+.main-body{flex:1;overflow-y:auto;padding:24px 32px;}
+
+/* Section panels */
+.panel{display:none;}
+.panel.active{display:flex;flex-direction:column;height:100%;}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{text-align:left;padding:9px 12px;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);border-bottom:1px solid var(--border);}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--border-soft);font-size:.83rem;vertical-align:middle;}
+tbody tr:hover td{background:rgba(40,32,20,.02);}
+.td-thumb{width:48px;height:36px;border-radius:4px;object-fit:cover;background:var(--card);display:block;}
+.td-thumb-empty{width:48px;height:36px;border-radius:4px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--text-faint);}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.04em;}
+.badge-on{background:rgba(22,163,74,.12);color:#15803d;}
+.badge-off{background:rgba(220,38,38,.1);color:#dc2626;}
+.actions{display:flex;gap:5px;justify-content:flex-end;}
+.icon-btn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border);background:none;color:var(--text-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.icon-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold);}
+.icon-btn.del:hover{border-color:var(--danger);color:var(--danger);}
+.empty{text-align:center;padding:56px 24px;color:var(--text-faint);font-size:.85rem;}
+
+/* ===== MODAL ===== */
+.overlay{position:fixed;inset:0;background:rgba(35,28,18,.45);backdrop-filter:blur(5px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;transform:translateY(14px);transition:transform .22s;box-shadow:var(--shadow-md);}
+.overlay.open .modal{transform:none;}
+.modal-head{padding:22px 26px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-head h3{font-size:.95rem;font-weight:700;}
+.modal-x{width:30px;height:30px;border:1px solid var(--border);border-radius:5px;background:none;color:var(--text-soft);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.modal-x:hover{border-color:var(--danger);color:var(--danger);}
+.modal-body{padding:22px 26px;}
+.modal-foot{padding:16px 26px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;}
+.modal-foot .spacer{flex:1;}
+.btn-cancel{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius);background:none;color:var(--text-soft);font-size:.78rem;cursor:pointer;transition:all .15s;}
+.btn-cancel:hover{border-color:var(--text-soft);color:var(--text);}
+.btn-save{padding:8px 22px;background:var(--gold);border:none;border-radius:var(--radius);color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.btn-save:hover{background:var(--gold-light);}
+.btn-del{padding:8px 16px;border:1px solid rgba(239,68,68,.25);background:rgba(239,68,68,.06);border-radius:var(--radius);color:#f87171;font-size:.76rem;cursor:pointer;transition:background .15s;}
+.btn-del:hover{background:rgba(239,68,68,.16);}
+
+/* Form elements */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fgroup{margin-bottom:15px;}
+.fgroup label{display:block;font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);margin-bottom:6px;}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:.86rem;outline:none;transition:border-color .2s;font-family:inherit;}
+.fgroup textarea{min-height:80px;resize:vertical;line-height:1.5;}
+.fgroup input:focus,.fgroup textarea:focus,.fgroup select:focus{border-color:var(--gold);}
+.img-prev{margin-top:8px;height:110px;border-radius:6px;background:var(--bg) center/cover no-repeat;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--text-faint);transition:background .3s;}
+
+/* Toggle */
+.tog-wrap{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.tog{width:38px;height:21px;border-radius:11px;background:var(--text-faint);border:none;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.tog.on{background:var(--gold);}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .2s;}
+.tog.on::after{left:20px;}
+.tog-lbl{font-size:.8rem;color:var(--text-soft);}
+
+/* Tips */
+.tips-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.tip-row{display:flex;gap:6px;align-items:center;}
+.tip-row input{flex:1;}
+.tip-del{width:26px;height:26px;border:none;background:none;color:var(--text-faint);cursor:pointer;font-size:1.1rem;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:color .15s;flex-shrink:0;}
+.tip-del:hover{color:var(--danger);}
+.btn-tip-add{margin-top:6px;padding:6px 12px;background:none;border:1px dashed var(--border);border-radius:var(--radius);color:var(--text-soft);font-size:.75rem;cursor:pointer;width:100%;transition:all .15s;}
+.btn-tip-add:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ===== TOAST ===== */
+#toast{position:fixed;bottom:24px;right:24px;z-index:2000;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:.82rem;color:var(--text);box-shadow:var(--shadow-md);transform:translateY(16px);opacity:0;transition:all .28s;display:flex;align-items:center;gap:10px;min-width:220px;}
+#toast.show{transform:none;opacity:1;}
+#toast.ok{border-left:3px solid var(--success);}
+#toast.err{border-left:3px solid var(--danger);}
+
+/* ===== RESUMEN (dashboard) ===== */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-sm);}
+.stat-card-val{font-size:2.1rem;font-weight:700;color:var(--gold);line-height:1;}
+.stat-card-lbl{font-size:.7rem;color:var(--text-soft);font-weight:500;letter-spacing:.04em;}
+.quick-links{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow-sm);}
+.quick-links-title{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);margin-bottom:14px;}
+.quick-btns{display:flex;flex-wrap:wrap;gap:8px;}
+.qbtn{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius);background:none;color:var(--text-soft);font-size:.76rem;cursor:pointer;transition:all .18s;}
+.qbtn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ===== PÁGINAS · section cards ===== */
+.psc-grid{display:flex;flex-direction:column;gap:14px;}
+.psc-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.psc-card-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;border-bottom:1px solid var(--border-soft);background:rgba(40,32,20,.02);}
+.psc-card-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);}
+.psc-img-strip{display:flex;overflow-x:auto;}
+.psc-img-thumb{min-width:150px;flex-shrink:0;border-right:1px solid var(--border-soft);display:flex;flex-direction:column;}
+.psc-img-thumb:last-child{border-right:none;}
+.psc-img-bg{aspect-ratio:16/9;background:var(--bg) center/cover no-repeat;}
+.psc-img-lbl{padding:7px 10px;font-size:.67rem;color:var(--text-soft);border-top:1px solid var(--border-soft);}
+.psc-empty-img{padding:28px 20px;color:var(--text-faint);font-size:.78rem;font-style:italic;}
+.psc-img-count{font-size:.65rem;color:var(--text-faint);}
+
+/* ===== PAGE FILTER (imágenes) ===== */
+.page-filter{display:flex;flex-wrap:wrap;gap:6px;padding:12px 32px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.pf-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text-soft);font-size:.72rem;cursor:pointer;transition:all .15s;}
+.pf-btn:hover{border-color:var(--gold-light);color:var(--gold-light);}
+.pf-btn.on{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+
+/* ===== PHOTO MODE TABS (Experiencias) ===== */
+.photo-tabs{display:flex;gap:6px;margin-bottom:8px;}
+.photo-tab{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text-soft);font-size:.72rem;cursor:pointer;transition:all .15s;}
+.photo-tab:hover{border-color:var(--gold-light);color:var(--gold-light);}
+.photo-tab.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+.file-drop{position:relative;border:1px dashed var(--border);border-radius:var(--radius);padding:22px 16px;text-align:center;transition:border-color .2s;cursor:pointer;}
+.file-drop:hover{border-color:var(--gold);}
+.file-drop input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+.file-drop-inner{display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;}
+.file-drop-icon{font-size:1.5rem;line-height:1;}
+.file-drop-text{font-size:.82rem;color:var(--text);margin-top:2px;}
+.file-drop-hint{font-size:.7rem;color:var(--text-faint);}
+.upload-status{margin-top:6px;font-size:.74rem;color:var(--text-soft);min-height:18px;}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginView">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="login-brand-name">Sol de Oro</span>
+      <span class="login-brand-sub">Panel de administración</span>
+    </div>
+    <div class="fgroup">
+      <label>Email</label>
+      <input type="email" id="lEmail" placeholder="admin@soldeoro.pe" autocomplete="email"/>
+    </div>
+    <div class="fgroup">
+      <label>Contraseña</label>
+      <input type="password" id="lPass" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn-login" id="lBtn">Ingresar</button>
+    <div class="login-err" id="lErr"></div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="appView" hidden>
+
+  <!-- Sidebar -->
+  <aside class="sb">
+    <div class="sb-head">
+      <img class="sb-head-logo" src="../assets/sol-de-oro-icon.png" alt="Sol de Oro"/>
+      <div>
+        <div class="sb-head-name">Sol de Oro</div>
+        <div class="sb-head-sub">Panel de administración</div>
+      </div>
+    </div>
+    <div class="sb-user"><span id="sbEmail">—</span>Administrador</div>
+    <nav>
+      <div class="sb-group">
+        <button class="nav-btn active" data-tab="resumen">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Resumen
+        </button>
+      </div>
+      <div class="sb-group">
+        <span class="sb-group-label">Sitio web</span>
+        <button class="nav-btn" data-tab="images">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Imágenes
+        </button>
+        <button class="nav-btn" data-tab="offers">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          Ofertas
+        </button>
+      </div>
+      <div class="sb-group">
+        <span class="sb-group-label">LE Experience</span>
+        <button class="nav-btn" data-tab="restaurants">
+          <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+          Gastronomía
+        </button>
+        <button class="nav-btn" data-tab="cultural">
+          <svg viewBox="0 0 24 24"><path d="M2 20h20M5 20V10l7-7 7 7v10M9 20v-5h6v5"/></svg>
+          Lugares culturales
+        </button>
+        <button class="nav-btn" data-tab="experiences">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Experiencias
+        </button>
+      </div>
+    </nav>
+    <div class="sb-footer">
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- RESUMEN -->
+    <div class="panel active" id="panel-resumen">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Resumen</h2>
+          <p>Estado general del contenido del sitio web</p>
+        </div>
+      </div>
+      <div class="main-body">
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-card-val" id="statImages">—</div><div class="stat-card-lbl">Imágenes del sitio</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statOffers">—</div><div class="stat-card-lbl">Ofertas activas</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statRest">—</div><div class="stat-card-lbl">Restaurantes LE</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statCult">—</div><div class="stat-card-lbl">Lugares culturales</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statExp">—</div><div class="stat-card-lbl">Experiencias</div></div>
+        </div>
+        <div class="quick-links">
+          <div class="quick-links-title">Accesos rápidos</div>
+          <div class="quick-btns">
+            <button class="qbtn" onclick="navTo('images')">Imágenes del sitio</button>
+            <button class="qbtn" onclick="navTo('offers')">Gestionar ofertas</button>
+            <button class="qbtn" onclick="navTo('restaurants')">Gastronomía LE</button>
+            <button class="qbtn" onclick="navTo('cultural')">Lugares culturales LE</button>
+            <button class="qbtn" onclick="navTo('experiences')">Experiencias LE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESTAURANTES -->
+    <div class="panel" id="panel-restaurants">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Restaurantes destacados</h2>
+          <p>Carrusel de gastronomía en LE Experience</p>
+        </div>
+        <button class="btn-add" id="btnAddRest">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar
+        </button>
+      </div>
+      <div class="main-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Nombre</th><th>Label</th><th>Tag</th><th>Orden</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbRestaurants"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CULTURALES -->
+    <div class="panel" id="panel-cultural">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Lugares culturales</h2>
+          <p>Carrusel de cultura + modales en LE Experience</p>
+        </div>
+        <button class="btn-add" id="btnAddCult">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar
+        </button>
+      </div>
+      <div class="main-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Nombre</th><th>Zona</th><th>Slug</th><th>Orden</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbCultural"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPERIENCIAS -->
+    <div class="panel" id="panel-experiences">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Experiencias · Explorar Lima</h2>
+          <p>Scroller de actividades y lugares en LE Experience (filtrado por categoría)</p>
+        </div>
+        <button class="btn-add" id="btnAddExp">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nueva experiencia
+        </button>
+      </div>
+      <div class="main-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Título</th><th>Zona</th><th>Modo</th><th>Categoría</th><th>Orden</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbExperiences"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFERTAS -->
+    <div class="panel" id="panel-offers">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Ofertas y promociones</h2>
+          <p>Cards visibles en la página de ofertas</p>
+        </div>
+        <button class="btn-add" id="btnAddOffer">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nueva oferta
+        </button>
+      </div>
+      <div class="main-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Título & descripción</th><th>Precio</th><th>Badge</th><th>Vence</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbOffers"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMÁGENES -->
+    <div class="panel" id="panel-images">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Imágenes del sitio</h2>
+          <p>Edita las imágenes de cada página y sección</p>
+        </div>
+        <button class="btn-add" id="btnAddImg">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar imagen
+        </button>
+      </div>
+      <div class="page-filter" id="paginasFilter">
+        <button class="pf-btn on" data-page="index">Inicio</button>
+        <button class="pf-btn" data-page="habitaciones">Habitaciones</button>
+        <button class="pf-btn" data-page="restaurante">Restaurante</button>
+        <button class="pf-btn" data-page="eventos">Eventos</button>
+        <button class="pf-btn" data-page="servicios">Servicios</button>
+        <button class="pf-btn" data-page="ofertas">Ofertas</button>
+      </div>
+      <div class="main-body">
+        <div class="psc-grid" id="pscGrid"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">—</h3>
+      <button class="modal-x" id="modalX">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn-del" id="modalDel" style="display:none">Eliminar</button>
+      <div class="spacer"></div>
+      <button class="btn-cancel" id="modalCancel">Cancelar</button>
+      <button class="btn-save" id="modalSave">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"><span id="toastIco"></span><span id="toastMsg"></span></div>
+
+<script>
+/* ================================================================
+   ⚙️  CONFIGURACIÓN — reemplaza con tus datos de Supabase
+   Supabase Dashboard → Settings → API
+   ================================================================ */
+const SUPA_URL = 'https://fjzshpilzjtfjcouzzzz.supabase.co';
+const SUPA_KEY = 'sb_publishable_gtCG2nBVE9ujjm6c28rlAw_g55hDYCY';
+
+/* ================================================================
+   INIT
+   ================================================================ */
+const { createClient } = supabase;
+const sb = createClient(SUPA_URL, SUPA_KEY);
+
+/* ================================================================
+   AUTH
+   ================================================================ */
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) boot(session.user);
+})();
+
+document.getElementById('lBtn').addEventListener('click', login);
+document.getElementById('lPass').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+async function login() {
+  const email = document.getElementById('lEmail').value.trim();
+  const pass  = document.getElementById('lPass').value;
+  const err   = document.getElementById('lErr');
+  const btn   = document.getElementById('lBtn');
+  err.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Ingresando…';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Ingresar';
+  if (error) { err.textContent = error.message; err.style.display = 'block'; return; }
+  boot(data.user);
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  document.getElementById('appView').hidden = true;
+  document.getElementById('loginView').style.display = 'flex';
+});
+
+function boot(user) {
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('appView').hidden = false;
+  document.getElementById('sbEmail').textContent = user.email;
+  loadResumen();
+}
+
+/* ================================================================
+   NAVEGACIÓN
+   ================================================================ */
+const LOADERS = { resumen: loadResumen, restaurants: loadRestaurants, cultural: loadCultural, experiences: loadExperiences, offers: loadOffers, images: loadPaginas };
+
+function navTo(tab) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const btn = document.querySelector(`.nav-btn[data-tab="${tab}"]`);
+  if (btn) btn.classList.add('active');
+  const panel = document.getElementById('panel-' + tab);
+  if (panel) panel.classList.add('active');
+  LOADERS[tab]?.();
+}
+
+document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => navTo(btn.dataset.tab));
+});
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+let _toastT;
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastIco').textContent = type==='ok' ? '✓' : '✕';
+  el.className = 'show ' + type;
+  clearTimeout(_toastT);
+  _toastT = setTimeout(() => el.className = '', 3000);
+}
+
+/* ================================================================
+   MODAL
+   ================================================================ */
+const overlay = document.getElementById('overlay');
+let _onSave, _onDel;
+
+document.getElementById('modalX').onclick      = closeModal;
+document.getElementById('modalCancel').onclick = closeModal;
+overlay.addEventListener('click', e => { if(e.target===overlay) closeModal(); });
+document.getElementById('modalSave').onclick = () => _onSave?.();
+document.getElementById('modalDel').onclick  = () => _onDel?.();
+
+function openModal(title, html, onSave, onDel) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML    = html;
+  _onSave = onSave;
+  const delBtn = document.getElementById('modalDel');
+  if (onDel) { delBtn.style.display=''; _onDel = onDel; }
+  else        { delBtn.style.display='none'; _onDel = null; }
+  overlay.classList.add('open');
+  // Bind image preview inputs
+  document.querySelectorAll('[data-prev]').forEach(inp => {
+    const prev = document.getElementById(inp.dataset.prev);
+    const update = () => {
+      if (inp.value) { prev.style.backgroundImage=`url('${resolveUrl(inp.value)}')`;prev.textContent=''; }
+      else           { prev.style.backgroundImage='';prev.textContent='Vista previa'; }
+    };
+    inp.addEventListener('input', update); update();
+  });
+}
+function closeModal() { overlay.classList.remove('open'); }
+
+/* ================================================================
+   HELPERS
+   ================================================================ */
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function resolveUrl(url) {
+  if (!url) return '';
+  return url.startsWith('http') ? url : '../' + url;
+}
+function thumb(url) {
+  return url
+    ? `<img class="td-thumb" src="${resolveUrl(url)}" onerror="this.style.opacity='.15'" alt=""/>`
+    : `<div class="td-thumb-empty">—</div>`;
+}
+function badge(active) {
+  return active
+    ? `<span class="badge badge-on">Activo</span>`
+    : `<span class="badge badge-off">Inactivo</span>`;
+}
+function actBtns(editFn, delFn) {
+  const wrap = document.createElement('div');
+  wrap.className = 'actions';
+  const e = document.createElement('button');
+  e.className = 'icon-btn'; e.title = 'Editar'; e.onclick = editFn;
+  e.innerHTML = `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+  const d = document.createElement('button');
+  d.className = 'icon-btn del'; d.title = 'Eliminar'; d.onclick = delFn;
+  d.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/></svg>`;
+  wrap.append(e, d); return wrap;
+}
+function cell(content, soft=false) {
+  const td = document.createElement('td');
+  if (typeof content === 'string') td.innerHTML = content;
+  else td.appendChild(content);
+  if (soft) td.style.color = 'var(--text-soft)';
+  return td;
+}
+async function del(table, id, reload) {
+  if (!confirm('¿Eliminar este registro? No se puede deshacer.')) return;
+  const { error } = await sb.from(table).delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'err'); return; }
+  toast('Eliminado correctamente'); closeModal(); reload();
+}
+function togField(id, active) {
+  return `<div class="tog-wrap"><button class="tog${active?' on':''}" id="${id}" type="button" onclick="this.classList.toggle('on')"></button><span class="tog-lbl">${active?'Activo':'Inactivo'}</span></div>`;
+}
+function isOn(id) { return document.getElementById(id)?.classList.contains('on'); }
+
+/* ================================================================
+   RESUMEN
+   ================================================================ */
+async function loadResumen() {
+  const [{ count: ci }, { count: co }, { count: cr }, { count: cc }, { count: ce }] = await Promise.all([
+    sb.from('site_images').select('*', { count: 'exact', head: true }),
+    sb.from('offers').select('*', { count: 'exact', head: true }).eq('active', true),
+    sb.from('le_restaurants').select('*', { count: 'exact', head: true }),
+    sb.from('le_cultural').select('*', { count: 'exact', head: true }),
+    sb.from('le_experiences').select('*', { count: 'exact', head: true })
+  ]);
+  document.getElementById('statImages').textContent = ci ?? '—';
+  document.getElementById('statOffers').textContent = co ?? '—';
+  document.getElementById('statRest').textContent   = cr ?? '—';
+  document.getElementById('statCult').textContent   = cc ?? '—';
+  document.getElementById('statExp').textContent    = ce ?? '—';
+}
+
+/* ================================================================
+   RESTAURANTES
+   ================================================================ */
+async function loadRestaurants() {
+  const { data, error } = await sb.from('le_restaurants').select('*').order('sort_order');
+  if (error) { toast('Error cargando restaurantes','err'); return; }
+  const tb = document.getElementById('tbRestaurants');
+  if (!data.length) { tb.innerHTML = `<tr><td colspan="7"><div class="empty">Sin restaurantes. Agrega el primero.</div></td></tr>`; return; }
+  tb.innerHTML = '';
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(thumb(r.photo_url)),
+      cell(esc(r.name)),
+      cell(esc(r.label||'—'), true),
+      cell(esc(r.tag||'—'), true),
+      cell(String(r.sort_order??0), true),
+      cell(badge(r.active)),
+      cell(actBtns(() => editRest(r), () => del('le_restaurants', r.id, loadRestaurants)))
+    );
+    tb.appendChild(tr);
+  });
+}
+document.getElementById('btnAddRest').onclick = () => editRest(null);
+
+function restForm(r) {
+  return `
+    <div class="frow">
+      <div class="fgroup"><label>Nombre</label><input id="fn" value="${esc(r?.name)}"/></div>
+      <div class="fgroup"><label>Label (tipo · zona)</label><input id="fl" value="${esc(r?.label)}"/></div>
+    </div>
+    <div class="fgroup"><label>Tag (badge inferior)</label><input id="ft" value="${esc(r?.tag)}" placeholder="#1 Latinoamérica · 50 Best"/></div>
+    <div class="fgroup"><label>URL de foto</label><input id="fp" data-prev="fprev" value="${esc(r?.photo_url)}" placeholder="https://images.unsplash.com/..."/>
+      <div class="img-prev" id="fprev">${r?.photo_url?'':'Vista previa'}</div></div>
+    <div class="fgroup"><label>Google Maps URL</label><input id="fm" value="${esc(r?.maps_url)}" placeholder="https://maps.google.com/?q=..."/></div>
+    <div class="frow">
+      <div class="fgroup"><label>Orden</label><input id="fo" type="number" value="${r?.sort_order??0}" min="0"/></div>
+      <div class="fgroup"><label>Estado</label>${togField('fa', r?.active!==false)}</div>
+    </div>`;
+}
+function editRest(r) {
+  openModal(r ? 'Editar restaurante' : 'Nuevo restaurante', restForm(r),
+    async () => {
+      const p = {
+        name: document.getElementById('fn').value.trim(),
+        label: document.getElementById('fl').value.trim(),
+        tag: document.getElementById('ft').value.trim(),
+        photo_url: document.getElementById('fp').value.trim(),
+        maps_url: document.getElementById('fm').value.trim(),
+        sort_order: +document.getElementById('fo').value||0,
+        active: isOn('fa'), updated_at: new Date().toISOString()
+      };
+      if (!p.name) { toast('El nombre es obligatorio','err'); return; }
+      const { error } = r
+        ? await sb.from('le_restaurants').update(p).eq('id',r.id)
+        : await sb.from('le_restaurants').insert(p);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(r ? 'Restaurante actualizado' : 'Restaurante agregado');
+      closeModal(); loadRestaurants();
+    },
+    r ? () => del('le_restaurants', r.id, loadRestaurants) : null
+  );
+}
+
+/* ================================================================
+   CULTURALES
+   ================================================================ */
+async function loadCultural() {
+  const { data, error } = await sb.from('le_cultural').select('*').order('sort_order');
+  if (error) { toast('Error cargando culturales','err'); return; }
+  const tb = document.getElementById('tbCultural');
+  if (!data.length) { tb.innerHTML = `<tr><td colspan="7"><div class="empty">Sin lugares. Agrega el primero.</div></td></tr>`; return; }
+  tb.innerHTML = '';
+  data.forEach(c => {
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(thumb(c.photo_url)),
+      cell(esc(c.name)),
+      cell(esc(c.zone||'—'), true),
+      cell(`<code style="font-size:.7rem;color:var(--gold)">${esc(c.slug)}</code>`),
+      cell(String(c.sort_order??0), true),
+      cell(badge(c.active)),
+      cell(actBtns(() => editCult(c), () => del('le_cultural', c.id, loadCultural)))
+    );
+    tb.appendChild(tr);
+  });
+}
+document.getElementById('btnAddCult').onclick = () => editCult(null);
+
+function tipsHTML(tips) {
+  const arr = Array.isArray(tips) ? tips : (tips ? JSON.parse(tips) : []);
+  return (arr.length ? arr : ['']).map(t => `
+    <div class="tip-row">
+      <input value="${esc(t)}" placeholder="Tip para el viajero..."/>
+      <button class="tip-del" type="button" onclick="this.parentElement.remove()">×</button>
+    </div>`).join('');
+}
+window.addTip = () => {
+  const l = document.getElementById('tipsList');
+  const d = document.createElement('div'); d.className='tip-row';
+  d.innerHTML=`<input placeholder="Tip para el viajero..."/><button class="tip-del" type="button" onclick="this.parentElement.remove()">×</button>`;
+  l.appendChild(d);
+};
+function cultForm(c) {
+  return `
+    <div class="frow">
+      <div class="fgroup"><label>Nombre</label><input id="cn" value="${esc(c?.name)}" placeholder="Museo Larco"/></div>
+      <div class="fgroup"><label>Slug (clave única modal)</label><input id="cs" value="${esc(c?.slug)}" placeholder="larco"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label>Zona</label><input id="cz" value="${esc(c?.zone)}" placeholder="San Isidro · 15 min"/></div>
+      <div class="fgroup"><label>Orden</label><input id="co" type="number" value="${c?.sort_order??0}" min="0"/></div>
+    </div>
+    <div class="fgroup"><label>Teaser (visible en card)</label><input id="ct" value="${esc(c?.teaser)}" placeholder="Breve descripción..."/></div>
+    <div class="fgroup"><label>Descripción completa (modal)</label><textarea id="cd">${esc(c?.description)}</textarea></div>
+    <div class="fgroup"><label>URL de foto</label><input id="cp" data-prev="cprev" value="${esc(c?.photo_url)}" placeholder="https://images.unsplash.com/..."/>
+      <div class="img-prev" id="cprev">${c?.photo_url?'':'Vista previa'}</div></div>
+    <div class="fgroup"><label>Google Maps URL</label><input id="cm" value="${esc(c?.maps_url)}" placeholder="https://maps.google.com/?q=..."/></div>
+    <div class="fgroup"><label>Tips del concierge</label>
+      <div class="tips-list" id="tipsList">${tipsHTML(c?.tips)}</div>
+      <button class="btn-tip-add" type="button" onclick="addTip()">+ Agregar tip</button></div>
+    <div class="fgroup"><label>Estado</label>${togField('ca', c?.active!==false)}</div>`;
+}
+function editCult(c) {
+  openModal(c ? 'Editar lugar cultural' : 'Nuevo lugar cultural', cultForm(c),
+    async () => {
+      const tips = [...document.querySelectorAll('#tipsList .tip-row input')].map(i=>i.value.trim()).filter(Boolean);
+      const p = {
+        name: document.getElementById('cn').value.trim(),
+        slug: document.getElementById('cs').value.trim().toLowerCase().replace(/\s+/g,'-'),
+        zone: document.getElementById('cz').value.trim(),
+        teaser: document.getElementById('ct').value.trim(),
+        description: document.getElementById('cd').value.trim(),
+        photo_url: document.getElementById('cp').value.trim(),
+        maps_url: document.getElementById('cm').value.trim(),
+        tips: JSON.stringify(tips),
+        sort_order: +document.getElementById('co').value||0,
+        active: isOn('ca'), updated_at: new Date().toISOString()
+      };
+      if (!p.name||!p.slug) { toast('Nombre y slug son obligatorios','err'); return; }
+      const { error } = c
+        ? await sb.from('le_cultural').update(p).eq('id',c.id)
+        : await sb.from('le_cultural').insert(p);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(c ? 'Lugar actualizado' : 'Lugar agregado');
+      closeModal(); loadCultural();
+    },
+    c ? () => del('le_cultural', c.id, loadCultural) : null
+  );
+}
+
+/* ================================================================
+   EXPERIENCIAS · helpers para foto dual (URL / upload)
+   ================================================================ */
+window.switchPhotoMode = function(mode) {
+  document.querySelectorAll('.photo-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.getElementById('epanel-url').style.display    = mode === 'url'    ? '' : 'none';
+  document.getElementById('epanel-upload').style.display = mode === 'upload' ? '' : 'none';
+  if (mode === 'url') document.getElementById('eupload-status').textContent = '';
+};
+
+window.onExpFileChange = function() {
+  const file = document.getElementById('efile').files[0];
+  if (!file) return;
+  const kb = (file.size / 1024).toFixed(0);
+  document.getElementById('eupload-status').textContent = file.name + ' · ' + kb + ' KB';
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const prev = document.getElementById('eprev');
+    prev.style.backgroundImage = `url('${ev.target.result}')`;
+    prev.textContent = '';
+  };
+  reader.readAsDataURL(file);
+};
+
+/* ================================================================
+   EXPERIENCIAS
+   ================================================================ */
+const CAT_LABELS = { hotel:'En el hotel', shopping:'Compras · Ocio', coast:'Costa', paseos:'Paseos', business:'Empresarial' };
+
+async function loadExperiences() {
+  const { data, error } = await sb.from('le_experiences').select('*').order('sort_order');
+  if (error) { toast('Error cargando experiencias','err'); return; }
+  const tb = document.getElementById('tbExperiences');
+  if (!data.length) { tb.innerHTML = `<tr><td colspan="8"><div class="empty">Sin experiencias. Agrega la primera.</div></td></tr>`; return; }
+  tb.innerHTML = '';
+  data.forEach(e => {
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(thumb(e.photo_url)),
+      cell(esc(e.title)),
+      cell(esc(e.zone||'—'), true),
+      cell(`<span class="badge" style="background:var(--card2)">${esc(e.mode)}</span>`),
+      cell(esc(CAT_LABELS[e.cat]||e.cat), true),
+      cell(String(e.sort_order??0), true),
+      cell(badge(e.active)),
+      cell(actBtns(() => editExp(e), () => del('le_experiences', e.id, loadExperiences)))
+    );
+    tb.appendChild(tr);
+  });
+}
+document.getElementById('btnAddExp').onclick = () => editExp(null);
+
+function expForm(e) {
+  const modeOpts = ['modern','business'].map(m =>
+    `<option value="${m}" ${(e?.mode||'modern')===m?'selected':''}>${m==='modern'?'Modern (turismo)':'Business (ejecutivo)'}</option>`).join('');
+  const catOpts = Object.entries(CAT_LABELS).map(([v,l]) =>
+    `<option value="${v}" ${(e?.cat||'')===v?'selected':''}>${l}</option>`).join('');
+  return `
+    <div class="fgroup"><label>Título</label><input id="et" value="${esc(e?.title)}" placeholder="Maido, donde nace la cocina nikkei..."/></div>
+    <div class="frow">
+      <div class="fgroup"><label>Modo</label><select id="em">${modeOpts}</select></div>
+      <div class="fgroup"><label>Categoría</label><select id="ec">${catOpts}</select></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label>Zona</label><input id="ez" value="${esc(e?.zone)}" placeholder="Miraflores"/></div>
+      <div class="fgroup"><label>Tag</label><input id="etg" value="${esc(e?.tag)}" placeholder="World's 50 Best"/></div>
+    </div>
+    <div class="fgroup"><label>Extracto</label><textarea id="eex">${esc(e?.excerpt)}</textarea></div>
+    <div class="fgroup"><label>Foto</label>
+      <div class="photo-tabs">
+        <button type="button" class="photo-tab active" data-mode="url" onclick="switchPhotoMode('url')">URL</button>
+        <button type="button" class="photo-tab" data-mode="upload" onclick="switchPhotoMode('upload')">Subir archivo</button>
+      </div>
+      <div id="epanel-url">
+        <input id="ep" data-prev="eprev" value="${esc(e?.photo_url)}" placeholder="https://images.unsplash.com/..."/>
+      </div>
+      <div id="epanel-upload" style="display:none">
+        <div class="file-drop">
+          <input type="file" id="efile" accept="image/jpeg,image/png,image/webp,image/gif" onchange="onExpFileChange()"/>
+          <div class="file-drop-inner">
+            <span class="file-drop-icon">📁</span>
+            <span class="file-drop-text">Arrastra una imagen o haz clic</span>
+            <span class="file-drop-hint">JPG, PNG, WebP · máx. 5 MB</span>
+          </div>
+        </div>
+        <div class="upload-status" id="eupload-status"></div>
+      </div>
+      <div class="img-prev" id="eprev">${e?.photo_url?'':'Vista previa'}</div>
+    </div>
+    <div class="fgroup"><label>Google Maps URL (usar # para servicios del hotel)</label><input id="em2" value="${esc(e?.maps_url||'#')}" placeholder="https://maps.google.com/?q=..."/></div>
+    <div class="frow">
+      <div class="fgroup"><label>Orden</label><input id="eo" type="number" value="${e?.sort_order??0}" min="0"/></div>
+      <div class="fgroup"><label>Estado</label>${togField('ea', e?.active!==false)}</div>
+    </div>`;
+}
+function editExp(e) {
+  openModal(e ? 'Editar experiencia' : 'Nueva experiencia', expForm(e),
+    async () => {
+      // Resolve photo_url from whichever mode is active
+      let photo_url = '';
+      const uploadPanel = document.getElementById('epanel-upload');
+      if (uploadPanel && uploadPanel.style.display !== 'none') {
+        const file = document.getElementById('efile')?.files[0];
+        if (file) {
+          if (file.size > 5 * 1024 * 1024) { toast('La imagen supera 5 MB','err'); return; }
+          const saveBtn = document.getElementById('modalSave');
+          saveBtn.disabled = true; saveBtn.textContent = 'Subiendo…';
+          const ext   = file.name.split('.').pop().toLowerCase();
+          const fname = Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+          const { error: upErr } = await sb.storage.from('experiences').upload(fname, file, { upsert: true });
+          saveBtn.disabled = false; saveBtn.textContent = 'Guardar';
+          if (upErr) { toast('Error al subir imagen: ' + upErr.message, 'err'); return; }
+          photo_url = sb.storage.from('experiences').getPublicUrl(fname).data.publicUrl;
+        } else {
+          photo_url = e?.photo_url || '';
+        }
+      } else {
+        photo_url = (document.getElementById('ep')?.value || '').trim();
+      }
+
+      const p = {
+        title: document.getElementById('et').value.trim(),
+        mode: document.getElementById('em').value,
+        cat: document.getElementById('ec').value,
+        zone: document.getElementById('ez').value.trim(),
+        tag: document.getElementById('etg').value.trim(),
+        excerpt: document.getElementById('eex').value.trim(),
+        photo_url,
+        maps_url: document.getElementById('em2').value.trim() || '#',
+        sort_order: +document.getElementById('eo').value||0,
+        active: isOn('ea'), updated_at: new Date().toISOString()
+      };
+      if (!p.title) { toast('El título es obligatorio','err'); return; }
+      const { error } = e
+        ? await sb.from('le_experiences').update(p).eq('id',e.id)
+        : await sb.from('le_experiences').insert(p);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(e ? 'Experiencia actualizada' : 'Experiencia agregada');
+      closeModal(); loadExperiences();
+    },
+    e ? () => del('le_experiences', e.id, loadExperiences) : null
+  );
+}
+
+/* ================================================================
+   OFERTAS
+   ================================================================ */
+async function loadOffers() {
+  const { data, error } = await sb.from('offers').select('*').order('sort_order');
+  if (error) { toast('Error cargando ofertas','err'); return; }
+  const tb = document.getElementById('tbOffers');
+  if (!data.length) { tb.innerHTML = `<tr><td colspan="7"><div class="empty">Sin ofertas. Crea la primera.</div></td></tr>`; return; }
+  tb.innerHTML = '';
+  data.forEach(o => {
+    const exp = o.expires_at ? new Date(o.expires_at).toLocaleDateString('es-PE') : '—';
+    const desc = o.description ? (o.description.length > 70 ? o.description.slice(0,70)+'…' : o.description) : '—';
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(thumb(o.image_url)),
+      cell(`<strong style="display:block;margin-bottom:3px">${esc(o.title)}</strong><span style="font-size:.78rem;color:var(--text-soft)">${esc(desc)}</span>`),
+      cell(`<span style="color:var(--gold)">${esc(o.price||'—')}</span>`),
+      cell(o.badge ? `<span class="badge" style="background:var(--card2)">${esc(o.badge)}</span>` : '—'),
+      cell(exp, true),
+      cell(badge(o.active)),
+      cell(actBtns(() => editOffer(o), () => del('offers', o.id, loadOffers)))
+    );
+    tb.appendChild(tr);
+  });
+}
+document.getElementById('btnAddOffer').onclick = () => editOffer(null);
+
+function offerForm(o) {
+  return `
+    <div class="fgroup"><label>Título</label><input id="ot" value="${esc(o?.title)}" placeholder="Noche romántica en Lima"/></div>
+    <div class="fgroup"><label>Descripción</label><textarea id="od">${esc(o?.description)}</textarea></div>
+    <div class="frow">
+      <div class="fgroup"><label>Precio / desde</label><input id="op" value="${esc(o?.price)}" placeholder="Desde S/ 350"/></div>
+      <div class="fgroup"><label>Badge</label><input id="ob" value="${esc(o?.badge)}" placeholder="Más popular"/></div>
+    </div>
+    <div class="fgroup"><label>URL de imagen</label><input id="oi" data-prev="oprev" value="${esc(o?.image_url)}" placeholder="https://..."/>
+      <div class="img-prev" id="oprev">${o?.image_url?'':'Vista previa'}</div></div>
+    <div class="frow">
+      <div class="fgroup"><label>Fecha de vencimiento</label><input id="oe" type="date" value="${o?.expires_at||''}"/></div>
+      <div class="fgroup"><label>Orden</label><input id="oo" type="number" value="${o?.sort_order??0}" min="0"/></div>
+    </div>
+    <div class="fgroup"><label>Estado</label>${togField('oa', o?.active!==false)}</div>`;
+}
+function editOffer(o) {
+  openModal(o ? 'Editar oferta' : 'Nueva oferta', offerForm(o),
+    async () => {
+      const p = {
+        title: document.getElementById('ot').value.trim(),
+        description: document.getElementById('od').value.trim(),
+        price: document.getElementById('op').value.trim(),
+        badge: document.getElementById('ob').value.trim(),
+        image_url: document.getElementById('oi').value.trim(),
+        expires_at: document.getElementById('oe').value||null,
+        sort_order: +document.getElementById('oo').value||0,
+        active: isOn('oa'), updated_at: new Date().toISOString()
+      };
+      if (!p.title) { toast('El título es obligatorio','err'); return; }
+      const { error } = o
+        ? await sb.from('offers').update(p).eq('id',o.id)
+        : await sb.from('offers').insert(p);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(o ? 'Oferta actualizada' : 'Oferta creada');
+      closeModal(); loadOffers();
+    },
+    o ? () => del('offers', o.id, loadOffers) : null
+  );
+}
+
+/* ================================================================
+   PÁGINAS · editor combinado imagen + contenido
+   ================================================================ */
+const PAGE_SECTIONS = {
+  index:       [
+    { id:'hero',    label:'Hero · Slides principales' },
+    { id:'feature', label:'Secciones destacadas' },
+    { id:'gallery', label:'Galería de imágenes' },
+    { id:'promo',   label:'Promociones' }
+  ],
+  habitaciones:[ { id:'hero', label:'Hero' }, { id:'room', label:'Habitaciones' } ],
+  restaurante: [ { id:'hero', label:'Hero' }, { id:'murano', label:'Restaurante Murano' }, { id:'platos', label:'Platos del menú' } ],
+  eventos:     [ { id:'hero', label:'Hero' }, { id:'salon', label:'Salones' } ],
+  servicios:   [ { id:'hero', label:'Hero' }, { id:'feature', label:'Servicios' } ],
+  ofertas:     [ { id:'hero', label:'Hero' }, { id:'promo', label:'Promociones' } ]
+};
+
+let _paginasPage = 'index';
+
+document.getElementById('paginasFilter').addEventListener('click', e => {
+  const btn = e.target.closest('.pf-btn');
+  if (!btn) return;
+  document.querySelectorAll('#paginasFilter .pf-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  _paginasPage = btn.dataset.page;
+  loadPaginas();
+});
+
+async function loadPaginas() {
+  const { data: images } = await sb.from('site_images')
+    .select('*').eq('page', _paginasPage).order('sort_order');
+  const imgs = images || [];
+  const sections = PAGE_SECTIONS[_paginasPage] || [];
+  const grid = document.getElementById('pscGrid');
+
+  grid.innerHTML = sections.map(sec => {
+    const secImgs = imgs.filter(i => i.section === sec.id);
+    const imgBadge = secImgs.length > 1
+      ? `<span class="psc-img-count">${secImgs.length} imágenes</span>` : '';
+
+    const stripHtml = secImgs.length
+      ? `<div class="psc-img-strip">` + secImgs.map(img => `
+          <div class="psc-img-thumb">
+            <div class="psc-img-bg" style="background-image:url('${resolveUrl(img.url)}');"></div>
+            <span class="psc-img-lbl">${esc(img.label||'—')}</span>
+          </div>`).join('') + `</div>`
+      : `<div class="psc-empty-img">Sin imágenes — agrégalas con el botón ✏️</div>`;
+
+    return `
+      <div class="psc-card">
+        <div class="psc-card-head">
+          <span class="psc-card-title">${esc(sec.label)}</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            ${imgBadge}
+            <button class="icon-btn" title="Editar imágenes"
+              onclick="editPageSection('${_paginasPage}','${sec.id}','${esc(sec.label)}')">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+        </div>
+        ${stripHtml}
+      </div>`;
+  }).join('');
+}
+
+async function editPageSection(page, section, label) {
+  const { data: imgs } = await sb.from('site_images')
+    .select('*').eq('page', page).eq('section', section).order('sort_order');
+  const images = imgs || [];
+
+  let html = '';
+  if (images.length) {
+    images.forEach((img, i) => {
+      html += `
+        <div class="fgroup">
+          <label>${esc(img.label || 'Imagen ' + (i + 1))}</label>
+          <input data-imgid="${img.id}" data-prev="iprev-${i}" value="${esc(img.url)}" placeholder="URL o images/ruta.jpg"/>
+          <div class="img-prev" id="iprev-${i}"></div>
+        </div>`;
+    });
+  } else {
+    html = `<p style="color:var(--text-faint);font-size:.84rem;">Sin imágenes registradas en esta sección.<br>Puedes agregarlas desde la sección <strong>Imágenes</strong>.</p>`;
+  }
+
+  openModal(`Imágenes · ${label}`, html, async () => {
+    const errs = [];
+    for (const img of images) {
+      const inp = document.querySelector(`[data-imgid="${img.id}"]`);
+      if (!inp || inp.value.trim() === img.url) continue;
+      const { error } = await sb.from('site_images')
+        .update({ url: inp.value.trim(), updated_at: new Date().toISOString() })
+        .eq('id', img.id);
+      if (error) errs.push(error.message);
+    }
+    if (errs.length) toast('Error: ' + errs.join(', '), 'err');
+    else { toast('Imágenes guardadas'); closeModal(); loadPaginas(); }
+  });
+}
+
+/* ================================================================
+   IMÁGENES · Agregar imagen individual
+   ================================================================ */
+document.getElementById('btnAddImg').onclick = () => editImg(null);
+
+function imgForm(img) {
+  return `
+    <div class="frow">
+      <div class="fgroup"><label>Página</label><input id="ig" value="${esc(img?.page)}" placeholder="index, habitaciones..."/></div>
+      <div class="fgroup"><label>Sección</label><input id="ise" value="${esc(img?.section)}" placeholder="hero, gallery..."/></div>
+    </div>
+    <div class="fgroup"><label>Label descriptivo</label><input id="il" value="${esc(img?.label)}" placeholder="Banner principal"/></div>
+    <div class="fgroup"><label>URL de imagen</label><input id="iu" data-prev="iuprev" value="${esc(img?.url)}" placeholder="https://..."/>
+      <div class="img-prev" id="iuprev">${img?.url?'':'Vista previa'}</div></div>
+    <div class="fgroup"><label>Texto alt</label><input id="ia" value="${esc(img?.alt)}" placeholder="Descripción accesible"/></div>
+    <div class="fgroup"><label>Orden</label><input id="io" type="number" value="${img?.sort_order??0}" min="0"/></div>`;
+}
+function editImg(img) {
+  openModal(img ? 'Editar imagen' : 'Nueva imagen', imgForm(img),
+    async () => {
+      const p = {
+        page: document.getElementById('ig').value.trim(),
+        section: document.getElementById('ise').value.trim(),
+        label: document.getElementById('il').value.trim(),
+        url: document.getElementById('iu').value.trim(),
+        alt: document.getElementById('ia').value.trim(),
+        sort_order: +document.getElementById('io').value||0,
+        updated_at: new Date().toISOString()
+      };
+      if (!p.page||!p.url) { toast('Página y URL son obligatorios','err'); return; }
+      const { error } = img
+        ? await sb.from('site_images').update(p).eq('id',img.id)
+        : await sb.from('site_images').insert(p);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(img ? 'Imagen actualizada' : 'Imagen agregada');
+      closeModal(); loadPaginas();
+    },
+    img ? () => del('site_images', img.id, loadPaginas) : null
+  );
+}
+</script>
+</body>
+</html>

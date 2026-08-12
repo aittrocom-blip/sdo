@@ -1,0 +1,516 @@
+{
+  "version": "3",
+  "updatedAt": "2026-05-11",
+  "categories": [
+    { "id": "home",         "label": "Home" },
+    { "id": "habitaciones", "label": "Habitaciones" },
+    { "id": "restaurante",  "label": "Restaurante Murano" },
+    { "id": "eventos",      "label": "Eventos & Salones" },
+    { "id": "servicios",    "label": "Servicios" },
+    { "id": "galeria",      "label": "Galería" },
+    { "id": "ubicacion",    "label": "Ubicación" },
+    { "id": "ofertas",      "label": "Ofertas" },
+    { "id": "acerca",       "label": "Acerca" },
+    { "id": "shared",       "label": "Compartidos" }
+  ],
+  "images": {
+    "home.hero.slide1": {
+      "category": "home",
+      "label": "Hero · Slide 1 (Habitaciones — descanso)",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg",
+      "alt": "Superior King Room Sol de Oro"
+    },
+    "home.hero.slide-miraflores": {
+      "category": "home",
+      "label": "Hero · Slide 2 (Ubicación · Miraflores)",
+      "src": "images/Exterior/fotomiraflores.jpg",
+      "alt": "Vista panorámica de Miraflores"
+    },
+    "home.hero.slide2": {
+      "category": "home",
+      "label": "Hero · Slide 3 (Eventos memorables)",
+      "src": "images/Eventos/32_11zon.jpg",
+      "alt": "Banquetes y salones Sol de Oro"
+    },
+    "home.hero.slide3": {
+      "category": "home",
+      "label": "Hero · Slide 3 (Murano)",
+      "src": "images/Restaurante/14_14_11zon.jpg",
+      "alt": "Restaurante Murano"
+    },
+    "home.about.bg": {
+      "category": "home",
+      "label": "About · Fondo Miraflores",
+      "src": "images/Exterior/the-hotel-v13828831_ED.webp",
+      "alt": "Sol de Oro Hotel & Suites en Miraflores"
+    },
+    "home.award.5stars": {
+      "category": "home",
+      "label": "Awards · Cinco Estrellas",
+      "src": "images/Exterior/FACHADA.jpg",
+      "alt": "Hotel 5 estrellas en Miraflores"
+    },
+    "home.award.murano": {
+      "category": "home",
+      "label": "Awards · Restaurante Murano",
+      "src": "images/Restaurante/12_12_11zon.jpg",
+      "alt": "Restaurante Murano de autor"
+    },
+    "home.award.events": {
+      "category": "home",
+      "label": "Awards · Eventos",
+      "src": "images/Eventos/IMG_2212_ED_9_11zon-scaled.jpg",
+      "alt": "Salones para eventos"
+    },
+    "home.feature.architecture": {
+      "category": "home",
+      "label": "Feature · Arquitectura",
+      "src": "images/Exterior/FACHADA.jpg",
+      "alt": "Arquitectura del hotel"
+    },
+    "home.feature.rooms": {
+      "category": "home",
+      "label": "Feature · Habitaciones (teaser)",
+      "src": "images/Habitaciones/JUNIOR-SUITE_11zon.jpg",
+      "alt": "Junior Suite Sol de Oro"
+    },
+    "home.feature.murano": {
+      "category": "home",
+      "label": "Feature · Murano (teaser)",
+      "src": "images/Restaurante/13_13_11zon.jpg",
+      "alt": "Restaurante Murano"
+    },
+    "home.feature.services": {
+      "category": "home",
+      "label": "Feature · Servicios (teaser)",
+      "src": "images/Spa/MG_1800_ED_11zon-scaled.jpg",
+      "alt": "Servicios y wellness"
+    },
+    "home.feature.events": {
+      "category": "home",
+      "label": "Feature · Eventos (teaser)",
+      "src": "images/Eventos/EMPRESARIALES-I_7_11zon.jpg",
+      "alt": "Salón Empresarial Sol de Oro"
+    },
+    "home.gallery.1": {
+      "category": "home",
+      "label": "Gallery strip · 1",
+      "src": "images/Lobby/5_5_11zon.jpg",
+      "alt": "Lobby del hotel"
+    },
+    "home.gallery.2": {
+      "category": "home",
+      "label": "Gallery strip · 2",
+      "src": "images/Restaurante/24_24_11zon.jpg",
+      "alt": "Ambiente Restaurante Murano"
+    },
+    "home.gallery.3": {
+      "category": "home",
+      "label": "Gallery strip · 3",
+      "src": "images/Rooftop/PISCINA-WEB.webp",
+      "alt": "Piscina al aire libre"
+    },
+    "home.gallery.4": {
+      "category": "home",
+      "label": "Gallery strip · 4",
+      "src": "images/Gimnasio/4_4_11zon.jpg",
+      "alt": "Gimnasio del hotel"
+    },
+    "home.gallery.5": {
+      "category": "home",
+      "label": "Gallery strip · 5",
+      "src": "images/Rooftop/9_9_11zon.jpg",
+      "alt": "Terraza con vistas"
+    },
+    "home.promo.1": {
+      "category": "home",
+      "label": "Promo · Escapada Miraflores",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg",
+      "alt": "Escapada en Miraflores"
+    },
+    "home.promo.2": {
+      "category": "home",
+      "label": "Promo · Cena Romántica",
+      "src": "images/Restaurante/23_23_11zon.jpg",
+      "alt": "Cena romántica en Murano"
+    },
+    "home.promo.3": {
+      "category": "home",
+      "label": "Promo · Spa & Wellness Day",
+      "src": "images/Spa/MG_1800_ED_11zon-scaled.jpg",
+      "alt": "Spa y bienestar"
+    },
+    "habitaciones.hero": {
+      "category": "habitaciones",
+      "label": "Hero · Habitaciones",
+      "src": "images/Habitaciones/JUNIOR-SUITE-TWIN_11zon.jpg",
+      "alt": "Junior Suite Twin Sol de Oro"
+    },
+    "habitaciones.room.standard": {
+      "category": "habitaciones",
+      "label": "Habitación · Standard Room",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO_11zon-1.jpg",
+      "alt": "Standard Room"
+    },
+    "habitaciones.room.standard-twin": {
+      "category": "habitaciones",
+      "label": "Habitación · Standard Room Twin",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-1_2_11zon.jpg",
+      "alt": "Standard Room Twin"
+    },
+    "habitaciones.room.superior-king": {
+      "category": "habitaciones",
+      "label": "Habitación · Superior King Room",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg",
+      "alt": "Superior King Room"
+    },
+    "habitaciones.room.superior-twin": {
+      "category": "habitaciones",
+      "label": "Habitación · Superior Twin Room",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-3_11zon.jpg",
+      "alt": "Superior Twin Room"
+    },
+    "habitaciones.room.junior-suite": {
+      "category": "habitaciones",
+      "label": "Habitación · Junior Suite",
+      "src": "images/Habitaciones/JUNIOR-SUITE_11zon.jpg",
+      "alt": "Junior Suite"
+    },
+    "habitaciones.room.junior-twin": {
+      "category": "habitaciones",
+      "label": "Habitación · Junior Suite Twin",
+      "src": "images/Habitaciones/JUNIOR-SUITE-TWIN_11zon.jpg",
+      "alt": "Junior Suite Twin"
+    },
+    "habitaciones.room.executive": {
+      "category": "habitaciones",
+      "label": "Habitación · Executive Suite",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO_11zon.jpg",
+      "alt": "Executive Suite"
+    },
+    "habitaciones.room.deluxe": {
+      "category": "habitaciones",
+      "label": "Habitación · Suite Deluxe",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-5_11zon.jpg",
+      "alt": "Suite Deluxe con jacuzzi"
+    },
+    "habitaciones.room.grand-deluxe": {
+      "category": "habitaciones",
+      "label": "Habitación · Grand Deluxe Suite",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-3_11zon-1.jpg",
+      "alt": "Grand Deluxe Suite"
+    },
+    "restaurante.hero": {
+      "category": "restaurante",
+      "label": "Hero · Restaurante",
+      "src": "images/Restaurante/14_14_11zon.jpg",
+      "alt": "Salón Restaurante Murano"
+    },
+    "restaurante.murano.hero": {
+      "category": "restaurante",
+      "label": "Murano · Hero principal",
+      "src": "images/Restaurante/12_12_11zon.jpg",
+      "alt": "Salón principal con bar curvo"
+    },
+    "restaurante.plate.1": {
+      "category": "restaurante",
+      "label": "Plato · Atún sellado al sésamo",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-9_11_11zon.jpg",
+      "alt": "Atún sellado al sésamo con polenta"
+    },
+    "restaurante.plate.2": {
+      "category": "restaurante",
+      "label": "Plato · Lomo saltado",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-10_10_11zon.jpg",
+      "alt": "Lomo saltado clásico"
+    },
+    "restaurante.plate.3": {
+      "category": "restaurante",
+      "label": "Plato · Crostinis de jamón crudo",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-12_8_11zon.jpg",
+      "alt": "Crostinis con jamón crudo y melón"
+    },
+    "restaurante.plate.4": {
+      "category": "restaurante",
+      "label": "Plato · Pulpo a la parrilla",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-11_9_11zon.jpg",
+      "alt": "Pulpo a la parrilla con papas andinas y tomate cherry"
+    },
+    "restaurante.plate.5": {
+      "category": "restaurante",
+      "label": "Plato · Tabla de quesos y charcutería",
+      "src": "images/Restaurante/IMG_3832_ED_9_11zon-scaled.jpg",
+      "alt": "Tabla de quesos, charcutería peruana y frutas"
+    },
+    "eventos.hero": {
+      "category": "eventos",
+      "label": "Hero · Eventos",
+      "src": "images/Eventos/EMPRESARIALES-I_7_11zon.jpg",
+      "alt": "Salón Empresarial Sol de Oro"
+    },
+    "eventos.salon.ejecutivo-1": {
+      "category": "eventos",
+      "label": "Salón · Ejecutivo I (Piso 1)",
+      "src": "images/Eventos/IMG_8388_25_11zon-scaled.jpg",
+      "alt": "Salón Ejecutivo I"
+    },
+    "eventos.salon.ejecutivo-2": {
+      "category": "eventos",
+      "label": "Salón · Ejecutivo II (Piso 1)",
+      "src": "images/Eventos/EJECUTIVO-II-AUDITORIO_2_11zon-scaled.jpg",
+      "alt": "Salón Ejecutivo II en montaje auditorio"
+    },
+    "eventos.salon.ejecutivo-3": {
+      "category": "eventos",
+      "label": "Salón · Ejecutivo III (Piso 1)",
+      "src": "images/Eventos/MG_2145_ED-v2_5_11zon-scaled.jpg",
+      "alt": "Salón Ejecutivo III"
+    },
+    "eventos.salon.empresarial-1": {
+      "category": "eventos",
+      "label": "Salón · Empresarial I (Piso 2)",
+      "src": "images/Eventos/EMPRESARIALES-I_7_11zon.jpg",
+      "alt": "Salón Empresarial I"
+    },
+    "eventos.salon.empresarial-2": {
+      "category": "eventos",
+      "label": "Salón · Empresarial II (Piso 2)",
+      "src": "images/Eventos/EMPRESARIALES-II_10_11zon.jpg",
+      "alt": "Salón Empresarial II"
+    },
+    "eventos.salon.empresarial-3": {
+      "category": "eventos",
+      "label": "Salón · Empresarial III (Piso 2)",
+      "src": "images/Eventos/IMG_2226_ED_8_11zon-scaled.jpg",
+      "alt": "Salón Empresarial III"
+    },
+    "eventos.salon.empresarial-completo": {
+      "category": "eventos",
+      "label": "Salón · Empresarial Completo (Piso 2)",
+      "src": "images/Eventos/Empresariales-Aud-8-1_3_11zon-scaled.jpg",
+      "alt": "Salón Empresarial Completo · 500 personas"
+    },
+    "eventos.salon.sol-de-oro": {
+      "category": "eventos",
+      "label": "Salón · Sol de Oro Terraza (Piso 12)",
+      "src": "images/Eventos/SOL-DE-ORO-MESAS-REDONDAS-1.jpeg",
+      "alt": "Salón Sol de Oro en terraza panorámica"
+    },
+    "eventos.salon.centro-convenciones": {
+      "category": "eventos",
+      "label": "Salón · Centro de Convenciones (Piso 2)",
+      "src": "images/Eventos/MG_2588_edi2-scaled.jpg",
+      "alt": "Centro de Convenciones"
+    },
+    "servicios.hero": {
+      "category": "servicios",
+      "label": "Hero · Servicios",
+      "src": "images/Spa/MG_1800_ED_11zon-scaled.jpg",
+      "alt": "Servicios y amenidades"
+    },
+    "servicios.feature.wellness": {
+      "category": "servicios",
+      "label": "Servicios · Wellness piso 12",
+      "src": "images/Rooftop/PISCINA-WEB.webp",
+      "alt": "Piscina al aire libre"
+    },
+    "galeria.hero": {
+      "category": "galeria",
+      "label": "Hero · Galería",
+      "src": "images/Rooftop/9_9_11zon.jpg",
+      "alt": "Terraza panorámica con vista a Miraflores"
+    },
+    "galeria.item.01": {
+      "category": "galeria",
+      "label": "Galería · 01 · Junior Suite (rooms)",
+      "src": "images/Habitaciones/JUNIOR-SUITE_11zon.jpg",
+      "alt": "Junior Suite con cama king"
+    },
+    "galeria.item.02": {
+      "category": "galeria",
+      "label": "Galería · 02 · Lobby principal (spaces)",
+      "src": "images/Lobby/5_5_11zon.jpg",
+      "alt": "Lobby principal del hotel"
+    },
+    "galeria.item.03": {
+      "category": "galeria",
+      "label": "Galería · 03 · Mesa Murano (food)",
+      "src": "images/Restaurante/24_24_11zon.jpg",
+      "alt": "Mesa preparada en Restaurante Murano"
+    },
+    "galeria.item.04": {
+      "category": "galeria",
+      "label": "Galería · 04 · Superior King (rooms)",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg",
+      "alt": "Superior King Room"
+    },
+    "galeria.item.05": {
+      "category": "galeria",
+      "label": "Galería · 05 · Salón Sol de Oro (events)",
+      "src": "images/Eventos/SOL-DE-ORO-MESAS-REDONDAS-1.jpeg",
+      "alt": "Salón Sol de Oro en terraza piso 12"
+    },
+    "galeria.item.06": {
+      "category": "galeria",
+      "label": "Galería · 06 · Spa & Wellness (spaces)",
+      "src": "images/Spa/MG_1800_ED_11zon-scaled.jpg",
+      "alt": "Área de spa y wellness"
+    },
+    "galeria.item.07": {
+      "category": "galeria",
+      "label": "Galería · 07 · Bar Murano (food)",
+      "src": "images/Restaurante/13_13_11zon.jpg",
+      "alt": "Bar Murano con barra alta"
+    },
+    "galeria.item.08": {
+      "category": "galeria",
+      "label": "Galería · 08 · Junior Suite Twin (rooms)",
+      "src": "images/Habitaciones/JUNIOR-SUITE-TWIN_11zon.jpg",
+      "alt": "Junior Suite Twin con dos camas queen"
+    },
+    "galeria.item.09": {
+      "category": "galeria",
+      "label": "Galería · 09 · Piscina temperada (spaces)",
+      "src": "images/Rooftop/PISCINA-WEB.webp",
+      "alt": "Piscina al aire libre"
+    },
+    "galeria.item.10": {
+      "category": "galeria",
+      "label": "Galería · 10 · Salón Empresarial (events)",
+      "src": "images/Eventos/EMPRESARIALES-I_7_11zon.jpg",
+      "alt": "Salón Empresarial montaje auditorio"
+    },
+    "galeria.item.11": {
+      "category": "galeria",
+      "label": "Galería · 11 · Lomo saltado (food)",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-10_10_11zon.jpg",
+      "alt": "Plato de lomo saltado"
+    },
+    "galeria.item.12": {
+      "category": "galeria",
+      "label": "Galería · 12 · Grand Deluxe Suite (rooms)",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-3_11zon-1.jpg",
+      "alt": "Grand Deluxe Suite con sala y jacuzzi"
+    },
+    "galeria.item.13": {
+      "category": "galeria",
+      "label": "Galería · 13 · Terraza panorámica (spaces)",
+      "src": "images/Rooftop/9_9_11zon.jpg",
+      "alt": "Terraza con vista a Miraflores"
+    },
+    "galeria.item.14": {
+      "category": "galeria",
+      "label": "Galería · 14 · Recepción de boda (events)",
+      "src": "images/Eventos/Empresariales-Aud-8-1_3_11zon-scaled.jpg",
+      "alt": "Recepción de boda en salón empresarial"
+    },
+    "galeria.item.15": {
+      "category": "galeria",
+      "label": "Galería · 15 · Crostinis Murano (food)",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-12_8_11zon.jpg",
+      "alt": "Crostinis de jamón crudo"
+    },
+    "galeria.item.16": {
+      "category": "galeria",
+      "label": "Galería · 16 · Executive Suite (rooms)",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO_11zon.jpg",
+      "alt": "Executive Suite con sala interna"
+    },
+    "galeria.item.17": {
+      "category": "galeria",
+      "label": "Galería · 17 · Superior Twin (rooms)",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-3_11zon.jpg",
+      "alt": "Superior Twin Room"
+    },
+    "galeria.item.18": {
+      "category": "galeria",
+      "label": "Galería · 18 · Directorio Ejecutivo (events)",
+      "src": "images/Eventos/EJECUTIVO-II-HERRADURA_4_11zon-scaled.jpg",
+      "alt": "Salón Ejecutivo en montaje herradura"
+    },
+    "galeria.item.19": {
+      "category": "galeria",
+      "label": "Galería · 19 · Atún Murano (food)",
+      "src": "images/Restaurante/FOTOS-WEB-SOL-DE-ORO-9_11_11zon.jpg",
+      "alt": "Atún sellado al sésamo"
+    },
+    "galeria.item.20": {
+      "category": "galeria",
+      "label": "Galería · 20 · Gimnasio (spaces)",
+      "src": "images/Gimnasio/4_4_11zon.jpg",
+      "alt": "Gimnasio del hotel"
+    },
+    "ubicacion.hero": {
+      "category": "ubicacion",
+      "label": "Hero · Ubicación",
+      "src": "images/Exterior/fotomiraflores.jpg",
+      "alt": "Vista panorámica de Miraflores"
+    },
+    "ofertas.hero": {
+      "category": "ofertas",
+      "label": "Hero · Ofertas",
+      "src": "images/Restaurante/24_24_11zon.jpg",
+      "alt": "Ofertas y promociones"
+    },
+    "ofertas.promo.1": {
+      "category": "ofertas",
+      "label": "Oferta · Escapada en Miraflores",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg",
+      "alt": "Habitación Superior King para escapada"
+    },
+    "ofertas.promo.2": {
+      "category": "ofertas",
+      "label": "Oferta · Cena Romántica Murano",
+      "src": "images/Restaurante/23_23_11zon.jpg",
+      "alt": "Cena romántica en Murano"
+    },
+    "ofertas.promo.3": {
+      "category": "ofertas",
+      "label": "Oferta · Día Spa & Almuerzo",
+      "src": "images/Spa/MG_1800_ED_11zon-scaled.jpg",
+      "alt": "Día de spa y almuerzo"
+    },
+    "ofertas.promo.4": {
+      "category": "ofertas",
+      "label": "Oferta · Suite con jacuzzi · Aniversario",
+      "src": "images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-5_11zon.jpg",
+      "alt": "Suite Deluxe con jacuzzi"
+    },
+    "ofertas.promo.5": {
+      "category": "ofertas",
+      "label": "Oferta · Escapada Familiar",
+      "src": "images/Habitaciones/JUNIOR-SUITE-TWIN_11zon.jpg",
+      "alt": "Junior Suite Twin para familias"
+    },
+    "ofertas.promo.6": {
+      "category": "ofertas",
+      "label": "Oferta · Tarifa Empresa",
+      "src": "images/Eventos/EMPRESARIALES-I_7_11zon.jpg",
+      "alt": "Sala de reuniones para tarifa empresa"
+    },
+    "acerca.hero": {
+      "category": "acerca",
+      "label": "Hero · Acerca",
+      "src": "images/Exterior/the-hotel-v13828831_ED.webp",
+      "alt": "Sol de Oro Hotel & Suites"
+    },
+    "acerca.feature.story": {
+      "category": "acerca",
+      "label": "Acerca · Historia",
+      "src": "images/Exterior/FACHADA.jpg",
+      "alt": "Historia del hotel"
+    },
+    "acerca.feature.team": {
+      "category": "acerca",
+      "label": "Acerca · Equipo",
+      "src": "images/Lobby/6_6_11zon.jpg",
+      "alt": "Lobby del hotel"
+    },
+    "shared.band.award": {
+      "category": "shared",
+      "label": "Award band · Fondo (compartido, oscuro)",
+      "src": "images/Rooftop/11_11_11zon-dark.jpg",
+      "alt": "Ambiente nocturno Sol de Oro"
+    }
+  }
+}

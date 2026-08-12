@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Secrets — nunca commitear claves reales
+sol-de-oro-concierge/backend/.env
+.claude/settings.local.json
+
+# Dependencias de terceros (open-design es una herramienta interna, no el sitio)
+node_modules/
+.pnpm/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/

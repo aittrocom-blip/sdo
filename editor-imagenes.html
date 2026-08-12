@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Editor de Contenido · Sol de Oro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --black: #171717; --ink: #262626; --gray: #6F6B65; --muted: #9E9A93;
+  --sand: #C8B89C; --sand-deep: #9C8A6F; --cream: #F8F6F2; --soft: #F2F0EB;
+  --line: #E6E2DA; --white: #FFFFFF;
+  --amber: #B45309; --amber-bg: #FEF3C7; --amber-line: #FCD34D;
+  --green: #166534; --green-bg: #DCFCE7;
+  --red: #991B1B; --red-bg: #FEE2E2;
+  --blue: #1E40AF; --blue-bg: #DBEAFE;
+  --radius: 8px; --radius-sm: 5px;
+  --shadow: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --topbar-h: 64px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'Roboto', system-ui, sans-serif;
+  font-weight: 400; color: var(--ink);
+  background: var(--cream); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  height: 100vh; overflow: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, select, textarea { font-family: inherit; font-size: inherit; }
+
+/* ─── APP SHELL ─────────────────────────────────────────── */
+.app { display: flex; flex-direction: column; height: 100vh; }
+
+.app-bar {
+  height: var(--topbar-h); flex-shrink: 0;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center;
+  padding: 0 28px; gap: 24px;
+  position: relative; z-index: 30;
+}
+.app-bar-brand {
+  display: flex; align-items: baseline; gap: 10px; flex-shrink: 0;
+}
+.brand-name {
+  font-size: .7rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--sand-deep);
+}
+.brand-sep { color: var(--line); font-size: 1.2rem; font-weight: 200; }
+.brand-title { font-size: .8rem; font-weight: 400; color: var(--gray); }
+
+.app-bar-stats {
+  flex: 1; display: flex; gap: 20px; justify-content: center;
+  font-size: .78rem; color: var(--gray);
+}
+.app-bar-stats strong { color: var(--ink); font-weight: 500; }
+.stat-dot { color: var(--line); }
+
+.app-bar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* ─── BUTTONS ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  font-size: .72rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; transition: all .15s ease;
+  white-space: nowrap; cursor: pointer;
+}
+.btn-primary {
+  background: var(--ink); color: var(--white); border: 1px solid var(--ink);
+}
+.btn-primary:hover { background: var(--black); }
+.btn-outline {
+  background: transparent; color: var(--ink); border: 1px solid var(--line);
+}
+.btn-outline:hover { border-color: var(--sand-deep); color: var(--sand-deep); }
+.btn-ghost {
+  background: transparent; color: var(--gray); border: 1px solid transparent;
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--line); }
+.btn-sm { padding: 6px 12px; font-size: .68rem; }
+.btn-link {
+  background: none; border: none; color: var(--sand-deep);
+  font-size: inherit; font-weight: 500; cursor: pointer;
+  text-decoration: underline; padding: 0;
+}
+
+/* ─── BODY LAYOUT ────────────────────────────────────────── */
+.app-body {
+  display: flex; flex: 1; overflow: hidden;
+}
+
+/* ─── SIDEBAR ────────────────────────────────────────────── */
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  background: var(--ink); color: var(--white);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-inner {
+  display: flex; flex-direction: column; flex: 1;
+  padding: 24px 16px;
+}
+.sidebar-section-label {
+  font-size: .6rem; font-weight: 500; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 0 8px; margin-bottom: 8px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 10px 12px; border-radius: var(--radius-sm);
+  font-size: .83rem; font-weight: 400; color: rgba(255,255,255,.6);
+  transition: all .15s ease; text-align: left; cursor: pointer;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: rgba(255,255,255,.07); color: var(--white); }
+.nav-item.active {
+  background: var(--sand-deep); color: var(--white); font-weight: 500;
+}
+.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto; background: var(--amber); color: var(--white);
+  font-size: .6rem; font-weight: 700; padding: 2px 6px;
+  border-radius: 20px; min-width: 20px; text-align: center;
+}
+
+.sidebar-footer {
+  margin-top: auto; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.sidebar-footer p {
+  font-size: .7rem; color: rgba(255,255,255,.3); line-height: 1.5;
+}
+.sidebar-footer p + p { margin-top: 4px; }
+
+/* ─── MAIN AREA ──────────────────────────────────────────── */
+.main-area {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+}
+
+/* ─── SECTIONS ───────────────────────────────────────────── */
+.section { display: none; min-height: 100%; }
+.section.active { display: block; }
+
+.section-head {
+  padding: 36px 36px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+.section-head h1 {
+  font-size: 1.4rem; font-weight: 300; letter-spacing: -.01em;
+  color: var(--black); margin-bottom: 4px;
+}
+.section-head p {
+  font-size: .85rem; color: var(--gray);
+}
+
+/* ─── IMAGE SECTION ─────────────────────────────────────── */
+.img-toolbar {
+  padding: 20px 36px 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.search-input {
+  width: 100%; max-width: 400px;
+  padding: 9px 14px; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); font-size: .83rem;
+  background: var(--soft); color: var(--ink);
+  outline: none; transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--sand-deep); background: var(--white); }
+.search-input::placeholder { color: var(--muted); }
+
+.cat-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.cat-pill {
+  padding: 5px 12px; border-radius: 20px;
+  border: 1px solid var(--line); font-size: .72rem; font-weight: 400;
+  color: var(--gray); background: var(--white);
+  cursor: pointer; transition: all .15s ease;
+}
+.cat-pill:hover { border-color: var(--sand); color: var(--ink); }
+.cat-pill.active {
+  background: var(--ink); border-color: var(--ink);
+  color: var(--white); font-weight: 500;
+}
+.pill-count { opacity: .6; font-size: .68rem; margin-left: 3px; }
+
+.img-grid {
+  padding: 24px 36px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ─── IMAGE CARDS ────────────────────────────────────────── */
+.img-card {
+  background: var(--white); border-radius: var(--radius);
+  border: 1px solid var(--line); overflow: hidden;
+  box-shadow: var(--shadow); transition: box-shadow .15s, transform .15s;
+  position: relative;
+}
+.img-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.img-card.modified { border-color: var(--amber-line); }
+
+.mod-badge {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  background: var(--amber); color: var(--white);
+  font-size: .58rem; font-weight: 700; letter-spacing: .08em;
+  padding: 3px 7px; border-radius: 4px;
+}
+
+.img-card-thumb {
+  aspect-ratio: 4/3; overflow: hidden;
+  background: var(--soft);
+  display: flex; align-items: center; justify-content: center;
+}
+.img-card-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .3s ease;
+}
+.img-card:hover .img-card-thumb img { transform: scale(1.03); }
+.img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+}
+
+.img-card-body { padding: 12px 14px 14px; }
+.img-card-cat {
+  display: inline-block; font-size: .62rem; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--sand-deep); margin-bottom: 4px;
+}
+.img-card-label {
+  font-size: .8rem; font-weight: 500; color: var(--black);
+  margin-bottom: 4px; line-height: 1.3;
+}
+.img-card-src {
+  font-size: .68rem; color: var(--muted);
+  font-family: 'Roboto Mono', monospace, monospace;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+.img-card-actions { display: flex; gap: 6px; }
+
+.empty-state {
+  grid-column: 1/-1; padding: 64px 24px; text-align: center;
+  color: var(--gray); font-size: .9rem;
+}
+.empty-state.error {
+  background: var(--red-bg); border-radius: var(--radius);
+  color: var(--red);
+}
+.empty-state code { font-size: .82rem; background: rgba(0,0,0,.06); padding: 2px 5px; border-radius: 3px; }
+
+/* ─── CONTENT SECTION ────────────────────────────────────── */
+.content-accordion { padding: 24px 36px; display: flex; flex-direction: column; gap: 8px; }
+
+.accord-item {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+}
+.accord-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; cursor: pointer; text-align: left;
+  transition: background .12s; gap: 12px;
+}
+.accord-trigger:hover { background: var(--soft); }
+.accord-trigger-inner { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.accord-thumb {
+  width: 72px; height: 54px; border-radius: 5px; object-fit: cover;
+  flex-shrink: 0; background: var(--soft); display: block;
+  border: 1px solid var(--line);
+}
+.accord-trigger-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.accord-label { font-size: .88rem; font-weight: 500; color: var(--black); }
+.accord-page { font-size: .68rem; color: var(--muted); }
+.accord-meta { display: flex; align-items: center; gap: 10px; }
+.accord-mod-count {
+  font-size: .68rem; font-weight: 600; letter-spacing: .04em;
+  color: var(--amber); background: var(--amber-bg);
+  padding: 2px 8px; border-radius: 12px;
+}
+.accord-chevron {
+  color: var(--muted); transition: transform .2s ease; flex-shrink: 0;
+}
+.accord-item.open .accord-chevron { transform: rotate(180deg); }
+
+.accord-body { padding: 0 20px 20px; }
+
+.field-group-set {
+  padding-top: 20px;
+  border-top: 1px solid var(--soft);
+  margin-top: 16px;
+}
+.field-group-set:first-child { border-top: none; margin-top: 0; }
+.field-group-label {
+  font-size: .68rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--sand-deep);
+  margin-bottom: 12px;
+}
+
+.field-row {
+  margin-bottom: 12px;
+  border-left: 3px solid transparent;
+  padding-left: 10px; transition: border-color .15s;
+}
+.field-row.modified { border-left-color: var(--amber-line); }
+.field-row:last-child { margin-bottom: 0; }
+
+.field-label {
+  display: block; font-size: .72rem; font-weight: 500;
+  color: var(--gray); margin-bottom: 5px; letter-spacing: .02em;
+}
+.field-input {
+  width: 100%; padding: 9px 12px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font-size: .83rem; color: var(--ink); background: var(--white);
+  outline: none; transition: border-color .15s, background .15s;
+  resize: vertical;
+}
+.field-input:focus { border-color: var(--sand-deep); background: var(--white); }
+.field-hint {
+  font-size: .7rem; color: var(--muted); margin-top: 4px;
+}
+.field-hint code { font-size: .78em; background: var(--soft); padding: 1px 4px; border-radius: 3px; }
+
+/* ─── EXPORT SECTION ─────────────────────────────────────── */
+.export-wrap { padding: 24px 36px; }
+
+.export-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+}
+.export-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px;
+  display: flex; flex-direction: column; gap: 12px;
+  box-shadow: var(--shadow);
+}
+.export-card-header { display: flex; align-items: center; gap: 12px; }
+.export-icon { font-size: 1.8rem; }
+.export-card h3 {
+  font-size: .9rem; font-weight: 500; color: var(--black);
+  font-family: 'Roboto Mono', monospace;
+}
+.export-card p {
+  font-size: .8rem; color: var(--gray);
+}
+.export-count-badge {
+  display: inline-block; font-size: .7rem; font-weight: 500;
+  padding: 3px 10px; border-radius: 12px; margin-top: 4px;
+}
+.export-count-badge.has-changes { background: var(--amber-bg); color: var(--amber); }
+.export-count-badge.no-changes { background: var(--soft); color: var(--muted); }
+
+.instructions-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow);
+}
+.instructions-card h3 {
+  font-size: .85rem; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--gray); margin-bottom: 16px;
+}
+.instructions-card ol {
+  padding-left: 20px; display: flex; flex-direction: column; gap: 10px;
+}
+.instructions-card li {
+  font-size: .85rem; color: var(--ink); line-height: 1.5;
+}
+.instructions-card code {
+  font-size: .82em; background: var(--soft); padding: 2px 6px; border-radius: 3px;
+}
+
+/* ─── MODAL ──────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 100;
+  display: flex; justify-content: flex-end;
+  opacity: 0; transition: opacity .25s ease;
+  pointer-events: none;
+}
+.modal-overlay.visible {
+  opacity: 1; pointer-events: auto;
+}
+.modal-panel {
+  width: 520px; max-width: 100%;
+  height: 100%; background: var(--white);
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.2,.8,.2,1);
+  box-shadow: -4px 0 24px rgba(0,0,0,.12);
+}
+.modal-overlay.visible .modal-panel { transform: translateX(0); }
+
+.modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 24px 24px 20px; border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.modal-eyebrow {
+  font-size: .65rem; color: var(--muted); letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 4px; font-family: monospace;
+}
+.modal-title { font-size: 1rem; font-weight: 500; color: var(--black); }
+.modal-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--gray);
+  flex-shrink: 0; margin-left: 12px; margin-top: -2px;
+  transition: background .12s;
+}
+.modal-close:hover { background: var(--soft); color: var(--ink); }
+
+.modal-tabs {
+  display: flex; border-bottom: 1px solid var(--line);
+  flex-shrink: 0; padding: 0 24px; gap: 0;
+}
+.modal-tab {
+  padding: 12px 16px; font-size: .78rem; font-weight: 400; color: var(--gray);
+  border-bottom: 2px solid transparent; transition: all .15s; cursor: pointer;
+  margin-bottom: -1px;
+}
+.modal-tab:hover { color: var(--ink); }
+.modal-tab.active { color: var(--sand-deep); border-bottom-color: var(--sand-deep); font-weight: 500; }
+
+.modal-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+.img-preview-box {
+  aspect-ratio: 16/9; background: var(--soft);
+  border-radius: var(--radius-sm); overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  margin: 12px 0; border: 1px solid var(--line);
+}
+.img-preview-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.img-preview-empty { font-size: .78rem; color: var(--muted); text-align: center; padding: 16px; }
+
+.folder-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.folder-chips code {
+  font-size: .72rem; background: var(--soft); padding: 3px 8px;
+  border-radius: 4px; border: 1px solid var(--line); color: var(--gray);
+}
+
+.drop-zone {
+  border: 2px dashed var(--line); border-radius: var(--radius);
+  background: var(--soft); min-height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s, background .15s;
+  position: relative; overflow: hidden;
+}
+.drop-zone.drag-over { border-color: var(--sand-deep); background: var(--cream); }
+.drop-zone-inner {
+  text-align: center; padding: 32px 24px;
+  font-size: .83rem; color: var(--gray);
+}
+.drop-icon { font-size: 2rem; margin-bottom: 8px; }
+.drop-hint { font-size: .72rem; color: var(--muted); margin-top: 6px; }
+.drop-preview {
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0;
+}
+.upload-notice { color: var(--amber); font-weight: 500; }
+
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 16px 24px; border-top: 1px solid var(--line);
+  flex-shrink: 0; background: var(--soft);
+}
+
+/* ─── TOASTS ─────────────────────────────────────────────── */
+.toast-container {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 200; align-items: center; pointer-events: none;
+}
+.toast {
+  padding: 11px 20px; border-radius: var(--radius-sm);
+  font-size: .8rem; font-weight: 500;
+  box-shadow: var(--shadow-md);
+  transform: translateY(12px); opacity: 0;
+  transition: all .25s ease; pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-success { background: var(--green-bg); color: var(--green); }
+.toast-error { background: var(--red-bg); color: var(--red); }
+.toast-info { background: var(--blue-bg); color: var(--blue); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .img-grid { grid-template-columns: repeat(2, 1fr); }
+  .export-cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { width: 56px; }
+  .nav-item span:not(.nav-icon) { display: none; }
+  .sidebar-footer { display: none; }
+  .app-bar-stats { display: none; }
+  .img-grid { padding: 16px; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .section-head, .img-toolbar, .content-accordion, .export-wrap { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── TOP BAR ───────────────────────────────────────────── -->
+  <header class="app-bar">
+    <div class="app-bar-brand">
+      <span class="brand-name">Sol de Oro</span>
+      <span class="brand-sep">|</span>
+      <span class="brand-title">Editor de Contenido</span>
+    </div>
+    <div class="app-bar-stats" id="statsBar">
+      <span id="statImages"><strong>0</strong> imágenes modificadas</span>
+      <span class="stat-dot">·</span>
+      <span id="statTexts"><strong>0</strong> textos modificados</span>
+    </div>
+    <div class="app-bar-actions">
+      <button class="btn btn-ghost" id="btnRevertAll">Revertir todo</button>
+      <button class="btn btn-primary" id="btnExportAll">⬇ Exportar todo</button>
+    </div>
+  </header>
+
+  <!-- ── BODY ──────────────────────────────────────────────── -->
+  <div class="app-body">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" aria-label="Secciones del editor">
+      <div class="sidebar-inner">
+        <div class="sidebar-section-label">Editor</div>
+        <button class="nav-item active" data-section="imagenes" aria-current="true">
+          <span class="nav-icon">🖼</span>
+          <span>Imágenes</span>
+          <span class="nav-badge" id="navBadgeImages" hidden>0</span>
+        </button>
+        <button class="nav-item" data-section="contenido">
+          <span class="nav-icon">✏</span>
+          <span>Contenido</span>
+          <span class="nav-badge" id="navBadgeTexts" hidden>0</span>
+        </button>
+        <button class="nav-item" data-section="exportar">
+          <span class="nav-icon">⬇</span>
+          <span>Exportar</span>
+        </button>
+        <div class="sidebar-footer">
+          <p>Sol de Oro Hotel &amp; Suites</p>
+          <p>Cambios guardados automáticamente en este navegador.</p>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main-area" id="mainArea">
+
+      <!-- ── SECCIÓN: IMÁGENES ───────────────────────────── -->
+      <section class="section active" id="sec-imagenes" aria-labelledby="hd-imagenes">
+        <div class="section-head">
+          <h1 id="hd-imagenes">Imágenes</h1>
+          <p>Reemplazá cualquier imagen del sitio por URL externa, ruta en el servidor, o subiendo un archivo nuevo.</p>
+        </div>
+        <div class="img-toolbar">
+          <input type="search" class="search-input" id="imgSearch"
+            placeholder="Buscar por nombre, clave o ruta…" aria-label="Buscar imágenes" />
+          <div class="cat-pills" id="catPills" role="group" aria-label="Filtrar por categoría"></div>
+        </div>
+        <div class="img-grid" id="imgGrid" role="list">
+          <div class="empty-state">Cargando imágenes…</div>
+        </div>
+      </section>
+
+      <!-- ── SECCIÓN: CONTENIDO ─────────────────────────── -->
+      <section class="section" id="sec-contenido" aria-labelledby="hd-contenido">
+        <div class="section-head">
+          <h1 id="hd-contenido">Contenido</h1>
+          <p>Editá los textos de cada página. Los cambios se guardan automáticamente y se reflejan al exportar <code>content.json</code>.</p>
+        </div>
+        <div class="content-accordion" id="contentAccordion"></div>
+      </section>
+
+      <!-- ── SECCIÓN: EXPORTAR ──────────────────────────── -->
+      <section class="section" id="sec-exportar" aria-labelledby="hd-exportar">
+        <div class="section-head">
+          <h1 id="hd-exportar">Exportar</h1>
+          <p>Descargá los archivos modificados y subílos a tu servidor para publicar los cambios.</p>
+        </div>
+        <div class="export-wrap">
+          <div class="export-cards">
+            <div class="export-card">
+              <div class="export-card-header">
+                <span class="export-icon">🖼</span>
+                <div>
+                  <h3>images.json</h3>
+                  <p>Manifiesto de imágenes del sitio</p>
+                </div>
+              </div>
+              <span class="export-count-badge no-changes" id="exportImagesCount">Sin cambios</span>
+              <button class="btn btn-primary" id="btnDownloadImages">Descargar images.json</button>
+            </div>
+            <div class="export-card">
+              <div class="export-card-header">
+                <span class="export-icon">✏</span>
+                <div>
+                  <h3>content.json</h3>
+                  <p>Textos editados del sitio</p>
+                </div>
+              </div>
+              <span class="export-count-badge no-changes" id="exportContentCount">Sin cambios</span>
+              <button class="btn btn-primary" id="btnDownloadContent">Descargar content.json</button>
+            </div>
+          </div>
+          <div class="instructions-card">
+            <h3>Cómo publicar los cambios</h3>
+            <ol>
+              <li>Descargá los archivos con los botones de arriba (o usá <strong>Exportar todo</strong> en la barra superior).</li>
+              <li>Abrí el administrador de archivos de tu hosting (cPanel, FTP, etc.).</li>
+              <li>Navegá a la carpeta <code>assets/</code> del sitio y reemplazá los archivos descargados.</li>
+              <li>Si subiste imágenes nuevas (pestaña "Nuevo archivo"), subílas también a la carpeta correspondiente.</li>
+              <li>Los cambios se aplican al recargar el sitio web.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /app-body -->
+
+</div><!-- /app -->
+
+<!-- ── MODAL EDICIÓN DE IMAGEN ────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-panel" id="modalPanel">
+    <div class="modal-header">
+      <div>
+        <p class="modal-eyebrow" id="modalKey"></p>
+        <h2 class="modal-title" id="modalTitle"></h2>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar modal">&#x2715;</button>
+    </div>
+
+    <div class="modal-tabs" role="tablist" aria-label="Método de cambio">
+      <button class="modal-tab active" data-tab="url" role="tab" aria-selected="true" id="tab-url">URL externa</button>
+      <button class="modal-tab" data-tab="path" role="tab" aria-selected="false" id="tab-path">Ruta en servidor</button>
+      <button class="modal-tab" data-tab="upload" role="tab" aria-selected="false" id="tab-upload">Nuevo archivo</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Tab: URL -->
+      <div class="tab-pane active" id="pane-url" role="tabpanel" aria-labelledby="tab-url">
+        <div class="field-row">
+          <label class="field-label" for="inputUrl">URL de la imagen</label>
+          <input type="url" class="field-input" id="inputUrl" placeholder="https://ejemplo.com/imagen.jpg" />
+          <p class="field-hint">Pegá la URL completa. La imagen debe ser accesible públicamente.</p>
+        </div>
+        <div class="img-preview-box" id="previewUrlBox">
+          <img id="previewUrlImg" alt="Vista previa" />
+          <p class="img-preview-empty" id="previewUrlEmpty">Ingresá una URL para ver la vista previa.</p>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="inputUrlAlt">Texto alternativo (SEO)</label>
+          <input type="text" class="field-input" id="inputUrlAlt" placeholder="Descripción de la imagen" />
+        </div>
+      </div>
+
+      <!-- Tab: Ruta -->
+      <div class="tab-pane" id="pane-path" role="tabpanel" aria-labelledby="tab-path">
+        <div class="field-row">
+          <label class="field-label" for="inputPath">Ruta en el servidor</label>
+          <input type="text" class="field-input" id="inputPath" placeholder="images/Habitaciones/foto.jpg" />
+          <p class="field-hint">Ruta relativa desde la raíz del sitio. No incluyas <code>/</code> al inicio.</p>
+        </div>
+        <div class="img-preview-box" id="previewPathBox">
+          <img id="previewPathImg" alt="Vista previa" />
+          <p class="img-preview-empty" id="previewPathEmpty">Ingresá una ruta para ver la vista previa.</p>
+        </div>
+        <div>
+          <p class="field-label">Carpetas disponibles en el servidor</p>
+          <div class="folder-chips">
+            <code>images/Habitaciones/</code><code>images/Restaurante/</code>
+            <code>images/Eventos/</code><code>images/Lobby/</code>
+            <code>images/Rooftop/</code><code>images/Spa/</code>
+            <code>images/Gimnasio/</code><code>images/Exterior/</code>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:16px">
+          <label class="field-label" for="inputPathAlt">Texto alternativo (SEO)</label>
+          <input type="text" class="field-input" id="inputPathAlt" placeholder="Descripción de la imagen" />
+        </div>
+      </div>
+
+      <!-- Tab: Subir archivo -->
+      <div class="tab-pane" id="pane-upload" role="tabpanel" aria-labelledby="tab-upload">
+        <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Zona de soltar archivos">
+          <input type="file" id="fileInput" accept="image/*" aria-label="Elegir imagen" />
+          <div class="drop-zone-inner" id="dropZoneInner">
+            <div class="drop-icon">⬆</div>
+            <p>Arrastrá una imagen aquí o <button class="btn-link" id="btnBrowse" type="button">elegí un archivo</button></p>
+            <p class="drop-hint">JPG, PNG, WebP · hasta 10 MB</p>
+          </div>
+          <img class="drop-preview" id="dropPreview" alt="Vista previa del archivo seleccionado" />
+        </div>
+        <div id="uploadInfoPanel" style="display:none; margin-top:16px;">
+          <div class="field-row">
+            <label class="field-label" for="inputUploadPath">Ruta sugerida en el servidor</label>
+            <input type="text" class="field-input" id="inputUploadPath" />
+            <p class="field-hint upload-notice">⚠ Subí este archivo al servidor en esta ruta exacta luego de guardar.</p>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="inputUploadAlt">Texto alternativo (SEO)</label>
+            <input type="text" class="field-input" id="inputUploadAlt" placeholder="Descripción de la imagen" />
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="modalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary" id="modalSaveBtn">Guardar cambio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOASTS ─────────────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+'use strict';
+
+// ─── CONSTANTS ───────────────────────────────────────────────
+const LS_IMAGES  = 'soldeoro.images.draft';
+const LS_CONTENT = 'soldeoro.content.draft';
+
+const FOLDER_MAP = {
+  home: 'images/Home', habitaciones: 'images/Habitaciones',
+  restaurante: 'images/Restaurante', eventos: 'images/Eventos',
+  servicios: 'images/Servicios', galeria: 'images/Galeria',
+  ubicacion: 'images/Exterior', ofertas: 'images/Ofertas',
+  acerca: 'images/Exterior', shared: 'images/Shared',
+};
+
+// ─── CONTENT SCHEMA ──────────────────────────────────────────
+const CONTENT_SCHEMA = [
+  { id:'inicio', label:'Inicio', page:'index.html', previewSrc:'images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg', groups:[
+    { id:'hero-1', label:'Hero · Slide 1', fields:[
+      { key:'home.hero.slide1.eyebrow', label:'Eyebrow (etiqueta)', type:'input',    def:'Cinco Estrellas · Miraflores' },
+      { key:'home.hero.slide1.h1',     label:'Título principal',   type:'input',    def:'El descanso que tu viaje a Lima merece.' },
+      { key:'home.hero.slide1.p',      label:'Párrafo',            type:'textarea', def:'Habitaciones diseñadas para dormir bien: cama king, blackout completo y el silencio de Miraflores a pasos del Pacífico.' },
+    ]},
+    { id:'hero-2', label:'Hero · Slide 2', fields:[
+      { key:'home.hero.slide2.eyebrow', label:'Eyebrow', type:'input',    def:'Ubicación Privilegiada' },
+      { key:'home.hero.slide2.h1',      label:'Título',  type:'input',    def:'En el corazón de Miraflores, a pasos del mar.' },
+      { key:'home.hero.slide2.p',       label:'Párrafo', type:'textarea', def:'Malecón, Larcomar, Parque Kennedy y los mejores restaurantes de Lima — todo a minutos caminando desde el hotel.' },
+    ]},
+    { id:'hero-3', label:'Hero · Slide 3', fields:[
+      { key:'home.hero.slide3.eyebrow', label:'Eyebrow', type:'input',    def:'Salones & Banquetes' },
+      { key:'home.hero.slide3.h1',      label:'Título',  type:'input',    def:'Eventos memorables hasta para mil invitados en el centro de Miraflores.' },
+      { key:'home.hero.slide3.p',       label:'Párrafo', type:'textarea', def:'Salones modulares, directorios ejecutivos y catering peruano para bodas, conferencias y celebraciones.' },
+    ]},
+    { id:'hero-4', label:'Hero · Slide 4', fields:[
+      { key:'home.hero.slide4.eyebrow', label:'Eyebrow', type:'input',    def:'Restaurante Murano' },
+      { key:'home.hero.slide4.h1',      label:'Título',  type:'input',    def:'Alta cocina peruana frente a la ciudad.' },
+      { key:'home.hero.slide4.p',       label:'Párrafo', type:'textarea', def:'Del desayuno buffet al cóctel de la tarde — Murano es el alma gastronómica del hotel.' },
+    ]},
+    { id:'about', label:'Sección About', fields:[
+      { key:'home.about.h2', label:'Título',  type:'input',    def:'Un hotel de cinco estrellas en el corazón de Miraflores.' },
+      { key:'home.about.p',  label:'Párrafo', type:'textarea', def:'A 200 metros del Malecón y Larcomar, con 123 habitaciones, piscina temperada, restaurante Murano y salones para hasta 1 000 invitados.' },
+    ]},
+    { id:'feat-1', label:'Feature · Arquitectura', fields:[
+      { key:'home.feat1.eyebrow', label:'Eyebrow', type:'input',    def:'Diseño' },
+      { key:'home.feat1.h3',      label:'Título',  type:'input',    def:'Arquitectura que cuenta una historia.' },
+      { key:'home.feat1.p',       label:'Párrafo', type:'textarea', def:'Doce pisos diseñados por arquitectos peruanos, con materiales nobles y vistas que hacen del hotel una extensión de Miraflores.' },
+    ]},
+    { id:'feat-2', label:'Feature · Habitaciones', fields:[
+      { key:'home.feat2.eyebrow', label:'Eyebrow', type:'input',    def:'Confort' },
+      { key:'home.feat2.h3',      label:'Título',  type:'input',    def:'Habitaciones pensadas para descansar de verdad.' },
+      { key:'home.feat2.p',       label:'Párrafo', type:'textarea', def:'Nueve categorías. Cama king, colchón pillow-top, ropa de cama 300 hilos y blackout total.' },
+    ]},
+    { id:'feat-3', label:'Feature · Restaurante Murano', fields:[
+      { key:'home.feat3.eyebrow', label:'Eyebrow', type:'input',    def:'Gastronomía' },
+      { key:'home.feat3.h3',      label:'Título',  type:'input',    def:'Murano: sabor peruano de autor.' },
+      { key:'home.feat3.p',       label:'Párrafo', type:'textarea', def:'Desayuno buffet hasta las 11 AM. Almuerzo a la carta de lunes a domingo. Cenas privadas con menú degustación.' },
+    ]},
+    { id:'feat-4', label:'Feature · Bienestar', fields:[
+      { key:'home.feat4.eyebrow', label:'Eyebrow', type:'input',    def:'Bienestar' },
+      { key:'home.feat4.h3',      label:'Título',  type:'input',    def:'Bienestar en el piso 12.' },
+      { key:'home.feat4.p',       label:'Párrafo', type:'textarea', def:'Piscina temperada, jacuzzi, spa y gimnasio con vistas panorámicas sobre los techos de Miraflores.' },
+    ]},
+  ]},
+  { id:'habitaciones', label:'Habitaciones', page:'habitaciones.html', previewSrc:'images/Habitaciones/JUNIOR-SUITE-TWIN_11zon.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'hab.hero.h1',   label:'Título',      type:'input',    def:'Nueve categorías para descansar como en casa.' },
+      { key:'hab.hero.lead', label:'Párrafo lead', type:'textarea', def:'Desde la Standard hasta la Grand Deluxe Suite. Todas con WiFi de alta velocidad, baño en mármol travertino, caja de seguridad y la luz natural de Miraflores.' },
+    ]},
+  ]},
+  { id:'restaurante', label:'Restaurante', page:'restaurante.html', previewSrc:'images/Restaurante/14_14_11zon.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'rest.hero.h1',   label:'Título',      type:'input',    def:'Murano · Alta cocina peruana.' },
+      { key:'rest.hero.lead', label:'Párrafo lead', type:'textarea', def:'Desayuno buffet, almuerzo a la carta y cenas de autor en el corazón de Miraflores.' },
+    ]},
+  ]},
+  { id:'eventos', label:'Eventos', page:'eventos.html', previewSrc:'images/Eventos/EMPRESARIALES-I_7_11zon.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'eventos.hero.h1',   label:'Título',      type:'input',    def:'Eventos memorables en el corazón de Miraflores.' },
+      { key:'eventos.hero.lead', label:'Párrafo lead', type:'textarea', def:'Ocho salones, capacidad para 1 000 invitados y catering peruano de autor.' },
+    ]},
+  ]},
+  { id:'galeria', label:'Galería', page:'galeria.html', previewSrc:'images/Rooftop/9_9_11zon.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'gal.hero.h1',   label:'Título',      type:'input',    def:'El hotel en imágenes.' },
+      { key:'gal.hero.lead', label:'Párrafo lead', type:'textarea', def:'Habitaciones, restaurante, piscina, spa y salones.' },
+    ]},
+  ]},
+  { id:'experiencias', label:'Experiencias', page:'experiencias.html', previewSrc:'images/Exterior/fotomiraflores.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'exp.hero.eyebrow', label:'Eyebrow',      type:'input',    def:'Guía de Lima · Miraflores' },
+      { key:'exp.hero.h1',      label:'Título h1',    type:'input',    def:'Experiencias' },
+      { key:'exp.hero.lead',    label:'Párrafo lead', type:'textarea', def:'Gastronomía de talla mundial, cultura milenaria, comercio y la costa del Pacífico — todo a minutos del hotel, curado por nuestro concierge.' },
+      { key:'exp.hero.cta1',    label:'Botón 1',      type:'input',    def:'Explorar lugares' },
+      { key:'exp.hero.cta2',    label:'Botón 2',      type:'input',    def:'Consultar al concierge' },
+    ]},
+    { id:'gastro', label:'Highlight · Gastronomía Lima', fields:[
+      { key:'exp.gastro.h2a', label:'Título (primera línea)',    type:'input',    def:'Lima,' },
+      { key:'exp.gastro.h2b', label:'Título (cursiva/dorado)',   type:'input',    def:'capital gourmet.' },
+      { key:'exp.gastro.p',   label:'Párrafo',                   type:'textarea', def:'La ciudad tiene más restaurantes en el Top 50 mundial que cualquier otra capital de Latinoamérica. Todos a minutos del hotel.' },
+      { key:'exp.gastro.cta', label:'Texto del link concierge',  type:'input',    def:'Consultar al concierge' },
+    ]},
+    { id:'cultura', label:'Highlight · Cultura Lima', fields:[
+      { key:'exp.cultura.h2a', label:'Título (primera línea)',  type:'input',    def:'Lima,' },
+      { key:'exp.cultura.h2b', label:'Título (cursiva/dorado)', type:'input',    def:'historia viva.' },
+      { key:'exp.cultura.p',   label:'Párrafo',                 type:'textarea', def:'Pirámides preincas a dos minutos del hotel, museos de talla mundial y barrios bohemios donde el arte convive con 500 años de historia colonial. Haz click en cada lugar para descubrir más.' },
+    ]},
+    { id:'explorar', label:'Sección · Explorar Lima', fields:[
+      { key:'exp.expl.eyebrow',      label:'Eyebrow',           type:'input',    def:'Explorar Lima' },
+      { key:'exp.expl.h2',           label:'Título h2',         type:'input',    def:'Todo lo que puedes hacer, cerca del hotel.' },
+      { key:'exp.expl.p',            label:'Párrafo intro',     type:'textarea', def:'Gastronomía de talla mundial, cultura milenaria, comercio y la costa del Pacífico — todo a minutos caminando desde Sol de Oro.' },
+      { key:'exp.expl.tab.all',      label:'Filtro · Todos',    type:'input',    def:'Todos' },
+      { key:'exp.expl.tab.shopping', label:'Filtro · Compras',  type:'input',    def:'Compras · Ocio' },
+      { key:'exp.expl.tab.business', label:'Filtro · Empresarial', type:'input', def:'Empresarial' },
+      { key:'exp.expl.tab.coast',    label:'Filtro · Costa',    type:'input',    def:'Costa' },
+    ]},
+    { id:'lugares', label:'Lugares destacados (9 tarjetas)', fields:[
+      { key:'exp.lugar.larcomar.name', label:'Larcomar · Nombre',        type:'input',    def:'Larcomar' },
+      { key:'exp.lugar.larcomar.meta', label:'Larcomar · Distancia',     type:'input',    def:'7 min · Frente al mar' },
+      { key:'exp.lugar.larcomar.cat',  label:'Larcomar · Categoría',     type:'input',    def:'Compras' },
+      { key:'exp.lugar.larcomar.desc', label:'Larcomar · Descripción',   type:'textarea', def:'Centro comercial frente al mar con restaurantes, tiendas y entretenimiento.' },
+
+      { key:'exp.lugar.kennedy.name', label:'Parque Kennedy · Nombre',      type:'input',    def:'Parque Kennedy' },
+      { key:'exp.lugar.kennedy.meta', label:'Parque Kennedy · Distancia',   type:'input',    def:'4 min caminando' },
+      { key:'exp.lugar.kennedy.cat',  label:'Parque Kennedy · Categoría',   type:'input',    def:'Ocio' },
+      { key:'exp.lugar.kennedy.desc', label:'Parque Kennedy · Descripción', type:'textarea', def:'Corazón turístico de Miraflores rodeado de cafés, bares y comercio.' },
+
+      { key:'exp.lugar.barranco.name', label:'Barranco · Nombre',       type:'input',    def:'Barranco' },
+      { key:'exp.lugar.barranco.meta', label:'Barranco · Distancia',    type:'input',    def:'Caminando · Puente nuevo' },
+      { key:'exp.lugar.barranco.cat',  label:'Barranco · Categoría',    type:'input',    def:'Ocio' },
+      { key:'exp.lugar.barranco.desc', label:'Barranco · Descripción',  type:'textarea', def:'Barrio bohemio de Lima con arte callejero, bares y vida nocturna. Conectado a Miraflores por el nuevo puente peatonal sobre la Bajada de Armendáriz.' },
+
+      { key:'exp.lugar.huaca.name', label:'Huaca Pucllana · Nombre',       type:'input',    def:'Huaca Pucllana' },
+      { key:'exp.lugar.huaca.meta', label:'Huaca Pucllana · Distancia',    type:'input',    def:'12 min · Pirámide' },
+      { key:'exp.lugar.huaca.cat',  label:'Huaca Pucllana · Categoría',    type:'input',    def:'Cultura' },
+      { key:'exp.lugar.huaca.desc', label:'Huaca Pucllana · Descripción',  type:'textarea', def:'Centro ceremonial pre-incaico de adobe del 500 d.C. con visitas guiadas y restaurante.' },
+
+      { key:'exp.lugar.sanisidro.name', label:'C. Empresarial San Isidro · Nombre',      type:'input',    def:'Centro Empresarial San Isidro' },
+      { key:'exp.lugar.sanisidro.meta', label:'C. Empresarial San Isidro · Distancia',   type:'input',    def:'12–15 min' },
+      { key:'exp.lugar.sanisidro.cat',  label:'C. Empresarial San Isidro · Categoría',   type:'input',    def:'Empresarial' },
+      { key:'exp.lugar.sanisidro.desc', label:'C. Empresarial San Isidro · Descripción', type:'textarea', def:'Principal distrito financiero y corporativo de Lima.' },
+
+      { key:'exp.lugar.pardo.name', label:'Av. Pardo · Nombre',       type:'input',    def:'Avenida Pardo' },
+      { key:'exp.lugar.pardo.meta', label:'Av. Pardo · Distancia',    type:'input',    def:'A pocos minutos' },
+      { key:'exp.lugar.pardo.cat',  label:'Av. Pardo · Categoría',    type:'input',    def:'Empresarial' },
+      { key:'exp.lugar.pardo.desc', label:'Av. Pardo · Descripción',  type:'textarea', def:'Eje estratégico con acceso rápido a zonas comerciales y empresariales.' },
+
+      { key:'exp.lugar.malecon.name', label:'Malecón · Nombre',       type:'input',    def:'Malecón de Miraflores' },
+      { key:'exp.lugar.malecon.meta', label:'Malecón · Distancia',    type:'input',    def:'8 min caminando' },
+      { key:'exp.lugar.malecon.cat',  label:'Malecón · Categoría',    type:'input',    def:'Costa' },
+      { key:'exp.lugar.malecon.desc', label:'Malecón · Descripción',  type:'textarea', def:'Vista al océano Pacífico ideal para caminar, correr y disfrutar atardeceres.' },
+
+      { key:'exp.lugar.amor.name', label:'Parque del Amor · Nombre',       type:'input',    def:'Parque del Amor' },
+      { key:'exp.lugar.amor.meta', label:'Parque del Amor · Distancia',    type:'input',    def:'10 min · Mirador' },
+      { key:'exp.lugar.amor.cat',  label:'Parque del Amor · Categoría',    type:'input',    def:'Costa' },
+      { key:'exp.lugar.amor.desc', label:'Parque del Amor · Descripción',  type:'textarea', def:'Mirador icónico de Lima con vista panorámica al mar.' },
+
+      { key:'exp.lugar.costaverde.name', label:'Costa Verde · Nombre',       type:'input',    def:'Costa Verde' },
+      { key:'exp.lugar.costaverde.meta', label:'Costa Verde · Distancia',    type:'input',    def:'6 min · Playas' },
+      { key:'exp.lugar.costaverde.cat',  label:'Costa Verde · Categoría',    type:'input',    def:'Costa' },
+      { key:'exp.lugar.costaverde.desc', label:'Costa Verde · Descripción',  type:'textarea', def:'Carretera costera con playas, surf y vista a los acantilados de Lima.' },
+    ]},
+    { id:'itinerarios', label:'Sección · Itinerarios', fields:[
+      { key:'exp.itin.eyebrow', label:'Eyebrow', type:'input',    def:'Inspírate' },
+      { key:'exp.itin.h2',      label:'Título',  type:'input',    def:'¿Cómo podría ser tu día en Lima?' },
+      { key:'exp.itin.p',       label:'Párrafo', type:'textarea', def:'Tres recorridos de referencia para distintos perfiles y tiempos. Úsalos como punto de partida — cada viaje es diferente.' },
+    ]},
+  ]},
+  { id:'empresarial', label:'Empresarial', page:'empresarial.html', previewSrc:'images/Eventos/Empresariales-Aud-8-1_3_11zon-scaled.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'emp.hero.h1',   label:'Título',      type:'input',    def:'Soluciones para empresas.' },
+      { key:'emp.hero.lead', label:'Párrafo lead', type:'textarea', def:'Day pass, tarifas corporativas y salones para capacitaciones.' },
+    ]},
+  ]},
+  { id:'servicios', label:'Servicios', page:'servicios.html', previewSrc:'images/Spa/MG_1800_ED_11zon-scaled.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'srv.hero.h1',   label:'Título',      type:'input',    def:'Amenidades y bienestar.' },
+      { key:'srv.hero.lead', label:'Párrafo lead', type:'textarea', def:'Spa, piscina, gimnasio y business center en el corazón de Lima.' },
+    ]},
+  ]},
+  { id:'acerca', label:'Acerca', page:'acerca.html', previewSrc:'images/Exterior/the-hotel-v13828831_ED.webp', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'acerca.hero.h1',   label:'Título',      type:'input',    def:'Sol de Oro Hotel & Suites.' },
+      { key:'acerca.hero.lead', label:'Párrafo lead', type:'textarea', def:'Más de 30 años siendo el hotel de referencia en Miraflores.' },
+    ]},
+  ]},
+  { id:'ubicacion', label:'Ubicación', page:'ubicacion.html', previewSrc:'images/Exterior/fotomiraflores.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'ubic.hero.h1',   label:'Título',      type:'input',    def:'En el corazón de Miraflores.' },
+      { key:'ubic.hero.lead', label:'Párrafo lead', type:'textarea', def:'A pasos del Malecón, Larcomar y los mejores restaurantes de Lima.' },
+    ]},
+  ]},
+  { id:'ofertas', label:'Ofertas', page:'ofertas.html', previewSrc:'images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-5_11zon.jpg', groups:[
+    { id:'hero', label:'Hero de página', fields:[
+      { key:'ofer.hero.h1',   label:'Título',      type:'input',    def:'Ofertas y paquetes exclusivos.' },
+      { key:'ofer.hero.lead', label:'Párrafo lead', type:'textarea', def:'Escápate a Miraflores con tarifas especiales y experiencias únicas.' },
+    ]},
+  ]},
+];
+
+// ─── STATE ───────────────────────────────────────────────────
+let manifest     = null;
+let imageDraft   = {};
+let contentDraft = {};
+let activeSection = 'imagenes';
+let filterCat    = 'all';
+let searchQ      = '';
+let editKey      = null;
+let editTab      = 'url';
+let dbTimer      = null;
+
+// ─── UTILS ───────────────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escAttr(s) {
+  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function saveDraftImages() {
+  try { localStorage.setItem(LS_IMAGES, JSON.stringify(imageDraft)); } catch(e) { toast('Almacenamiento lleno. Exportá los cambios.','error'); }
+}
+function saveDraftContent() {
+  try { localStorage.setItem(LS_CONTENT, JSON.stringify(contentDraft)); } catch(e) { toast('Almacenamiento lleno. Exportá los cambios.','error'); }
+}
+function countModifiedImages() { return Object.keys(imageDraft).length; }
+function countModifiedTexts() {
+  return Object.keys(contentDraft).filter(k => contentDraft[k] !== undefined).length;
+}
+
+// ─── TOAST ───────────────────────────────────────────────────
+function toast(msg, type='success') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3200);
+}
+
+// ─── STATS ───────────────────────────────────────────────────
+function updateStats() {
+  const ni = countModifiedImages();
+  const nt = countModifiedTexts();
+
+  document.getElementById('statImages').innerHTML =
+    `<strong>${ni}</strong> imagen${ni!==1?'es':''} modificada${ni!==1?'s':''}`;
+  document.getElementById('statTexts').innerHTML =
+    `<strong>${nt}</strong> texto${nt!==1?'s':''} modificado${nt!==1?'s':''}`;
+
+  const bi = document.getElementById('navBadgeImages');
+  bi.textContent = ni; bi.hidden = ni === 0;
+  const bt = document.getElementById('navBadgeTexts');
+  bt.textContent = nt; bt.hidden = nt === 0;
+
+  updateExportCounts();
+}
+
+// ─── SECTION SWITCHING ────────────────────────────────────────
+function switchSection(id) {
+  activeSection = id;
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    const active = btn.dataset.section === id;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-current', active ? 'true' : 'false');
+  });
+  document.querySelectorAll('.section').forEach(sec => {
+    sec.classList.toggle('active', sec.id === 'sec-' + id);
+  });
+}
+
+// ─── CATEGORY PILLS ───────────────────────────────────────────
+function renderCatPills() {
+  const c = document.getElementById('catPills');
+  const cats = manifest.categories || [];
+  const counts = {};
+  Object.values(manifest.images).forEach(img => {
+    counts[img.category] = (counts[img.category] || 0) + 1;
+  });
+  const total = Object.keys(manifest.images).length;
+
+  let html = `<button class="cat-pill active" data-cat="all">Todas <span class="pill-count">${total}</span></button>`;
+  cats.forEach(cat => {
+    html += `<button class="cat-pill" data-cat="${cat.id}">${cat.label} <span class="pill-count">${counts[cat.id]||0}</span></button>`;
+  });
+  c.innerHTML = html;
+
+  c.querySelectorAll('.cat-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterCat = pill.dataset.cat;
+      c.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      renderImageGrid();
+    });
+  });
+}
+
+// ─── IMAGE GRID ───────────────────────────────────────────────
+function renderImageGrid() {
+  const grid = document.getElementById('imgGrid');
+  if (!manifest) return;
+
+  const entries = Object.entries(manifest.images).filter(([key, img]) => {
+    if (filterCat !== 'all' && img.category !== filterCat) return false;
+    if (searchQ) {
+      const hay = (img.label + ' ' + key + ' ' + img.src + ' ' + img.alt).toLowerCase();
+      if (!hay.includes(searchQ)) return false;
+    }
+    return true;
+  });
+
+  if (!entries.length) {
+    grid.innerHTML = `<div class="empty-state"><p>Ninguna imagen coincide con los filtros activos.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = entries.map(([key, img]) => {
+    const dr = imageDraft[key];
+    const cur = dr ? { ...img, ...dr } : img;
+    const mod = !!dr;
+    const shortSrc = cur.src.length > 44 ? '…' + cur.src.slice(-41) : cur.src;
+    const catLabel = (manifest.categories.find(c => c.id === img.category) || {}).label || img.category;
+
+    return `<div class="img-card${mod?' modified':''}" role="listitem" data-key="${key}">
+      ${mod ? '<span class="mod-badge" aria-label="Imagen modificada">MODIFICADA</span>' : ''}
+      <div class="img-card-thumb">
+        <img src="${esc(cur.src)}" alt="${escAttr(cur.alt)}" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="img-placeholder" style="display:none" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+      </div>
+      <div class="img-card-body">
+        <span class="img-card-cat">${esc(catLabel)}</span>
+        <p class="img-card-label">${esc(img.label)}</p>
+        <p class="img-card-src" title="${escAttr(cur.src)}">${esc(shortSrc)}</p>
+        <div class="img-card-actions">
+          <button class="btn btn-sm btn-outline" onclick="openModal('${key}')" aria-label="Cambiar imagen ${escAttr(img.label)}">Cambiar</button>
+          ${mod ? `<button class="btn btn-sm btn-ghost" onclick="revertImage('${key}')" aria-label="Revertir imagen ${escAttr(img.label)}">Revertir</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── MODAL ────────────────────────────────────────────────────
+function openModal(key) {
+  editKey = key;
+  const img = manifest.images[key];
+  const dr  = imageDraft[key];
+  const cur = dr ? { ...img, ...dr } : img;
+
+  document.getElementById('modalKey').textContent   = key;
+  document.getElementById('modalTitle').textContent = img.label;
+
+  const isUrl = cur.src.startsWith('http://') || cur.src.startsWith('https://');
+
+  document.getElementById('inputUrl').value      = isUrl ? cur.src : '';
+  document.getElementById('inputPath').value     = isUrl ? '' : cur.src;
+  document.getElementById('inputUrlAlt').value   = cur.alt || '';
+  document.getElementById('inputPathAlt').value  = cur.alt || '';
+  document.getElementById('inputUploadAlt').value = cur.alt || '';
+  document.getElementById('inputUploadPath').value = '';
+  document.getElementById('dropPreview').src     = '';
+  document.getElementById('dropPreview').style.display = 'none';
+  document.getElementById('dropZoneInner').style.display = '';
+  document.getElementById('uploadInfoPanel').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+
+  switchModalTab(isUrl ? 'url' : 'path');
+  if (isUrl) triggerUrlPreview();
+  else triggerPathPreview();
+
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('inputUrl').focus(), 320);
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+  editKey = null;
+}
+
+function switchModalTab(tab) {
+  editTab = tab;
+  document.querySelectorAll('.modal-tab').forEach(t => {
+    const on = t.dataset.tab === tab;
+    t.classList.toggle('active', on);
+    t.setAttribute('aria-selected', on);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'pane-' + tab);
+  });
+}
+
+function triggerUrlPreview() {
+  clearTimeout(dbTimer);
+  dbTimer = setTimeout(() => {
+    const url  = document.getElementById('inputUrl').value.trim();
+    const img  = document.getElementById('previewUrlImg');
+    const empty = document.getElementById('previewUrlEmpty');
+    if (url) {
+      img.style.display = 'block';
+      img.src = url;
+      img.onerror = () => {
+        img.style.display = 'none';
+        empty.textContent = 'No se pudo cargar la imagen. Verificá la URL.';
+        empty.style.display = '';
+      };
+      img.onload = () => { empty.style.display = 'none'; };
+    } else {
+      img.style.display = 'none';
+      empty.textContent = 'Ingresá una URL para ver la vista previa.';
+      empty.style.display = '';
+    }
+  }, 600);
+}
+
+function triggerPathPreview() {
+  clearTimeout(dbTimer);
+  dbTimer = setTimeout(() => {
+    const path  = document.getElementById('inputPath').value.trim();
+    const img   = document.getElementById('previewPathImg');
+    const empty = document.getElementById('previewPathEmpty');
+    if (path) {
+      img.style.display = 'block';
+      img.src = path;
+      img.onerror = () => {
+        img.style.display = 'none';
+        empty.textContent = 'Ruta no encontrada. Verificá que el archivo exista.';
+        empty.style.display = '';
+      };
+      img.onload = () => { empty.style.display = 'none'; };
+    } else {
+      img.style.display = 'none';
+      empty.textContent = 'Ingresá una ruta para ver la vista previa.';
+      empty.style.display = '';
+    }
+  }, 500);
+}
+
+function handleFileSelect(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('dropPreview');
+    prev.src = e.target.result;
+    prev.style.display = 'block';
+    document.getElementById('dropZoneInner').style.display = 'none';
+    document.getElementById('uploadInfoPanel').style.display = 'block';
+
+    const img = manifest.images[editKey];
+    const folder = FOLDER_MAP[img.category] || 'images';
+    document.getElementById('inputUploadPath').value = `${folder}/${file.name}`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveModal() {
+  if (!editKey) return;
+  let newSrc = '', newAlt = '';
+
+  if (editTab === 'url') {
+    newSrc = document.getElementById('inputUrl').value.trim();
+    newAlt = document.getElementById('inputUrlAlt').value.trim();
+  } else if (editTab === 'path') {
+    newSrc = document.getElementById('inputPath').value.trim();
+    newAlt = document.getElementById('inputPathAlt').value.trim();
+  } else {
+    newSrc = document.getElementById('inputUploadPath').value.trim();
+    newAlt = document.getElementById('inputUploadAlt').value.trim();
+  }
+
+  if (!newSrc) { toast('Ingresá una ruta o URL para la imagen.', 'error'); return; }
+
+  const orig = manifest.images[editKey];
+  if (newSrc === orig.src && newAlt === orig.alt) {
+    delete imageDraft[editKey];
+  } else {
+    imageDraft[editKey] = { src: newSrc, alt: newAlt };
+  }
+
+  saveDraftImages();
+  updateStats();
+  renderImageGrid();
+  closeModal();
+  toast('Imagen guardada correctamente.', 'success');
+}
+
+function revertImage(key) {
+  if (!imageDraft[key]) return;
+  delete imageDraft[key];
+  saveDraftImages();
+  updateStats();
+  renderImageGrid();
+  toast('Imagen revertida al original.', 'info');
+}
+
+// ─── CONTENT ACCORDION ────────────────────────────────────────
+function renderContentSection() {
+  const container = document.getElementById('contentAccordion');
+
+  container.innerHTML = CONTENT_SCHEMA.map(page => {
+    const modCount = page.groups.reduce((n, g) => {
+      return n + g.fields.filter(f => contentDraft[f.key] !== undefined).length;
+    }, 0);
+
+    const groups = page.groups.map(g => {
+      const fields = g.fields.map(f => {
+        const val = contentDraft[f.key] !== undefined ? contentDraft[f.key] : f.def;
+        const isMod = contentDraft[f.key] !== undefined;
+        const fid = 'cf-' + f.key.replace(/\./g,'-');
+        if (f.type === 'textarea') {
+          return `<div class="field-row${isMod?' modified':''}" data-frow="${f.key}">
+            <label class="field-label" for="${fid}">${esc(f.label)}</label>
+            <textarea class="field-input content-field" id="${fid}" rows="3"
+              data-key="${f.key}" data-def="${escAttr(f.def)}">${esc(val)}</textarea>
+          </div>`;
+        }
+        return `<div class="field-row${isMod?' modified':''}" data-frow="${f.key}">
+          <label class="field-label" for="${fid}">${esc(f.label)}</label>
+          <input type="text" class="field-input content-field" id="${fid}"
+            data-key="${f.key}" data-def="${escAttr(f.def)}" value="${escAttr(val)}" />
+        </div>`;
+      }).join('');
+      return `<div class="field-group-set">
+        <p class="field-group-label">${esc(g.label)}</p>
+        ${fields}
+      </div>`;
+    }).join('');
+
+    return `<div class="accord-item" id="ac-${page.id}">
+      <button class="accord-trigger" aria-expanded="false" data-accord="${page.id}" aria-controls="acb-${page.id}">
+        <div class="accord-trigger-inner">
+          ${page.previewSrc ? `<img class="accord-thumb" src="${escAttr(page.previewSrc)}" alt="${escAttr(page.label)}" loading="lazy" onerror="this.style.visibility='hidden'" />` : ''}
+          <div class="accord-trigger-text">
+            <span class="accord-label">${esc(page.label)}</span>
+            <span class="accord-page">${esc(page.page)}</span>
+          </div>
+        </div>
+        <div class="accord-meta">
+          ${modCount > 0 ? `<span class="accord-mod-count" id="amc-${page.id}">${modCount} cambio${modCount!==1?'s':''}</span>` : `<span class="accord-mod-count" id="amc-${page.id}" style="display:none"></span>`}
+          <svg class="accord-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+      <div class="accord-body" id="acb-${page.id}" hidden>
+        ${groups}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Accordion toggle
+  container.querySelectorAll('.accord-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id   = btn.dataset.accord;
+      const body = document.getElementById('acb-' + id);
+      const item = document.getElementById('ac-' + id);
+      const open = !body.hidden;
+      body.hidden = open;
+      btn.setAttribute('aria-expanded', !open);
+      item.classList.toggle('open', !open);
+    });
+  });
+
+  // Field change
+  container.querySelectorAll('.content-field').forEach(el => {
+    el.addEventListener('input', () => {
+      const key = el.dataset.key;
+      const def = el.dataset.def;
+      const val = el.value;
+      if (val === def) {
+        delete contentDraft[key];
+      } else {
+        contentDraft[key] = val;
+      }
+      saveDraftContent();
+
+      const row = el.closest('.field-row');
+      row.classList.toggle('modified', contentDraft[key] !== undefined);
+
+      refreshAccordionCount(key);
+      updateStats();
+    });
+  });
+}
+
+function refreshAccordionCount(changedKey) {
+  CONTENT_SCHEMA.forEach(page => {
+    const allKeys = page.groups.flatMap(g => g.fields.map(f => f.key));
+    if (!allKeys.includes(changedKey)) return;
+    const count = allKeys.filter(k => contentDraft[k] !== undefined).length;
+    const el = document.getElementById('amc-' + page.id);
+    if (!el) return;
+    if (count > 0) {
+      el.textContent = `${count} cambio${count!==1?'s':''}`;
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+}
+
+// ─── EXPORT ───────────────────────────────────────────────────
+function updateExportCounts() {
+  const ni = countModifiedImages();
+  const nt = countModifiedTexts();
+
+  const ei = document.getElementById('exportImagesCount');
+  const et = document.getElementById('exportContentCount');
+
+  ei.textContent = ni > 0 ? `${ni} imagen${ni!==1?'es':''} modificada${ni!==1?'s':''}` : 'Sin cambios';
+  ei.className = 'export-count-badge ' + (ni > 0 ? 'has-changes' : 'no-changes');
+
+  et.textContent = nt > 0 ? `${nt} texto${nt!==1?'s':''} modificado${nt!==1?'s':''}` : 'Sin cambios';
+  et.className = 'export-count-badge ' + (nt > 0 ? 'has-changes' : 'no-changes');
+}
+
+function generateImagesJSON() {
+  const out = JSON.parse(JSON.stringify(manifest));
+  Object.entries(imageDraft).forEach(([key, overrides]) => {
+    if (out.images[key]) Object.assign(out.images[key], overrides);
+  });
+  out.updatedAt = new Date().toISOString().split('T')[0];
+  return JSON.stringify(out, null, 2);
+}
+
+function generateContentJSON() {
+  return JSON.stringify({ version: '1', content: contentDraft }, null, 2);
+}
+
+function downloadFile(text, filename) {
+  const blob = new Blob([text], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportImages() {
+  if (!manifest) { toast('Datos no cargados aún.', 'error'); return; }
+  downloadFile(generateImagesJSON(), 'images.json');
+  toast('images.json descargado.', 'success');
+}
+
+function exportContent() {
+  if (!countModifiedTexts()) { toast('No hay textos modificados.', 'info'); return; }
+  downloadFile(generateContentJSON(), 'content.json');
+  toast('content.json descargado.', 'success');
+}
+
+function exportAll() {
+  if (!manifest) { toast('Datos no cargados aún.', 'error'); return; }
+  exportImages();
+  if (countModifiedTexts()) setTimeout(exportContent, 400);
+}
+
+// ─── REVERT ALL ───────────────────────────────────────────────
+function revertAll() {
+  if (!confirm('¿Revertir TODOS los cambios de imágenes y textos? Esta acción no se puede deshacer.')) return;
+  imageDraft = {}; contentDraft = {};
+  localStorage.removeItem(LS_IMAGES);
+  localStorage.removeItem(LS_CONTENT);
+  renderImageGrid();
+  renderContentSection();
+  updateStats();
+  toast('Todos los cambios fueron revertidos.', 'info');
+}
+
+// ─── INIT ────────────────────────────────────────────────────
+async function init() {
+  // Load drafts
+  try { imageDraft   = JSON.parse(localStorage.getItem(LS_IMAGES)  || '{}'); } catch(e) { imageDraft   = {}; }
+  try { contentDraft = JSON.parse(localStorage.getItem(LS_CONTENT) || '{}'); } catch(e) { contentDraft = {}; }
+
+  // Nav
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => switchSection(btn.dataset.section));
+  });
+
+  // Top bar actions
+  document.getElementById('btnExportAll').addEventListener('click', exportAll);
+  document.getElementById('btnRevertAll').addEventListener('click', revertAll);
+
+  // Image search
+  document.getElementById('imgSearch').addEventListener('input', e => {
+    searchQ = e.target.value.toLowerCase().trim();
+    renderImageGrid();
+  });
+
+  // Modal events
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCancelBtn').addEventListener('click', closeModal);
+  document.getElementById('modalSaveBtn').addEventListener('click', saveModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  });
+
+  // Modal tabs
+  document.querySelectorAll('.modal-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchModalTab(tab.dataset.tab));
+  });
+
+  // URL preview
+  document.getElementById('inputUrl').addEventListener('input', triggerUrlPreview);
+
+  // Path preview
+  document.getElementById('inputPath').addEventListener('input', triggerPathPreview);
+
+  // File upload
+  document.getElementById('btnBrowse').addEventListener('click', () => document.getElementById('fileInput').click());
+  document.getElementById('fileInput').addEventListener('change', e => {
+    if (e.target.files[0]) handleFileSelect(e.target.files[0]);
+  });
+  const dz = document.getElementById('dropZone');
+  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) handleFileSelect(e.dataTransfer.files[0]);
+  });
+
+  // Export buttons
+  document.getElementById('btnDownloadImages').addEventListener('click', exportImages);
+  document.getElementById('btnDownloadContent').addEventListener('click', exportContent);
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Render content section (no fetch needed)
+  renderContentSection();
+  updateStats();
+
+  // Load images manifest
+  try {
+    const res = await fetch('assets/images.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    manifest = await res.json();
+    renderCatPills();
+    renderImageGrid();
+  } catch (err) {
+    document.getElementById('imgGrid').innerHTML = `
+      <div class="empty-state error">
+        <p><strong>No se pudo cargar <code>assets/images.json</code>.</strong></p>
+        <p style="margin-top:8px">Abrí este archivo desde un servidor web — no directamente desde la carpeta del proyecto.</p>
+      </div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

@@ -1,0 +1,1720 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.tile.openstreetmap.org https://*.cartocdn.com https://fjzshpilzjtfjcouzzzz.supabase.co; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="robots" content="index, follow" />
+<title>Experiencias · Sol de Oro Hotel &amp; Suites</title>
+<meta name="description" content="Experiencias en Sol de Oro — guía de sugerencias curadas de los alrededores y lugares de interés en Lima. Gastronomía, cultura y lifestyle recomendados por nuestro concierge." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css?v=2" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* =====================================================================
+   SOL DE ORO CITY WALK · Editorial magazine — Traveler-style
+   ===================================================================== */
+:root{
+  --cw-cream: #ffffff;
+  --cw-cream-warm: #f8f6f2;
+  --cw-paper: #ffffff;
+  --cw-ink: #1a1612;
+  --cw-ink-soft: #4a4238;
+  --cw-ink-faint: #9a9080;
+  --cw-gold: #b38b3a;
+  --cw-gold-deep: #8a6420;
+  --cw-rule: rgba(26,22,18,.1);
+  --cw-rule-soft: rgba(26,22,18,.05);
+}
+
+body.cw-page{background:#fff; color:var(--cw-ink);}
+body.cw-page .container{max-width:1220px;}
+.cw-serif{font-family:'Cormorant Garamond', Georgia, serif;}
+
+
+/* ============ MASTHEAD (logo + ciudad info) ============ */
+.cw-masthead{
+  background:#fff;
+  border-bottom:1px solid var(--cw-rule);
+  padding:18px 0;
+}
+.cw-masthead .container{display:flex; align-items:center; gap:0;}
+.cw-masthead-img{
+  max-width:72px;
+  width:auto;
+  height:auto;
+  display:block;
+  flex-shrink:0;
+}
+.cw-city-info{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  border-left:1px solid var(--cw-rule);
+  margin-left:28px;
+  padding-left:28px;
+  flex:1;
+}
+.cw-city-stat{display:flex; flex-direction:column; gap:2px;}
+.cw-city-stat-label{
+  font-size:.52rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--cw-ink-faint); font-weight:600;
+}
+.cw-city-stat-value{
+  font-family:'Cormorant Garamond', serif;
+  font-size:1.37rem; color:var(--cw-ink); font-weight:500; line-height:1;
+}
+.cw-city-stat-value small{
+  font-family:Roboto, sans-serif;
+  font-size:.7rem; color:var(--cw-ink-faint); font-weight:400; margin-left:4px;
+}
+.cw-city-badge{
+  margin-left:auto;
+  font-size:.58rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:600;
+  border:1px solid var(--cw-gold);
+  padding:5px 12px;
+  white-space:nowrap;
+}
+@media (max-width:780px){
+  .cw-masthead{padding:14px 0;}
+  .cw-masthead-img{max-width:54px;}
+  .cw-city-info{gap:16px; margin-left:16px; padding-left:16px;}
+  .cw-city-badge{display:none;}
+  .cw-city-stat:nth-child(3){display:none;}
+}
+
+
+/* ============ VIDEO HERO ============ */
+.cw-video-hero{
+  position:relative;
+  width:100%;
+  height:68vh;
+  min-height:400px;
+  overflow:hidden;
+  background:#0a0a08;
+}
+.cw-video-hero video{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+.cw-video-hero-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(10,10,8,.40) 0%,
+    rgba(10,10,8,.30) 50%,
+    rgba(10,10,8,.45) 100%
+  );
+  z-index:1;
+}
+.cw-video-hero-content{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:52px 24px 0;
+  text-align:center;
+}
+.cw-video-hero-eyebrow{
+  font-size:.56rem;
+  letter-spacing:.5em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+  font-weight:600;
+  margin-bottom:18px;
+}
+.cw-video-hero-title{
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(3rem, 7vw, 6rem);
+  font-weight:400;
+  color:#fff;
+  line-height:1.05;
+  margin:0 0 20px;
+  font-style:italic;
+}
+.cw-video-hero-title strong{
+  font-style:normal;
+  font-weight:600;
+  color:var(--cw-gold);
+}
+.cw-video-hero-sub{
+  font-size:.84rem;
+  color:rgba(255,255,255,.65);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:40px;
+}
+.cw-video-hero-scroll{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  color:rgba(255,255,255,.4);
+  font-size:.56rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+}
+.cw-video-hero-scroll-line{
+  width:1px;
+  height:40px;
+  background:linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+  animation:cw-scroll-line 1.8s ease-in-out infinite;
+}
+@keyframes cw-scroll-line{
+  0%,100%{transform:scaleY(1); opacity:.5;}
+  50%{transform:scaleY(.6); opacity:.15;}
+}
+@media(max-width:700px){
+  .cw-video-hero{height:44vh; min-height:280px;}
+  .cw-video-hero-title{font-size:clamp(1.8rem,7vw,3rem);}
+  .cw-video-hero-content{padding-top:36px;}
+}
+
+/* ============ GUIDE INTRO (portada editorial) ============ */
+.cw-guide-intro{
+  padding:90px 0 80px;
+  background:#fff;
+  border-bottom:1px solid var(--cw-rule);
+  position:relative;
+  overflow:hidden;
+}
+/* Fondo fotográfico Lima — funde desde la izquierda */
+.cw-guide-intro::before{
+  content:'';
+  position:absolute;
+  top:0; right:0; bottom:0;
+  width:65%;
+  background-image:url('https://images.unsplash.com/photo-1531968455001-5c5272a41129?auto=format&fit=crop&w=1400&q=80');
+  background-size:cover;
+  background-position:center;
+  opacity:.13;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.6) 35%, black 70%);
+  mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.6) 35%, black 70%);
+  pointer-events:none;
+}
+/* Capa de tinte dorado muy sutil sobre la imagen */
+.cw-guide-intro::after{
+  content:'';
+  position:absolute;
+  top:0; right:0; bottom:0;
+  width:65%;
+  background:linear-gradient(135deg, transparent 40%, rgba(179,139,58,.04) 100%);
+  pointer-events:none;
+}
+.cw-guide-intro .container{position:relative; z-index:1;}
+.cw-guide-intro-inner{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:80px;
+  align-items:center;
+}
+.cw-guide-intro-eyebrow{
+  font-size:.58rem; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:600; margin:0 0 20px; display:block;
+}
+.cw-guide-intro-title{
+  font-size:clamp(2.1rem,4.2vw,3.4rem);
+  color:var(--cw-ink); font-weight:400; line-height:1.13; margin:0 0 22px;
+}
+.cw-guide-intro-title em{color:var(--cw-gold-deep); font-style:italic;}
+.cw-guide-intro-lead{
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.1rem; color:var(--cw-ink-soft); line-height:1.7; max-width:460px;
+}
+.cw-guide-stats{
+  display:flex; flex-direction:column; gap:0;
+  border-left:1px solid var(--cw-rule); padding-left:48px;
+}
+.cw-guide-stat{padding:22px 0; border-bottom:1px solid var(--cw-rule);}
+.cw-guide-stat:first-child{padding-top:0;}
+.cw-guide-stat:last-child{border-bottom:none; padding-bottom:0;}
+.cw-guide-stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.9rem; color:var(--cw-gold); line-height:1;
+  display:block; margin-bottom:5px; font-weight:500;
+}
+.cw-guide-stat-label{font-size:.76rem; color:var(--cw-ink-soft); line-height:1.4;}
+@media(max-width:900px){
+  .cw-guide-intro-inner{grid-template-columns:1fr; gap:36px;}
+  .cw-guide-stats{
+    border-left:none; padding-left:0;
+    border-top:1px solid var(--cw-rule); padding-top:28px;
+    flex-direction:row;
+  }
+  .cw-guide-stat{flex:1; border-bottom:none; border-right:1px solid var(--cw-rule); padding:0 20px;}
+  .cw-guide-stat:first-child{padding-left:0;}
+  .cw-guide-stat:last-child{border-right:none;}
+  .cw-guide-stat-num{font-size:2rem;}
+}
+
+/* ============ EXPLORE LAYOUT (sidebar + scroller) ============ */
+.cw-explore-layout{
+  display:grid;
+  grid-template-columns:210px 1fr;
+  border-top:1px solid var(--cw-rule);
+  background:#fff;
+  align-items:start;
+}
+.cw-cats-sidebar{
+  border-right:1px solid var(--cw-rule);
+  padding:60px 0;
+  align-self:stretch;
+}
+.cw-cats-sidebar-inner{
+  position:sticky;
+  top:88px;
+  padding:0 16px 0 40px;
+}
+.cw-cats-sidebar-title{
+  font-size:.53rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--cw-ink-faint); font-weight:600;
+  display:block; margin-bottom:22px;
+  padding-bottom:14px; border-bottom:1px solid var(--cw-rule);
+}
+.cw-cats-vert{display:flex; flex-direction:column; gap:2px;}
+/* Redefine .cw-cat for vertical sidebar */
+.cw-cats-vert .cw-cat{
+  flex-direction:row; align-items:center; justify-content:flex-start;
+  gap:11px; padding:10px 12px;
+  border-bottom:none;
+  border-left:2px solid transparent;
+  border-radius:0 6px 6px 0;
+  width:100%; text-align:left;
+}
+.cw-cats-vert .cw-cat:hover{color:var(--cw-ink);}
+.cw-cats-vert .cw-cat.is-active{
+  color:var(--cw-ink);
+  border-bottom-color:transparent;
+  border-left-color:var(--cw-gold);
+  background:var(--cw-cream-warm);
+}
+.cw-cats-vert .cw-cat-icon{width:28px; height:28px; flex-shrink:0;}
+.cw-cats-vert .cw-cat-icon svg{width:14px; height:14px;}
+.cw-cats-vert .cw-cat-label{
+  font-size:.57rem; letter-spacing:.22em;
+  text-transform:uppercase; font-weight:600; white-space:nowrap;
+}
+/* Scroller inside explore layout */
+.cw-explore-main{overflow:hidden;}
+.cw-explore-main .cw-scroller{padding:60px 0 80px;}
+.cw-explore-main .cw-scroller-header{padding:0 40px 24px; max-width:none;}
+.cw-explore-main .cw-scroller-track{padding:4px 40px 20px;}
+
+@media(max-width:900px){
+  .cw-explore-layout{grid-template-columns:1fr;}
+  .cw-cats-sidebar{border-right:none; border-bottom:1px solid var(--cw-rule); padding:20px 0 0;}
+  .cw-cats-sidebar-inner{position:static; padding:0 24px;}
+  .cw-cats-sidebar-title{margin-bottom:12px;}
+  .cw-cats-vert{flex-direction:row; flex-wrap:wrap; gap:4px; padding-bottom:16px;}
+  .cw-cats-vert .cw-cat{
+    border-left:none; border-bottom:2px solid transparent;
+    padding:8px 14px; border-radius:4px; width:auto; flex-direction:column; gap:6px;
+  }
+  .cw-cats-vert .cw-cat.is-active{border-bottom-color:var(--cw-gold); background:var(--cw-cream-warm);}
+  .cw-explore-main .cw-scroller-header{padding:0 24px 20px;}
+  .cw-explore-main .cw-scroller-track{padding:4px 24px 20px;}
+}
+
+/* ============ HIGHLIGHT SPLIT (gastronomía destacada) ============ */
+.cw-highlight{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  min-height:520px;
+  border-top:1px solid var(--cw-rule);
+  border-bottom:1px solid var(--cw-rule);
+  overflow:hidden;
+  background:#fff;
+}
+.cw-highlight-left{
+  padding:80px 64px;
+  display:flex; flex-direction:column; justify-content:center;
+  border-right:1px solid var(--cw-rule);
+  background:#fff;
+}
+.cw-hl-heading{
+  font-family:Roboto, sans-serif;
+  font-size:clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight:800;
+  color:var(--cw-ink);
+  line-height:1.1;
+  margin:0 0 4px;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.cw-hl-heading em{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:400;
+  color:var(--cw-gold-deep);
+  display:block;
+  font-size:1.55em;
+  text-transform:none;
+  line-height:1.15;
+}
+.cw-highlight-left p{
+  font-size:.92rem;
+  color:var(--cw-ink-soft);
+  line-height:1.65;
+  margin:20px 0 28px;
+  max-width:280px;
+}
+.cw-hl-cta{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
+  font-weight:700; color:var(--cw-ink);
+  text-decoration:none; border-bottom:1px solid var(--cw-gold);
+  padding-bottom:4px; transition:color .2s, gap .2s;
+}
+.cw-hl-cta:hover{color:var(--cw-gold-deep); gap:14px;}
+.cw-hl-cta::after{content:'→'; letter-spacing:0; font-size:1rem;}
+/* Carousel */
+.cw-highlight-carousel{position:relative; overflow:hidden; display:flex; align-items:stretch;}
+.cw-hl-track{
+  display:flex; height:100%;
+  overflow-x:auto; scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.cw-hl-track::-webkit-scrollbar{display:none;}
+.cw-hl-card{
+  min-width:290px; height:100%;
+  background-size:cover; background-position:center;
+  position:relative; display:flex; flex-direction:column;
+  justify-content:flex-end; padding:28px 24px;
+  color:#fff; flex-shrink:0;
+  scroll-snap-align:start; text-decoration:none;
+}
+.cw-hl-card::before{
+  content:''; position:absolute; inset:0;
+  background:rgba(0,0,0,0); transition:background .3s;
+}
+.cw-hl-card:hover::before{background:rgba(0,0,0,.1);}
+.cw-hl-card::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(10,7,3,.84) 0%, rgba(10,7,3,.28) 55%, transparent 100%);
+}
+.cw-hl-card-content{position:relative; z-index:2;}
+.cw-hl-card-label{
+  font-size:.58rem; letter-spacing:.32em; text-transform:uppercase;
+  color:rgba(255,255,255,.65); font-weight:600; margin-bottom:8px;
+}
+.cw-hl-card-line{width:24px; height:1px; background:rgba(255,255,255,.6); margin-bottom:10px;}
+.cw-hl-card-name{
+  font-size:1rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; line-height:1.2; margin-bottom:10px;
+  color:#fff;
+}
+.cw-hl-card-tag{
+  font-size:.65rem; color:var(--cw-gold); font-weight:600;
+  letter-spacing:.08em;
+}
+/* Arrow buttons */
+.cw-hl-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:10;
+  width:40px; height:40px; border-radius:50%;
+  background:#fff; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+  transition:background .2s, box-shadow .2s;
+}
+.cw-hl-arrow:hover{background:var(--cw-gold); box-shadow:0 4px 18px rgba(0,0,0,.25);}
+.cw-hl-arrow:hover svg{stroke:#fff;}
+.cw-hl-arrow svg{width:18px; height:18px; stroke:var(--cw-ink); fill:none; stroke-width:2.2;}
+.cw-hl-prev{left:12px;}
+.cw-hl-next{right:12px;}
+@media (max-width:900px){
+  .cw-highlight{grid-template-columns:1fr; min-height:auto;}
+  .cw-highlight-left{padding:36px 28px; border-right:none; border-bottom:1px solid var(--cw-rule);}
+  .cw-highlight-carousel{height:420px;}
+  .cw-hl-card{min-width:240px;}
+}
+
+/* ============ ACTIVITY SCROLLER ============ */
+.cw-scroller{padding:110px 0 100px; background:#fff; overflow:hidden;}
+.cw-scroller-header{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  max-width:1180px; margin:0 auto; padding:0 48px 28px;
+}
+.cw-scroller-header .eyebrow-line{margin-bottom:10px;}
+.cw-scroller-header h2{
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(1.6rem, 3vw, 2.4rem);
+  color:var(--cw-ink); margin:0; font-weight:500;
+}
+.cw-scroller-nav{display:flex; gap:8px; flex-shrink:0; padding-bottom:4px;}
+.cw-scroll-btn{
+  width:42px; height:42px; border-radius:50%;
+  border:1px solid var(--cw-rule); background:var(--cw-paper);
+  color:var(--cw-ink); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.cw-scroll-btn:hover{background:var(--cw-gold); border-color:var(--cw-gold); color:#fff;}
+.cw-scroll-btn svg{width:18px; height:18px;}
+.cw-scroller-track{
+  display:flex; gap:20px; overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:4px 48px 20px;
+  scrollbar-width:none; -ms-overflow-style:none;
+  scroll-behavior:smooth;
+}
+.cw-scroller-track::-webkit-scrollbar{display:none;}
+.cw-scroll-card{
+  min-width:280px; max-width:280px;
+  scroll-snap-align:start;
+  background:var(--cw-paper); border:1px solid var(--cw-rule);
+  flex-shrink:0; text-decoration:none; color:var(--cw-ink);
+  transition:transform .25s, box-shadow .25s; display:block; overflow:hidden;
+}
+.cw-scroll-card:hover{transform:translateY(-5px); box-shadow:0 14px 42px rgba(31,26,20,.13);}
+.cw-scroll-card-img{
+  width:100%; aspect-ratio:4/3;
+  background-size:cover; background-position:center; position:relative;
+}
+.cw-scroll-card-badge{
+  position:absolute; top:12px; left:12px;
+  background:rgba(20,15,8,.65); backdrop-filter:blur(6px);
+  color:#fff; font-size:.58rem; letter-spacing:.24em;
+  text-transform:uppercase; padding:4px 10px; font-weight:600;
+}
+.cw-scroll-card-body{padding:22px 24px 28px;}
+.cw-scroll-card-zone{
+  font-size:.6rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:600; display:block; margin-bottom:8px;
+}
+.cw-scroll-card-title{
+  font-family:'Cormorant Garamond', serif;
+  font-size:1.08rem; line-height:1.28; color:var(--cw-ink);
+  font-weight:500; margin:0 0 12px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cw-scroll-card-tag{
+  font-size:.68rem; color:var(--cw-ink-faint);
+  display:flex; align-items:center; gap:6px;
+}
+.cw-scroll-card-tag::before{content:'↗'; color:var(--cw-gold); font-size:.8rem;}
+@media (max-width:768px){
+  .cw-scroller-header{padding:0 24px 20px; flex-direction:column; align-items:flex-start; gap:14px;}
+  .cw-scroller-track{padding:4px 24px 20px;}
+  .cw-scroll-card{min-width:240px; max-width:240px;}
+}
+
+
+/* ============ ITINERARIES ============ */
+.cw-itineraries{padding:120px 0; background:#fff;}
+.cw-itin-head{text-align:center; max-width:680px; margin:0 auto 60px;}
+.cw-itin-head .eyebrow-line{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  font-size:.68rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--cw-ink-soft);
+  font-weight:500;
+  margin-bottom:14px;
+}
+.cw-itin-head .eyebrow-line::before, .cw-itin-head .eyebrow-line::after{content:''; width:28px; height:1px; background:var(--cw-gold);}
+.cw-itin-head h2{
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(2rem, 3.6vw, 2.8rem);
+  color:var(--cw-ink);
+  margin:0 0 14px;
+  line-height:1.2;
+  font-weight:500;
+}
+.cw-itin-head h2 em{font-style:italic; color:var(--cw-gold-deep);}
+.cw-itin-head p{font-family:'Cormorant Garamond', serif; font-style:italic; color:var(--cw-ink-soft); line-height:1.6; font-size:1.05rem;}
+.cw-itin-toggle{display:flex; justify-content:center; gap:10px; margin-top:26px;}
+.cw-itin-tab{
+  font-family:inherit;
+  font-size:.66rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--cw-ink-soft);
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  padding:10px 22px 8px;
+  transition:color .25s ease, border-color .25s ease;
+}
+.cw-itin-tab:hover{ color:var(--cw-ink); }
+.cw-itin-tab.active{ color:var(--cw-ink); border-color:var(--cw-gold); }
+.cw-itin-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;}
+.cw-itin{
+  background:var(--cw-paper);
+  border:1px solid var(--cw-rule);
+  padding:38px 30px;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+}
+.cw-itin:hover{transform:translateY(-4px); border-color:var(--cw-gold); box-shadow:0 18px 40px rgba(31,26,20,.08);}
+.cw-itin-num{
+  font-family:'Cormorant Garamond', serif;
+  font-size:4rem;
+  font-style:italic;
+  color:var(--cw-gold);
+  line-height:1;
+  margin-bottom:8px;
+  font-weight:500;
+}
+.cw-itin h3{
+  font-family:'Cormorant Garamond', serif;
+  font-size:1.6rem;
+  color:var(--cw-ink);
+  margin:0 0 8px;
+  font-weight:500;
+}
+.cw-itin .duration{
+  display:inline-block;
+  font-size:.62rem;
+  letter-spacing:.42em;
+  color:var(--cw-gold-deep);
+  text-transform:uppercase;
+  margin-bottom:18px;
+  padding:3px 10px;
+  border:1px solid var(--cw-gold);
+  font-weight:600;
+}
+.cw-itin > p{font-family:'Cormorant Garamond', serif; font-style:italic; color:var(--cw-ink-soft); font-size:1rem; line-height:1.5; margin:0 0 22px;}
+.cw-itin ol{padding-left:0; list-style:none; margin:0 0 26px; counter-reset:li; border-top:1px solid var(--cw-rule);}
+.cw-itin ol li{position:relative; padding:11px 0 11px 32px; font-size:.9rem; color:var(--cw-ink-soft); line-height:1.5; border-bottom:1px solid var(--cw-rule);}
+.cw-itin ol li::before{content:counter(li, decimal-leading-zero); counter-increment:li; position:absolute; left:0; top:12px; font-family:'Cormorant Garamond', serif; font-style:italic; font-size:.92rem; color:var(--cw-gold-deep); font-weight:600;}
+.cw-itin-cta{display:inline-flex; align-items:center; gap:10px; color:var(--cw-ink); text-decoration:none; font-size:.66rem; letter-spacing:.32em; text-transform:uppercase; font-weight:600; padding-bottom:5px; border-bottom:1px solid var(--cw-gold); transition:color .2s, gap .2s;}
+.cw-itin-cta:hover{color:var(--cw-gold-deep); gap:14px;}
+.cw-itin-cta::after{content:'→'; letter-spacing:0; font-size:1rem;}
+@media (max-width:900px){ .cw-itin-grid{grid-template-columns:1fr;} }
+
+/* ============ CULTURA LIMA (Belmond style) ============ */
+.cw-cultura{padding:130px 0 120px; background:#fff; border-top:1px solid var(--cw-rule);}
+.cw-cultura-head{text-align:center; margin-bottom:60px; padding:0 24px;}
+.cw-cultura-head h2{
+  font-family:Roboto, sans-serif;
+  font-size:clamp(1.8rem,3.2vw,2.8rem);
+  font-weight:800; color:var(--cw-ink);
+  letter-spacing:-.01em; text-transform:uppercase;
+  margin:0 0 20px; line-height:1.08;
+}
+.cw-cultura-head p{
+  font-size:.96rem; color:var(--cw-ink-soft);
+  max-width:680px; margin:0 auto; line-height:1.7;
+}
+/* Wrapper con flechas fuera */
+.cw-cultura-wrapper{
+  position:relative;
+  display:flex; align-items:center; gap:0;
+}
+.cw-cultura-arrow{
+  flex-shrink:0; width:44px; height:44px;
+  border-radius:50%; border:1px solid rgba(31,26,20,.2);
+  background:#fff; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s, background .2s;
+  z-index:2;
+}
+.cw-cultura-arrow:hover{border-color:var(--cw-ink); background:var(--cw-ink);}
+.cw-cultura-arrow:hover svg{stroke:#fff;}
+.cw-cultura-arrow svg{width:16px; height:16px; stroke:var(--cw-ink); fill:none; stroke-width:2; transition:stroke .2s;}
+.cw-cultura-arrow.prev{margin-right:20px;}
+.cw-cultura-arrow.next{margin-left:20px;}
+/* Track */
+.cw-cultura-track{
+  display:flex; gap:28px; flex:1;
+  overflow-x:auto; scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.cw-cultura-track::-webkit-scrollbar{display:none;}
+/* Cards (Belmond: imagen arriba, texto abajo) */
+.cw-cultura-card{
+  min-width:calc(33.33% - 19px);
+  scroll-snap-align:start; flex-shrink:0;
+  cursor:pointer; border-bottom:1px solid var(--cw-rule);
+  padding-bottom:24px;
+  transition:opacity .2s;
+}
+.cw-cultura-card:hover{opacity:.85;}
+.cw-cultura-card-img{
+  width:100%; aspect-ratio:4/3;
+  background-size:cover; background-position:center;
+  margin-bottom:18px;
+  overflow:hidden;
+  position:relative;
+}
+.cw-cultura-card-img-inner{
+  width:100%; height:100%;
+  background-size:cover; background-position:center;
+  transition:transform .5s ease;
+}
+.cw-cultura-card:hover .cw-cultura-card-img-inner{transform:scale(1.04);}
+.cw-cultura-card-zone{
+  font-size:.58rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:600; display:block; margin-bottom:8px;
+}
+.cw-cultura-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem; color:var(--cw-ink);
+  font-weight:500; margin:0 0 8px; line-height:1.25;
+}
+.cw-cultura-card-teaser{
+  font-size:.88rem; color:var(--cw-ink-faint);
+  line-height:1.5; margin:0; display:-webkit-box;
+  -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cw-cultura-card-cta{
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:12px; font-size:.62rem; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--cw-ink); font-weight:600;
+  border-bottom:1px solid var(--cw-gold); padding-bottom:2px;
+}
+/* ---- MODAL ---- */
+.cw-modal-overlay{
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(10,7,3,.65); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:24px;
+}
+.cw-modal-overlay.is-open{display:flex;}
+.cw-modal{
+  background:#fff; max-width:780px; width:100%;
+  max-height:90vh; overflow-y:auto;
+  display:grid; grid-template-columns:1fr 1fr;
+  position:relative;
+  animation:cwModalIn .35s cubic-bezier(.25,.46,.45,.94);
+}
+@keyframes cwModalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.cw-modal-close{
+  position:absolute; top:16px; right:16px; z-index:10;
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(31,26,20,.08); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem; color:var(--cw-ink); line-height:1;
+  transition:background .2s;
+}
+.cw-modal-close:hover{background:var(--cw-ink); color:#fff;}
+.cw-modal-img{
+  background-size:cover; background-position:center;
+  min-height:360px;
+}
+.cw-modal-body{padding:40px 36px; overflow-y:auto;}
+.cw-modal-zone{
+  font-size:.58rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:600; display:block; margin-bottom:14px;
+}
+.cw-modal h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem; color:var(--cw-ink);
+  font-weight:500; margin:0 0 18px; line-height:1.2;
+}
+.cw-modal-desc{font-size:.92rem; color:var(--cw-ink-soft); line-height:1.7; margin:0 0 22px;}
+.cw-modal-tips{margin-bottom:24px;}
+.cw-modal-tips-title{
+  font-size:.6rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--cw-ink); font-weight:700; margin-bottom:10px; display:block;
+}
+.cw-modal-tips ul{padding:0 0 0 16px; margin:0; color:var(--cw-ink-soft); font-size:.88rem; line-height:1.7;}
+.cw-modal-cta{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--cw-ink); color:#fff; padding:12px 22px;
+  font-size:.65rem; letter-spacing:.22em; text-transform:uppercase;
+  font-weight:600; text-decoration:none;
+  transition:background .2s;
+}
+.cw-modal-cta:hover{background:var(--cw-gold-deep);}
+@media(max-width:680px){
+  .cw-modal{grid-template-columns:1fr;}
+  .cw-modal-img{min-height:220px;}
+  .cw-cultura-card{min-width:calc(80vw);}
+  .cw-cultura-arrow{display:none;}
+}
+
+/* ============ SUGERENCIAS DE TURISMO ============ */
+.cw-tipos{padding:120px 0 110px; background:#fff; border-top:1px solid var(--cw-rule);}
+.cw-tipos-head{text-align:center; margin-bottom:52px;}
+.cw-tipos-head .eyebrow-line{display:inline-flex; align-items:center; gap:12px; font-size:.65rem; letter-spacing:.34em; text-transform:uppercase; color:var(--cw-ink-soft); font-weight:500; margin-bottom:16px;}
+.cw-tipos-head .eyebrow-line::before,.cw-tipos-head .eyebrow-line::after{content:''; width:24px; height:1px; background:var(--cw-gold);}
+.cw-tipos-head h2{font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,3.2vw,2.6rem); color:var(--cw-ink); font-weight:500; margin:0 0 14px; line-height:1.2;}
+.cw-tipos-head h2 em{font-style:italic; color:var(--cw-gold-deep);}
+.cw-tipos-head p{font-size:.92rem; color:var(--cw-ink-soft); max-width:540px; margin:0 auto; line-height:1.65;}
+.cw-tipos-grid{display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:40px;}
+.cw-tipo{
+  border:1px solid var(--cw-rule);
+  overflow:hidden;
+}
+.cw-tipo-header{
+  padding:28px 30px 24px;
+  border-bottom:1px solid var(--cw-rule);
+  position:relative;
+}
+.cw-tipo-header::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.cw-tipo--gastro .cw-tipo-header::before{background:var(--cw-gold);}
+.cw-tipo--cultural .cw-tipo-header::before{background:var(--cw-ink);}
+.cw-tipo-eyebrow{font-size:.58rem; letter-spacing:.32em; text-transform:uppercase; color:var(--cw-ink-faint); font-weight:600; display:block; margin-bottom:10px;}
+.cw-tipo h3{font-family:'Cormorant Garamond',serif; font-size:1.55rem; color:var(--cw-ink); font-weight:500; margin:0 0 8px; line-height:1.2;}
+.cw-tipo-desc{font-size:.88rem; color:var(--cw-ink-soft); line-height:1.6; margin:0;}
+.cw-tipo-days{padding:24px 30px 28px; display:flex; flex-direction:column; gap:20px;}
+.cw-tipo-day{}
+.cw-tipo-day-label{
+  font-size:.58rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--cw-gold-deep); font-weight:700; margin-bottom:10px; display:block;
+}
+.cw-tipo-day ol{
+  list-style:none; padding:0; margin:0;
+  counter-reset:step; display:flex; flex-direction:column; gap:6px;
+}
+.cw-tipo-day ol li{
+  position:relative; padding-left:28px; font-size:.88rem;
+  color:var(--cw-ink-soft); line-height:1.5;
+  counter-increment:step;
+}
+.cw-tipo-day ol li::before{
+  content:counter(step, decimal-leading-zero);
+  position:absolute; left:0; top:1px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.8rem; color:var(--cw-gold); font-weight:600;
+}
+.cw-tipos-disclaimer{
+  text-align:center; padding:20px 0 0;
+  border-top:1px solid var(--cw-rule);
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  color:var(--cw-ink-faint); font-size:.98rem; line-height:1.6;
+}
+.cw-tipos-disclaimer a{color:var(--cw-gold-deep); text-decoration:none; border-bottom:1px solid var(--cw-gold);}
+@media (max-width:780px){.cw-tipos-grid{grid-template-columns:1fr;}}
+
+/* Highlight invertido: carrusel izquierda, texto derecha */
+.cw-highlight--inv{grid-template-columns:1fr 380px;}
+.cw-highlight--inv .cw-highlight-left{border-right:none; border-left:1px solid var(--cw-rule);}
+@media(max-width:900px){.cw-highlight--inv{grid-template-columns:1fr;}}
+
+/* =====================================================================
+   PREMIUM EFFECTS
+   ===================================================================== */
+
+
+/* ---- Page load ---- */
+body.cw-page{opacity:0; transition:opacity .7s ease;}
+body.cw-page.cw-loaded{opacity:1;}
+
+/* ---- Scroll reveal ---- */
+.cw-reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .85s cubic-bezier(.25,.46,.45,.94),
+             transform .85s cubic-bezier(.25,.46,.45,.94);
+}
+.cw-reveal.cw-visible{opacity:1; transform:none;}
+.cw-reveal-d1{transition-delay:.12s;}
+.cw-reveal-d2{transition-delay:.24s;}
+.cw-reveal-d3{transition-delay:.36s;}
+.cw-reveal-d4{transition-delay:.48s;}
+
+
+
+/* ---- Gold shimmer on CTAs ---- */
+.cw-hl-cta, .cw-cultura-card-cta, .cw-modal-cta, .btn{
+  position:relative; overflow:hidden;
+}
+.cw-hl-cta::after, .cw-cultura-card-cta::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(179,139,58,.12) 50%, transparent 100%);
+  transform:translateX(-100%);
+  transition:transform .5s ease;
+}
+.cw-hl-cta:hover::after, .cw-cultura-card-cta:hover::after{transform:translateX(100%);}
+
+/* ---- Scroll cards — lift premium ---- */
+.cw-scroll-card{
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94),
+             box-shadow .35s cubic-bezier(.25,.46,.45,.94);
+}
+.cw-scroll-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 24px 60px rgba(26,22,18,.11);
+}
+
+/* ---- Cultura cards — image zoom ---- */
+.cw-cultura-card-img{overflow:hidden;}
+.cw-cultura-card-img-inner{transition:transform .7s cubic-bezier(.25,.46,.45,.94);}
+.cw-cultura-card:hover .cw-cultura-card-img-inner{transform:scale(1.06);}
+
+/* ---- Itin cards ---- */
+.cw-itin{transition:transform .35s cubic-bezier(.25,.46,.45,.94), box-shadow .35s, border-color .35s;}
+.cw-itin:hover{transform:translateY(-6px); box-shadow:0 20px 56px rgba(26,22,18,.09); border-color:var(--cw-gold);}
+
+/* ---- Gold eyebrow line draw ---- */
+@keyframes cwLineDraw{from{width:0}to{width:28px}}
+.cw-visible .eyebrow-line::before,
+.cw-visible .eyebrow-line::after{animation:cwLineDraw .6s ease forwards;}
+
+/* ---- Highlight card overlay ---- */
+.cw-hl-card::before{
+  content:''; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(to top, rgba(10,7,3,.82) 0%, rgba(10,7,3,.18) 60%, transparent 100%);
+  pointer-events:none;
+}
+.cw-hl-card-content{z-index:2;}
+</style>
+</head>
+<body class="has-page-hero">
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+
+    <ul class="nav left">
+      <li class="nav-item has-mega">
+        <a href="habitaciones.html">Habitaciones</a>
+        <div class="mega" role="menu">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <span class="eyebrow">Habitaciones</span>
+              <h3>Nueve categorías para descansar como en casa.</h3>
+              <div class="mega-stats">
+                <span><b>9</b> tipos de habitación</span>
+                <span><b>123</b> unidades</span>
+              </div>
+              <p>Desde la Standard hasta la Grand Deluxe Suite. WiFi de alta velocidad, baño en mármol y luz natural de Miraflores.</p>
+              <a href="habitaciones.html" class="btn-text">Ver todas las habitaciones</a>
+            </div>
+            <div class="mega-grid cols-4">
+              <a href="habitaciones.html#showcase" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Habitaciones/FOTOS-WEB-SOL-DE-ORO_11zon-1.jpg');"></div>
+                <small>01 · Esencial</small><h4>Standard</h4>
+                <span class="meta">25 m² · cama matrimonial</span>
+              </a>
+              <a href="habitaciones.html#showcase" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-2_11zon.jpg');"></div>
+                <small>02 · Confort</small><h4>Superior King</h4>
+                <span class="meta">27 m² · cama king</span>
+              </a>
+              <a href="habitaciones.html#showcase" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Habitaciones/JUNIOR-SUITE_11zon.jpg');"></div>
+                <small>03 · Suite</small><h4>Junior Suite</h4>
+                <span class="meta">40 m² · cama king</span>
+              </a>
+              <a href="habitaciones.html#showcase" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Habitaciones/FOTOS-WEB-SOL-DE-ORO-3_11zon-1.jpg');"></div>
+                <small>04 · Premium</small><h4>Grand Deluxe</h4>
+                <span class="meta">68 m² · vista al Pacífico</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item has-mega">
+        <a href="eventos.html">Salones</a>
+        <div class="mega" role="menu">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <span class="eyebrow">Salones &amp; Eventos</span>
+              <h3>Capacidad para hasta mil invitados.</h3>
+              <div class="mega-stats">
+                <span><b>8</b> alternativas</span>
+                <span><b>1 000</b> invitados máx.</span>
+              </div>
+              <p>Salones modulares con equipamiento audiovisual, directorios ejecutivos y catering peruano para bodas, conferencias y celebraciones.</p>
+              <a href="mailto:comercial@soldeoro.pe" class="btn-text">Solicitar cotización</a>
+            </div>
+            <div class="mega-grid cols-3">
+              <a href="eventos.html" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Eventos/SOL-DE-ORO-MESAS-REDONDAS-1.jpeg');"></div>
+                <small>Bodas &amp; Banquetes</small><h4>Salón Sol de Oro</h4>
+                <span class="meta">hasta 1 000 invitados</span>
+              </a>
+              <a href="eventos.html" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Eventos/EMPRESARIALES-I_7_11zon.jpg');"></div>
+                <small>Corporativos</small><h4>Directorios Ejecutivos</h4>
+                <span class="meta">8 a 40 personas</span>
+              </a>
+              <a href="eventos.html" class="mega-card">
+                <div class="thumb" style="background-image:url('images/Eventos/MG_2588_edi2-scaled.jpg');"></div>
+                <small>Convenciones</small><h4>Salones Modulares</h4>
+                <span class="meta">configuración flexible</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item"><a href="restaurante.html">Restaurante</a></li>
+    </ul>
+
+    <a href="index.html" class="brand" aria-label="Sol de Oro Hotel & Suites">
+      <img class="brand-logo" src="logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
+    </a>
+
+    <ul class="nav right">
+      <li class="nav-item"><a href="galeria.html">Galería</a></li>
+      <li class="nav-item"><a href="experiencias.html">Experiencias</a></li>
+      <li class="nav-item"><a href="empresarial.html">Empresarial</a></li>
+      <li class="nav-item"><span class="lang"><span class="active">ES</span> &nbsp;/&nbsp; EN</span></li>
+    </ul>
+
+    <button class="menu-toggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <ul class="mobile-nav-links">
+      <li><a href="habitaciones.html">Habitaciones</a></li>
+      <li><a href="eventos.html">Salones &amp; Eventos</a></li>
+      <li><a href="restaurante.html">Restaurante</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="experiencias.html">Experiencias</a></li>
+      <li><a href="empresarial.html">Empresarial</a></li>
+      <li><a href="acerca.html">Nosotros</a></li>
+    </ul>
+    <div class="mobile-nav-footer">
+      <span class="lang"><span class="active">ES</span> &nbsp;/&nbsp; EN</span>
+      <a href="habitaciones.html#reserve" class="btn btn-light">Reservar ahora</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="bg" style="background-image:url('images/Restaurante/24_24_11zon.jpg');"></div>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Inicio</a><span class="sep">/</span><span>Experiencias</span></nav>
+  <div class="container">
+    <span class="eyebrow">Guía de Lima · Miraflores</span>
+    <h1>Experiencias</h1>
+    <p class="lead">Gastronomía de talla mundial, cultura milenaria, comercio y la costa del Pacífico — todo a minutos del hotel, curado por nuestro concierge.</p>
+    <div class="cta-row">
+      <a href="#locScatter" class="btn btn-light">Explorar lugares</a>
+      <a href="mailto:reservas@soldeoro.pe?subject=Concierge%20Experiencias" class="btn btn-light">Consultar al concierge</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVATION BAR ============ -->
+<div class="reserve-section" id="reserve">
+  <div class="reserve-tabs" role="tablist">
+    <button class="tab active" data-mode="stay" type="button" role="tab" aria-selected="true">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 18v-6a3 3 0 013-3h12a3 3 0 013 3v6"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+        <path d="M7 9V7a2 2 0 012-2h6a2 2 0 012 2v2"/>
+      </svg>
+      Hospedaje
+    </button>
+    <button class="tab" data-mode="events" type="button" role="tab" aria-selected="false">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="17"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Salones
+    </button>
+    <button class="tab" data-mode="dining" type="button" role="tab" aria-selected="false">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 2v9a2 2 0 002 2v9"/>
+        <path d="M11 2v6a2 2 0 01-2 2"/>
+        <path d="M17 2c-1.5 1-2.5 3-2.5 6 0 1.5.5 2.5 2.5 2.5V22"/>
+      </svg>
+      Restaurante
+    </button>
+  </div>
+  <form class="reserve form-stay active" data-mode="stay">
+    <div class="field"><label>Llegada</label><input class="control" type="date" name="checkin"/></div>
+    <div class="field"><label>Salida</label><input class="control" type="date" name="checkout"/></div>
+    <div class="field"><label>Adultos</label>
+      <select class="control" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+    </div>
+    <div class="field"><label>Niños</label>
+      <select class="control" name="kids"><option selected>0</option><option>1</option><option>2</option><option>3</option></select>
+    </div>
+    <div class="field"><label>Código</label><input class="control" type="text" name="promo" placeholder="Promocional"/></div>
+    <button type="submit" class="submit">Reservar</button>
+  </form>
+  <form class="reserve form-dining" data-mode="dining">
+    <div class="field"><label>Fecha</label><input class="control" type="date" name="dining-date"/></div>
+    <div class="field"><label>Hora</label>
+      <select class="control" name="dining-time">
+        <option>12:30</option><option>13:00</option><option selected>13:30</option><option>14:00</option>
+        <option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+      </select>
+    </div>
+    <div class="field"><label>Comensales</label>
+      <select class="control" name="dining-pax"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7+</option></select>
+    </div>
+    <div class="field"><label>Ocasión</label>
+      <select class="control" name="dining-occasion">
+        <option selected>Almuerzo</option><option>Cena</option><option>Aniversario</option><option>Cumpleaños</option><option>Negocios</option>
+      </select>
+    </div>
+    <div class="field"><label>Teléfono</label><input class="control" type="tel" name="dining-tel" placeholder="+51 999 000 000"/></div>
+    <button type="submit" class="submit">Reservar mesa</button>
+  </form>
+  <form class="reserve form-events" data-mode="events">
+    <div class="field"><label>Tipo de evento</label>
+      <select class="control" name="evt-type">
+        <option>Boda</option><option>Conferencia</option><option>Reunión ejecutiva</option><option>Coctel · Cena</option><option>Convención</option>
+      </select>
+    </div>
+    <div class="field"><label>Fecha</label><input class="control" type="date" name="evt-date"/></div>
+    <div class="field"><label>Asistentes</label>
+      <select class="control" name="evt-pax"><option>10 – 50</option><option selected>50 – 150</option><option>150 – 400</option><option>400 – 1 000</option></select>
+    </div>
+    <div class="field"><label>Email</label><input class="control" type="email" name="evt-email" placeholder="tu@correo.com"/></div>
+    <div class="field"><label>Teléfono</label><input class="control" type="tel" name="evt-tel" placeholder="+51 999 000 000"/></div>
+    <button type="submit" class="submit">Cotizar</button>
+  </form>
+</div>
+
+<!-- ============ HIGHLIGHT GASTRONOMÍA ============ -->
+<section class="cw-highlight">
+  <div class="cw-highlight-left">
+    <h2 class="cw-hl-heading">Lima,<br><em>capital gourmet.</em></h2>
+    <p>La ciudad tiene más restaurantes en el Top 50 mundial que cualquier otra capital de Latinoamérica. Todos a minutos del hotel.</p>
+    <a class="cw-hl-cta" href="mailto:reservas@soldeoro.pe?subject=Reserva%20restaurante%20Lima">Consultar al concierge</a>
+  </div>
+  <div class="cw-highlight-carousel">
+    <button class="cw-hl-arrow cw-hl-prev" id="cwHlPrev" aria-label="Anterior">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="cw-hl-track" id="cwHlTrack"></div>
+    <button class="cw-hl-arrow cw-hl-next" id="cwHlNext" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ============ CULTURA LIMA ============ -->
+<section class="cw-highlight cw-highlight--inv">
+  <div class="cw-highlight-carousel">
+    <button class="cw-hl-arrow cw-hl-prev" id="cwCulturaPrev" aria-label="Anterior">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="cw-hl-track" id="cwCulturaTrack">
+      <!-- populated by Supabase fetch -->
+    </div>
+    <button class="cw-hl-arrow cw-hl-next" id="cwCulturaNext" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="cw-highlight-left">
+    <h2 class="cw-hl-heading">Lima,<br><em>historia viva.</em></h2>
+    <p>Pirámides preincas a dos minutos del hotel, museos de talla mundial y barrios bohemios donde el arte convive con 500 años de historia colonial. Haz click en cada lugar para descubrir más.</p>
+    <span class="cw-hl-cta" style="cursor:default;">Explorar los lugares</span>
+  </div>
+</section>
+
+<!-- ============ EXPLORAR LIMA (polaroid cards) ============ -->
+<section class="location" style="padding:100px 0 0; background:#fff; border-top:1px solid var(--cw-rule);">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:46px;">
+      <span class="eyebrow">Explorar Lima</span>
+      <h2>Todo lo que puedes hacer,<em> cerca del hotel.</em></h2>
+      <p>Gastronomía de talla mundial, cultura milenaria, comercio y la costa del Pacífico — todo a minutos caminando desde Sol de Oro.</p>
+    </div>
+
+    <div class="loc-tabs" role="tablist">
+      <button class="loc-tab active" data-cat="all" type="button">Todos</button>
+      <button class="loc-tab" data-cat="hotel" type="button">En el Hotel</button>
+      <button class="loc-tab" data-cat="shopping" type="button">Compras · Ocio</button>
+      <button class="loc-tab" data-cat="coast" type="button">Costa</button>
+      <button class="loc-tab" data-cat="paseos" type="button">Paseos</button>
+      <button class="loc-tab" data-cat="business" type="button">Empresarial</button>
+    </div>
+  </div>
+
+  <div class="loc-scatter-wrap">
+    <div class="loc-scatter" id="locScatter">
+
+    <article class="loc-card" data-cat="hotel">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('images/Rooftop/PISCINA-WEB.webp');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Piscina</span>Piscina temperada en la terraza del piso 12, climatizada todo el año con vista a Miraflores.</div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Piscina temperada</h4>
+          <span class="meta">En el hotel · Piso 12</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="loc-card" data-cat="hotel">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('images/Gimnasio/4_4_11zon.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Gimnasio</span>Equipamiento Technogym, peso libre y cardio con vista al Pacífico, abierto las 24 horas.</div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Gimnasio 24h</h4>
+          <span class="meta">En el hotel · Gimnasio</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="loc-card" data-cat="hotel">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('images/Spa/MG_1800_ED_11zon-scaled.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Spa</span>Rituales con tradición peruana, sauna seco, hidromasaje y cabinas de pareja. Reserva con anticipación.</div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Spa &amp; Masajes</h4>
+          <span class="meta">En el hotel · Spa</span>
+        </div>
+      </div>
+    </article>
+
+    <a class="loc-card" data-cat="shopping" href="https://www.google.com/maps/search/?api=1&query=Larcomar+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/larcomar_v2.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Compras</span>Centro comercial sobre los acantilados del Pacífico, con tiendas, entretenimiento y vistas al mar.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Larcomar</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>10 min a pie · Compras</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="shopping" href="https://www.google.com/maps/search/?api=1&query=Parque+Kennedy+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/parque_kennedy_v2.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Ocio</span>El corazón de Miraflores, rodeado de cafés, tiendas, galerías y vida urbana.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Parque Kennedy</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>8 min a pie · Centro</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="shopping" href="https://www.google.com/maps/search/?api=1&query=Avenida+Larco+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/av_larco.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Shopping</span>Una de las principales avenidas comerciales de Miraflores, conecta el hotel con Kennedy y Larcomar.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Av. Larco</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>2 min a pie · Shopping</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="shopping" href="https://www.google.com/maps/search/?api=1&query=Mercado+Indio+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/mercado_indio.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Artesanía</span>Mercado de artesanía peruana, con textiles, cerámica y souvenirs tradicionales.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Mercado Indio</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l2-6h18l2 6M5 20h22v4H5zM10 20v3M22 20v3"/><circle cx="10" cy="24" r="2"/><circle cx="22" cy="24" r="2"/></svg></span>20 min en auto · Artesanía</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://images.unsplash.com/photo-1531968455001-5c5272a41129?auto=format&fit=crop&w=900&q=80');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Costa</span>Paseo sobre los acantilados con vistas al Pacífico, ideal para caminar, correr o contemplar el mar.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Malecón de Miraflores</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>10 min a pie · Caminata</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Parque+del+Amor+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?auto=format&fit=crop&w=900&q=80');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Costa</span>Parque emblemático del malecón, conocido por su escultura, mosaicos y vistas al Pacífico.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Parque del Amor</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>20 min a pie · Atardecer</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Faro+de+la+Marina+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/faro_marina.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Mirador</span>Faro histórico frente al Pacífico, uno de los puntos más fotogénicos del malecón.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Faro de la Marina</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>20 min a pie · Mirador</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Parque+Mar%C3%ADa+Reiche+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/parque_reiche.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Costa</span>Parque costero inspirado en las Líneas de Nazca, ideal para continuar el paseo por el malecón.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Parque María Reiche</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>25 min a pie · Arte</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Costa+Verde+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://images.unsplash.com/photo-1535007813616-79dc02ba4021?auto=format&fit=crop&w=900&q=80');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Costa</span>Carretera costera con playas, surf y vista a los acantilados de Lima.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Costa Verde</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l2-6h18l2 6M5 20h22v4H5zM10 20v3M22 20v3"/><circle cx="10" cy="24" r="2"/><circle cx="22" cy="24" r="2"/></svg></span>12 min en auto · Playas</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Playa+Waikiki+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/playa_waikiki.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Surf</span>Una de las playas clásicas de Miraflores, vinculada al surf y a la Costa Verde.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Playa Waikiki</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l2-6h18l2 6M5 20h22v4H5zM10 20v3M22 20v3"/><circle cx="10" cy="24" r="2"/><circle cx="22" cy="24" r="2"/></svg></span>20 min en auto · Surf</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="coast" href="https://www.google.com/maps/search/?api=1&query=Playa+Makaha+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/playa_makaha.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Surf</span>Playa de Miraflores frecuentada por surfistas, un buen punto para vivir la Costa Verde.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Playa Makaha</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l2-6h18l2 6M5 20h22v4H5zM10 20v3M22 20v3"/><circle cx="10" cy="24" r="2"/><circle cx="22" cy="24" r="2"/></svg></span>20 min en auto · Surf</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="paseos" href="https://www.google.com/maps/search/?api=1&query=Barranco+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/barranco_v2.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Paseo</span>Distrito bohemio de Lima, conocido por su arte urbano, galerías y vida cultural.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Barranco</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>12 min a pie · Paseo</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="paseos" href="https://www.google.com/maps/search/?api=1&query=Puente+de+los+Suspiros+Barranco+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/puente_suspiros.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Barranco</span>Uno de los lugares más emblemáticos de Barranco, punto clásico para recorrer el distrito.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Puente de los Suspiros</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>20 min a pie · Mirador</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="business" href="https://www.google.com/maps/search/?api=1&query=Centro+Empresarial+Miraflores+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/centro_empresarial_v2.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Negocios</span>Zona de oficinas, reuniones y servicios corporativos en el entorno empresarial de Miraflores.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Centro Empresarial Miraflores</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="6" r="2.6"/><path d="M16 9v6l-5 3M16 15l5 2M13 18l-2 8M19 16l2 9"/></svg></span>12 min a pie · Negocios</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="loc-card" data-cat="business" href="https://www.google.com/maps/search/?api=1&query=Centro+Financiero+San+Isidro+Lima" target="_blank" rel="noopener">
+      <div class="loc-card-frame">
+        <div class="loc-card-photo" style="background-image:url('https://fjzshpilzjtfjcouzzzz.supabase.co/storage/v1/object/public/experiences/explore/centro_financiero.jpg');">
+          <span class="loc-card-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12.5A7 7 0 0 0 5 8.5C5 13.8 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.3"/></svg></span>
+          <div class="loc-card-desc"><span class="loc-card-cat">Finanzas</span>Principal zona corporativa y financiera de Lima, con oficinas, bancos y servicios profesionales.<span class="loc-card-mapcta">Ver en Google Maps →</span></div>
+        </div>
+        <div class="loc-card-caption">
+          <h4>Centro Financiero San Isidro</h4>
+          <span class="meta"><span class="mode-badge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l2-6h18l2 6M5 20h22v4H5zM10 20v3M22 20v3"/><circle cx="10" cy="24" r="2"/><circle cx="22" cy="24" r="2"/></svg></span>35 min en auto · Finanzas</span>
+        </div>
+      </div>
+    </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ITINERARIES ============ -->
+<section class="cw-itineraries">
+  <div class="container">
+    <div class="cw-itin-head">
+      <span class="eyebrow-line">Inspírate</span>
+      <h2 class="cw-serif">¿Cómo podría ser <em>tu día en Lima?</em></h2>
+      <p>Elige tu perfil de viaje y descubre tres recorridos posibles. Úsalos como punto de partida — cada viaje es diferente.</p>
+      <div class="cw-itin-toggle" role="tablist">
+        <button class="cw-itin-tab active" data-mode="modern" type="button">Ocio</button>
+        <button class="cw-itin-tab" data-mode="business" type="button">Negocios</button>
+      </div>
+    </div>
+    <div class="cw-itin-grid" id="cwItinGrid"></div>
+  </div>
+</section>
+
+<!-- ============ MODAL CULTURA ============ -->
+<div class="cw-modal-overlay" id="cwModal" role="dialog" aria-modal="true">
+  <div class="cw-modal" id="cwModalInner">
+    <button class="cw-modal-close" id="cwModalClose" aria-label="Cerrar">✕</button>
+    <div class="cw-modal-img" id="cwModalImg"></div>
+    <div class="cw-modal-body">
+      <span class="cw-modal-zone" id="cwModalZone"></span>
+      <h2 id="cwModalTitle"></h2>
+      <p class="cw-modal-desc" id="cwModalDesc"></p>
+      <div class="cw-modal-tips" id="cwModalTips"></div>
+      <a class="cw-modal-cta" id="cwModalMap" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-brand-logo" src="logotipo.png" alt="Sol de Oro" />
+        <p>Hotel cinco estrellas en el corazón turístico y financiero de Miraflores. Una experiencia auténticamente peruana con servicio internacional.</p>
+        <div class="stars">★★★★★</div>
+        <div class="brand-social">
+          <a href="https://www.facebook.com/SoldeOroHotelSuites" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h2.4V6.2c0-.5.5-3.2 3.7-3.2h2.4v2.9h-1.7c-.3 0-.7.2-.7.8V8h2.5l-.3 2.8h-2.2V21h-3.6v-10H9V8z"/></svg></a>
+          <a href="https://www.instagram.com/soldeorohotelsuites/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Hotel</h5>
+        <ul>
+          <li><a href="acerca.html">El hotel</a></li>
+          <li><a href="habitaciones.html">Habitaciones</a></li>
+          <li><a href="restaurante.html">Restaurante Murano</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="eventos.html">Salones</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="ubicacion.html">Ubicación</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Estancia</h5>
+        <ul>
+          <li><a href="ofertas.html">Ofertas</a></li>
+
+          <li><a href="faq.html">Preguntas frecuentes</a></li>
+          <li><a href="terminos.html#cancelacion">Política de cancelación</a></li>
+          <li><a href="terminos.html">Términos y condiciones</a></li>
+          <li><a href="privacidad.html">Política de privacidad</a></li>
+          <li><a href="#">Libro de reclamaciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <address>
+          Ca. San Martín 305<br/>
+          Miraflores · Lima · Perú<br/><br/>
+          Recepción · <span class="accent">+51 (1) 610-7000</span><br/>
+          Reservas · <span class="accent">+51 988 861 380</span><br/><br/>
+          <a href="mailto:reservas@soldeoro.pe">reservas@soldeoro.pe</a><br/>
+          <a href="mailto:comercial@soldeoro.pe">comercial@soldeoro.pe</a>
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Sol de Oro Hotel &amp; Suites</span>
+      <div class="social" aria-label="Redes sociales">
+        <a href="https://www.facebook.com/SoldeOroHotelSuites" target="_blank" rel="noopener" aria-label="Facebook"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h2.4V6.2c0-.5.5-3.2 3.7-3.2h2.4v2.9h-1.7c-.3 0-.7.2-.7.8V8h2.5l-.3 2.8h-2.2V21h-3.6v-10H9V8z"/></svg></a>
+        <a href="https://www.instagram.com/soldeorohotelsuites/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="https://wa.link/dc0dft" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 3.7 17.3L2 22l4.8-1.6A11 11 0 1 0 20.5 3.5zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-2.9 1 1-2.8-.2-.3A8 8 0 1 1 12 20z"/></svg></a>
+        <a href="mailto:reservas@soldeoro.pe" aria-label="Email"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/scripts.js" defer></script>
+
+<script>
+const _supa = supabase.createClient(
+  'https://fjzshpilzjtfjcouzzzz.supabase.co',
+  'sb_publishable_gtCG2nBVE9ujjm6c28rlAw_g55hDYCY'
+);
+
+(function(){
+  'use strict';
+
+  let MODAL_DATA = {};
+  const U = (id, w=900) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+  const HOTEL = {
+    rest: 'images/Restaurante/24_24_11zon.jpg',
+    plate: 'images/Restaurante/FOTOS-WEB-SOL-DE-ORO-9_11_11zon.jpg',
+    bar: 'images/Restaurante/13_13_11zon.jpg',
+    lobby: 'images/Lobby/5_5_11zon.jpg',
+    spa: 'images/Spa/MG_1800_ED_11zon-scaled.jpg',
+    pool: 'images/Rooftop/PISCINA-WEB.webp',
+    rooftop: 'images/Rooftop/9_9_11zon.jpg',
+    miraflores: 'images/Exterior/fotomiraflores.jpg',
+    eventos: 'images/Eventos/IMG_2212_ED_9_11zon-scaled.jpg'
+  };
+
+  const ITINERARIES = {
+    modern: [
+      { num:'01', title:'24 horas en Lima', duration:'1 día', desc:'Una primera vez perfecta en Lima — del desayuno buffet al cóctel de regreso en el hotel.',
+        steps:['07:30 Desayuno buffet en Murano', '09:00 Sesión de spa o piscina temperada', '10:30 Power walk por el Malecón', '12:30 City tour Centro Histórico', '14:30 Lunch en Maido o La Mar', '16:30 Tarde en Larcomar', '18:30 Atardecer en Parque del Amor', '19:30 Cóctel en Bar Murano', '21:00 Cena en Huaca Pucllana'] },
+      { num:'02', title:'Lima Gourmet weekend', duration:'2–3 días', desc:'Para foodies — reservas asistidas por el concierge en los Top 50 mundiales.',
+        steps:['Día 1: Desayuno en Murano → La Mar (lunch) → Maido (dinner)','Día 2: Spa matutino → Tanta (brunch) → MATE Barranco → Cóctel en Bar Murano','Día 3: Piscina + brunch → Central (lunch) → Larcomar'] },
+      { num:'03', title:'Lima cultural', duration:'2 días', desc:'Arte, arqueología y arquitectura colonial — con el hotel como base entre cada parada.',
+        steps:['Día 1: Desayuno en Murano → Museo Larco → Centro Histórico de Lima (Plaza Mayor, Catedral, San Francisco) → Piscina o spa al regreso → Cóctel en Bar Murano','Día 2: Huaca Pucllana, a 10 min del hotel → Museo Pedro de Osma + MATE en Barranco → Cena en Huaca Pucllana iluminada → Nightcap en Bar Murano'] }
+    ],
+    business: [
+      { num:'01', title:'24h Power Trip', duration:'1 día', desc:'Llegas en la mañana, vuelas al día siguiente. Lo esencial sin perder tiempo.',
+        steps:['07:00 Desayuno ejecutivo en Murano','09:00 Reunión en hotel (Day Pass o sala)','12:30 Power lunch en Astrid & Gastón','15:00 Coworking en lobby','18:30 Cóctel en Bar Murano (after office)','20:00 Cena en Tanta','22:00 Sleep'] },
+      { num:'02', title:'Bleisure 3 nights', duration:'3 días', desc:'Mitad trabajo, mitad descubrir Lima. Con tiempo para disfrutar el hotel.',
+        steps:['Día 1: Check-in + desayuno en Murano → reuniones → Bar Murano al cierre','Día 2: Workday + sesión de spa + cena en Maido','Día 3: Piscina matutina → Tour Barranco + MATE → Cóctel rooftop','Domingo: Desayuno tardío en Murano + Larcomar'] },
+      { num:'03', title:'Executive Wellness', duration:'2 días', desc:'Para resetear entre viajes intensos. El hotel como destino en sí mismo.',
+        steps:['Llegada: check-in + masaje express 60 min en Spa','07:00 Desayuno buffet en Murano','Power walk Malecón (09:00)','Almuerzo en Murano','Tarde: sauna + piscina temperada','19:00 Cóctel en Bar Murano','Cena ligera + 22:00 sleep'] }
+    ]
+  };
+
+  /* ---- HIGHLIGHT GASTRONOMÍA (Supabase) ---- */
+  (async function(){
+    const track = document.getElementById('cwHlTrack');
+    const { data: rows } = await _supa
+      .from('le_restaurants')
+      .select('name,label,tag,photo_url,maps_url')
+      .eq('active', true)
+      .order('sort_order');
+    const picks = rows || [];
+    track.innerHTML = picks.map(p => `
+      <a class="cw-hl-card" href="${p.maps_url}" target="_blank" rel="noopener" style="background-image:url('${p.photo_url}');">
+        <div class="cw-hl-card-content">
+          <div class="cw-hl-card-label">${p.label}</div>
+          <div class="cw-hl-card-line"></div>
+          <div class="cw-hl-card-name">${p.name}</div>
+          <div class="cw-hl-card-tag">${p.tag}</div>
+        </div>
+      </a>
+    `).join('');
+    document.getElementById('cwHlPrev').onclick = () => track.scrollBy({left:-580, behavior:'smooth'});
+    document.getElementById('cwHlNext').onclick = () => track.scrollBy({left:580, behavior:'smooth'});
+
+    let gastPaused = false;
+    track.addEventListener('mouseenter', () => gastPaused = true);
+    track.addEventListener('mouseleave', () => gastPaused = false);
+    setInterval(() => {
+      if (gastPaused) return;
+      const max = track.scrollWidth - track.clientWidth;
+      track.scrollLeft >= max - 4
+        ? track.scrollTo({left: 0, behavior: 'smooth'})
+        : track.scrollBy({left: 290, behavior: 'smooth'});
+    }, 3400);
+  })();
+
+  function renderItineraries(mode){
+    const grid = document.getElementById('cwItinGrid');
+    const its = ITINERARIES[mode];
+    grid.innerHTML = its.map(i => `
+      <article class="cw-itin">
+        <div class="cw-itin-num">${i.num}</div>
+        <h3>${i.title}</h3>
+        <span class="duration">${i.duration}</span>
+        <p>${i.desc}</p>
+        <ol>${i.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+      </article>
+    `).join('');
+  }
+
+  renderItineraries('modern');
+
+  document.querySelectorAll('.cw-itin-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cw-itin-tab').forEach(t => t.classList.toggle('active', t === tab));
+      renderItineraries(tab.dataset.mode);
+    });
+  });
+
+  /* ---- CARRUSEL CULTURA + MODAL (Supabase) ---- */
+  const overlay   = document.getElementById('cwModal');
+  const modalImg  = document.getElementById('cwModalImg');
+  const modalZone = document.getElementById('cwModalZone');
+  const modalTitle= document.getElementById('cwModalTitle');
+  const modalDesc = document.getElementById('cwModalDesc');
+  const modalTips = document.getElementById('cwModalTips');
+  const modalMap  = document.getElementById('cwModalMap');
+
+  function openModal(key){
+    const d = MODAL_DATA[key]; if(!d) return;
+    modalImg.style.backgroundImage = `url('${d.img}')`;
+    modalZone.textContent  = d.zone;
+    modalTitle.textContent = d.title;
+    modalDesc.textContent  = d.desc;
+    modalTips.innerHTML = `<span class="cw-modal-tips-title">Tips del concierge</span><ul>${d.tips.map(t=>`<li>${t}</li>`).join('')}</ul>`;
+    modalMap.href = d.map;
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('cwModalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+  (async function(){
+    const cultTrack = document.getElementById('cwCulturaTrack');
+    if(!cultTrack) return;
+
+    const { data: rows } = await _supa
+      .from('le_cultural')
+      .select('slug,name,zone,teaser,description,tips,photo_url,maps_url')
+      .eq('active', true)
+      .order('sort_order');
+
+    const places = rows || [];
+
+    // Build MODAL_DATA
+    places.forEach(r => {
+      const tips = Array.isArray(r.tips) ? r.tips : (typeof r.tips === 'string' ? JSON.parse(r.tips) : []);
+      MODAL_DATA[r.slug] = {
+        zone:  r.zone,
+        title: r.name,
+        img:   r.photo_url,
+        desc:  r.description,
+        tips:  tips,
+        map:   r.maps_url
+      };
+    });
+
+    // Render cards
+    cultTrack.innerHTML = places.map(r => `
+      <a class="cw-hl-card" data-key="${r.slug}" href="#" style="background-image:url('${r.photo_url}');">
+        <div class="cw-hl-card-content">
+          <div class="cw-hl-card-label">${r.zone}</div>
+          <div class="cw-hl-card-line"></div>
+          <div class="cw-hl-card-name">${r.name}</div>
+          <div class="cw-hl-card-tag">${r.teaser ? r.teaser.split('.')[0] : ''}</div>
+        </div>
+      </a>
+    `).join('');
+
+    // Bind modal clicks on dynamically created cards
+    cultTrack.querySelectorAll('.cw-hl-card').forEach(card => {
+      card.addEventListener('click', e => { e.preventDefault(); openModal(card.dataset.key); });
+    });
+
+    // Arrow buttons
+    document.getElementById('cwCulturaPrev').onclick = e => { e.preventDefault(); cultTrack.scrollBy({left:-580, behavior:'smooth'}); };
+    document.getElementById('cwCulturaNext').onclick = e => { e.preventDefault(); cultTrack.scrollBy({left:580, behavior:'smooth'}); };
+
+    // Auto-scroll
+    let cultPaused = false;
+    cultTrack.addEventListener('mouseenter', () => cultPaused = true);
+    cultTrack.addEventListener('mouseleave', () => cultPaused = false);
+    setInterval(() => {
+      if (cultPaused) return;
+      const max = cultTrack.scrollWidth - cultTrack.clientWidth;
+      cultTrack.scrollLeft >= max - 4
+        ? cultTrack.scrollTo({left: 0, behavior: 'smooth'})
+        : cultTrack.scrollBy({left: 290, behavior: 'smooth'});
+    }, 4100);
+  })();
+
+})();
+</script>
+
+
+
+<script>
+/* =====================================================================
+   PREMIUM EFFECTS — cursor · reveal · parallax · masthead
+   ===================================================================== */
+(function(){
+
+  /* ---- Page load ---- */
+  window.addEventListener('load', () => document.body.classList.add('cw-loaded'));
+
+
+  /* ---- Scroll reveal (IntersectionObserver) ---- */
+  const REVEAL_SELECTORS = [
+    '.cw-cultura-head',
+    '.cw-cultura-card',
+    '.cw-scroller-header',
+    '.cw-scroll-card',
+    '.cw-highlight-left',
+    '.cw-exp-intro .container',
+    '.cw-itin',
+    '.cw-itin-head',
+    '.cw-concierge-inner',
+    '.cw-tipos-head',
+    '.cw-tipo',
+  ].join(',');
+
+  document.querySelectorAll(REVEAL_SELECTORS).forEach((el, i) => {
+    el.classList.add('cw-reveal');
+    // delay escalonado por grupos de 3
+    const d = i % 4;
+    if(d===1) el.classList.add('cw-reveal-d1');
+    else if(d===2) el.classList.add('cw-reveal-d2');
+    else if(d===3) el.classList.add('cw-reveal-d3');
+  });
+
+  // También los encabezados de sección principales
+  document.querySelectorAll(
+    '.cw-hl-heading, .cw-exp-intro-title, .cw-tipos-head h2, .cw-cultura-head h2'
+  ).forEach(el => el.classList.add('cw-reveal'));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('cw-visible');
+        // Activar también el parent si tiene eyebrow-line para el draw
+        const parent = e.target.closest('.cw-itin-head, .cw-tipos-head, .cw-exp-intro, .cw-concierge-inner');
+        if(parent) parent.classList.add('cw-visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin:'0px 0px -40px 0px' });
+
+  document.querySelectorAll('.cw-reveal').forEach(el => observer.observe(el));
+
+
+
+})();
+</script>
+</body>
+</html>

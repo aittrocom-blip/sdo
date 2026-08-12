@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Excluir paths administrativos y archivos internos del crawl
+Disallow: /editor-imagenes.html
+Disallow: /extraccion-web/
+Disallow: /REPORTE_WEB.html
+Disallow: /assets/_grade-images.py
+Disallow: /assets/_grade_images.py
+Disallow: /*.ps1$
+Disallow: /*.py$
+Disallow: /*.md$
+
+# Sitemap (actualizar URL en producción)
+# Sitemap: https://www.soldeoro.com.pe/sitemap.xml

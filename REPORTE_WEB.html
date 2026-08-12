@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reporte de avance · Nueva Web Sol de Oro · Aittro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --black:#171717;
+    --ink:#262626;
+    --gray:#6F6B65;
+    --muted:#9E9A93;
+    --sand:#C8B89C;
+    --sand-deep:#9C8A6F;
+    --cream:#F8F6F2;
+    --soft:#F2F0EB;
+    --line:#E6E2DA;
+    --line-soft:#EFEBE2;
+    --white:#FFFFFF;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Roboto',system-ui,sans-serif;
+    font-weight:300;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .doc{
+    max-width:880px;
+    margin:0 auto;
+    background:var(--white);
+    box-shadow:0 30px 80px -40px rgba(20,15,5,.20);
+    padding:80px 80px 70px;
+  }
+
+  /* ------ Cover ------ */
+  .cover{
+    text-align:center;
+    padding-bottom:50px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:50px;
+  }
+  .cover .logo{
+    height:50px; width:auto;
+    margin-bottom:34px;
+    display:inline-block;
+  }
+  .cover .eyebrow{
+    display:inline-block;
+    font-size:.6rem;
+    font-weight:500;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--sand-deep);
+    margin-bottom:18px;
+  }
+  .cover h1{
+    font-weight:300;
+    font-size:clamp(1.8rem, 3vw, 2.6rem);
+    letter-spacing:-.005em; line-height:1.2;
+    color:var(--black);
+    margin-bottom:30px;
+    max-width:640px;
+    margin-left:auto; margin-right:auto;
+  }
+  .meta-block{
+    display:inline-grid;
+    grid-template-columns:auto auto;
+    gap:6px 28px;
+    margin:0 auto;
+    text-align:left;
+    padding:24px 32px;
+    background:var(--soft);
+    font-size:.86rem;
+  }
+  .meta-block dt{
+    font-size:.55rem; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--sand-deep);
+    font-weight:500;
+    align-self:center;
+  }
+  .meta-block dd{
+    color:var(--ink);
+    font-weight:400;
+    align-self:center;
+  }
+
+  /* ------ Headings ------ */
+  h2{
+    font-weight:400;
+    font-size:1.4rem;
+    letter-spacing:-.005em;
+    line-height:1.3;
+    color:var(--black);
+    margin:60px 0 22px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  h2::before{
+    content:"";
+    position:absolute;
+    bottom:-1px; left:0;
+    width:54px; height:2px;
+    background:var(--sand-deep);
+  }
+  h3{
+    font-weight:500;
+    font-size:.78rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:34px 0 16px;
+  }
+
+  /* ------ Body text ------ */
+  p{
+    color:var(--ink);
+    font-size:.94rem;
+    margin-bottom:14px;
+  }
+  p strong, li strong{
+    color:var(--black);
+    font-weight:500;
+  }
+  ul, ol{
+    padding-left:0;
+    margin:6px 0 18px;
+  }
+  ul li, ol li{
+    list-style:none;
+    position:relative;
+    padding-left:22px;
+    margin-bottom:8px;
+    font-size:.92rem;
+    color:var(--ink);
+  }
+  ul li::before{
+    content:"";
+    position:absolute;
+    left:0; top:.7em;
+    width:10px; height:1px;
+    background:var(--sand-deep);
+  }
+  ol{ counter-reset:item; }
+  ol li{
+    padding-left:34px;
+    counter-increment:item;
+  }
+  ol li::before{
+    content:counter(item, decimal-leading-zero);
+    position:absolute;
+    left:0; top:0;
+    font-size:.66rem; letter-spacing:.18em;
+    font-weight:500;
+    color:var(--sand-deep);
+    line-height:1.7;
+  }
+
+  /* ------ Tables ------ */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0 26px;
+    font-size:.86rem;
+    background:var(--white);
+    border:1px solid var(--line);
+  }
+  thead th{
+    text-align:left;
+    background:var(--cream);
+    color:var(--sand-deep);
+    font-size:.55rem; letter-spacing:.32em;
+    text-transform:uppercase; font-weight:500;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    color:var(--ink);
+  }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--soft); }
+  tbody td:first-child{ font-weight:500; color:var(--ink); }
+  tbody td code{
+    background:var(--soft);
+    padding:2px 6px;
+    font-size:.78rem;
+    color:var(--sand-deep);
+    border-radius:2px;
+  }
+
+  /* ------ Code inline ------ */
+  code{
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:.85em;
+    background:var(--soft);
+    padding:2px 6px;
+    color:var(--sand-deep);
+    border-radius:2px;
+  }
+
+  /* ------ Callouts ------ */
+  .callout{
+    background:var(--soft);
+    border-left:3px solid var(--sand-deep);
+    padding:22px 26px;
+    margin:24px 0;
+    font-size:.92rem;
+  }
+  .callout strong{ color:var(--black); }
+
+  /* ------ Section block (numbered card) ------ */
+  .section{ margin-bottom:14px; }
+
+  hr{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:50px 0;
+  }
+
+  /* ------ Footer / cierre ------ */
+  .doc-footer{
+    margin-top:70px;
+    padding-top:50px;
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .doc-footer .logo{
+    height:40px; width:auto;
+    margin-bottom:14px;
+    opacity:.85;
+  }
+  .doc-footer p{
+    color:var(--gray);
+    font-size:.78rem;
+    font-style:italic;
+  }
+  .doc-footer p strong{ color:var(--ink); font-style:normal; }
+
+  /* ------ Pull quote / sub-eyebrow ------ */
+  .pull{
+    display:inline-block;
+    font-size:.55rem; letter-spacing:.32em;
+    text-transform:uppercase; font-weight:500;
+    color:var(--sand-deep);
+    margin-bottom:8px;
+  }
+
+  /* ------ Stat list ------ */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    border:1px solid var(--line);
+    margin:24px 0 30px;
+  }
+  .stat{
+    padding:24px 18px;
+    text-align:center;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{ border-right:none; }
+  .stat strong{
+    display:block;
+    font-weight:300;
+    font-size:1.6rem;
+    color:var(--black);
+    margin-bottom:6px;
+  }
+  .stat span{
+    font-size:.55rem; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--sand-deep);
+    font-weight:500;
+  }
+
+  /* ------ Responsive ------ */
+  @media (max-width:760px){
+    .doc{ padding:50px 28px 40px; }
+    .cover h1{ font-size:1.5rem; }
+    .meta-block{ grid-template-columns:1fr; gap:4px 0; }
+    .meta-block dt{ margin-top:8px; }
+    table, thead, tbody, th, td, tr{ display:block; }
+    thead{ display:none; }
+    tbody td{
+      padding:8px 12px;
+      border-bottom:none;
+    }
+    tbody tr{
+      border-bottom:1px solid var(--line);
+      padding:14px 0;
+    }
+    tbody td::before{
+      content:attr(data-label);
+      display:block;
+      font-size:.5rem; letter-spacing:.32em;
+      text-transform:uppercase; color:var(--sand-deep);
+      font-weight:500;
+      margin-bottom:4px;
+    }
+  }
+
+  /* ------ Print (PDF export) ------ */
+  @media print{
+    body{ background:var(--white); }
+    .doc{
+      box-shadow:none;
+      max-width:none;
+      padding:30px 40px;
+    }
+    h2{ break-after:avoid; }
+    table, ul, ol, .stats, .callout{ break-inside:avoid; }
+    .cover{ page-break-after:always; padding-top:80px; }
+    .doc-footer{ page-break-before:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<article class="doc">
+
+  <!-- ============ COVER ============ -->
+  <header class="cover">
+    <img class="logo" src="aittro-logo.png" alt="Aittro" />
+    <span class="eyebrow">Reporte de avance</span>
+    <h1>Nueva Web Sol de Oro Hotel &amp; Suites</h1>
+    <dl class="meta-block">
+      <dt>Para</dt>
+      <dd>Gerencia General · Sol de Oro Hotel &amp; Suites</dd>
+      <dt>De</dt>
+      <dd>Aittro · Equipo de Proyecto Web</dd>
+      <dt>Fecha</dt>
+      <dd>Mayo 2026</dd>
+      <dt>Asunto</dt>
+      <dd>Refocus estratégico, captura unificada de requerimientos vía Zoho y avances de implementación.</dd>
+    </dl>
+  </header>
+
+  <!-- ============ 1. RESUMEN ============ -->
+  <section class="section">
+    <h2>1. Resumen ejecutivo</h2>
+    <p>Estamos rediseñando <strong>soldeoro.com.pe</strong> con un objetivo comercial claro: <strong>convertir más cotizaciones de eventos</strong> (línea de mayor margen y volumen), sosteniendo en paralelo la captura directa de hospedaje y la visibilidad del Restaurante Murano. La nueva web está pensada también como un canal centralizado de <strong>captura de requerimientos de clientes</strong> desde la página y desde redes sociales, todos consolidados en Zoho para el equipo comercial.</p>
+    <p><strong>Tres ejes del rediseño:</strong></p>
+    <ol>
+      <li><strong>Eventos &amp; Salones como protagonista comercial</strong> — flujo completo desde el primer click hasta el lead capturado en Zoho.</li>
+      <li><strong>Hospedaje y Restaurante como complementarios</strong> — diseñados para sostener marca, autoridad y experiencia premium, integrados con el motor iHotelier y reservas Murano.</li>
+      <li><strong>UX consistente, premium y medible</strong> — sistema de diseño editorial unificado, navbar adaptativa, barra de reserva siempre visible, contenido organizado en páginas dedicadas con narrativa propia.</li>
+    </ol>
+  </section>
+
+  <!-- ============ 2. DIAGNÓSTICO ============ -->
+  <section class="section">
+    <h2>2. Diagnóstico de la web actual</h2>
+    <p class="pull">Auditoría de soldeoro.com.pe</p>
+    <p>Luego de auditar las 8 secciones públicas, detectamos las siguientes brechas críticas para el negocio:</p>
+
+    <h3>2.1 Gaps comerciales</h3>
+    <table>
+      <thead>
+        <tr><th>Brecha</th><th>Impacto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-label="Brecha">Eventos tratado como una sección informativa más, sin diferenciación visual ni funnel</td><td data-label="Impacto">Pérdida de leads B2B (bodas, corporativos, convenciones)</td></tr>
+        <tr><td data-label="Brecha">Una sola CTA por página (mailto), sin formulario de cotización ni captación de datos</td><td data-label="Impacto">0% de leads estructurados, todo manual</td></tr>
+        <tr><td data-label="Brecha">Sin integración con CRM</td><td data-label="Impacto">Imposible medir conversión por canal o etapa</td></tr>
+        <tr><td data-label="Brecha">Sin precios publicados (habitaciones, eventos, restaurante)</td><td data-label="Impacto">Fricción de entrada, todo depende de iHotelier o contacto manual</td></tr>
+        <tr><td data-label="Brecha">No hay carta del restaurante ni embed de menú</td><td data-label="Impacto">Murano queda como mención, no como destino</td></tr>
+        <tr><td data-label="Brecha">Reservas dependen 100% del motor iHotelier externo</td><td data-label="Impacto">La web no aporta valor comercial al embudo</td></tr>
+      </tbody>
+    </table>
+
+    <h3>2.2 Gaps de UX y contenido</h3>
+    <ul>
+      <li><code>/contacto/</code>, <code>/como-llegar/</code>, <code>/libro-de-reclamaciones/</code>, <code>/politica-de-privacidad/</code>, <code>/terminos-y-condiciones/</code> → <strong>devuelven 404</strong> (riesgo legal en Perú).</li>
+      <li>Datos inconsistentes: aforo total dice "1,000 personas" en home y "980" en eventos. Distancias a Larcomar y Parque Kennedy difieren entre home y <code>/ubicacion/</code>.</li>
+      <li>Suite Deluxe: ficha dice "1 cama King" y descripción dice "dos camas queen".</li>
+      <li>Email del hotel: <code>@soldeoro.pe</code> mientras dominio web es <code>.com.pe</code>.</li>
+      <li>Galería sin captions, sin descripción SEO, sin filtros funcionales.</li>
+      <li>Blog con sólo 2 posts, ambos sin categoría asignada.</li>
+      <li>Sin versión en inglés (esperable para un cinco estrellas en Miraflores).</li>
+    </ul>
+  </section>
+
+  <!-- ============ 3. REFOCUS ============ -->
+  <section class="section">
+    <h2>3. Refocus estratégico</h2>
+
+    <h3>3.1 Eventos &amp; Salones · protagonista comercial</h3>
+    <div class="callout">
+      <strong>Objetivo:</strong> convertir cada visita interesada en evento en un lead capturado dentro de Zoho en menos de 2 minutos.
+    </div>
+    <p><strong>Implementado:</strong></p>
+    <ul>
+      <li><strong>Página dedicada <code>eventos.html</code></strong> con hero editorial, mosaico visual de los 6 salones, tabla de capacidades por configuración (banquete · cocktail · auditorio · aula · forma U · área), grilla de tipos de evento (bodas, conferencias, reuniones ejecutivas, convenciones, quinceañeros, lanzamientos), y formulario de cotización.</li>
+      <li><strong>Reservation bar persistente</strong> en todas las páginas con tab "Salones" pre-seleccionado al ingresar a <code>eventos.html</code> — el cliente no tiene que buscar dónde cotizar.</li>
+      <li><strong>Mega menú "Salones"</strong> en el header con preview visual de los tres salones insignia y CTA directo a cotización.</li>
+      <li><strong>Formulario estructurado</strong> con campos clave para calificar el lead (tipo de evento, fecha tentativa, número de asistentes, contacto). Listo para apuntar al endpoint de Zoho.</li>
+    </ul>
+    <div class="stats">
+      <div class="stat"><strong>1.000</strong><span>Invitados máx.</span></div>
+      <div class="stat"><strong>6</strong><span>Salones modulares</span></div>
+      <div class="stat"><strong>30+</strong><span>Años organizando</span></div>
+    </div>
+
+    <h3>3.2 Hospedaje · sostén de marca</h3>
+    <ul>
+      <li><strong>Showcase interactivo</strong> de 9 categorías (Standard hasta Grand Deluxe Suite) con imagen grande clickeable, specs (m², cama, vista, capacidad), lista de amenidades, CTAs duales "Reservar esta habitación" + "Consultar disponibilidad".</li>
+      <li><strong>Reservation bar tab "Hospedaje" pre-activada</strong> en <code>habitaciones.html</code>.</li>
+      <li>Estructura preparada para conectar a iHotelier vía URL parametrizada (categoría preseleccionada).</li>
+    </ul>
+
+    <h3>3.3 Restaurante Murano · generador de tráfico local</h3>
+    <ul>
+      <li>Página <code>restaurante.html</code> con hero del plato signature, <strong>quote del chef</strong>, <strong>4 momentos del día</strong> (desayuno · almuerzo · cena · bar) con horarios precisos.</li>
+      <li>Tira de <strong>6 platos signature</strong> que invitan al comensal externo, no sólo al huésped.</li>
+      <li>Reservation bar tab "Restaurante" pre-activada con campos específicos (fecha, hora, comensales, ocasión).</li>
+    </ul>
+
+    <h3>3.4 Marca y experiencia transversal</h3>
+    <ul>
+      <li><strong>Navbar adaptativa por contraste</strong>: transparente sobre imágenes oscuras (hero, page-hero, award-band, footer), blanca sobre contenido claro. La marca siempre legible.</li>
+      <li><strong>Sistema de diseño editorial</strong>: paleta sand/cream/ink, tipografía Roboto, jerarquía con eyebrows + h2 + lead.</li>
+      <li><strong>Animaciones de entrada</strong> (reveal + scatter polaroid en Ubicación) para sensación premium sin sacrificar performance.</li>
+      <li><strong>Galería filtrable</strong> por habitaciones / espacios / gastronomía / eventos — uso comercial directo (presentación a wedding planners, agencias).</li>
+    </ul>
+  </section>
+
+  <!-- ============ 4. AVANCES ============ -->
+  <section class="section">
+    <h2>4. Avances logrados</h2>
+
+    <h3>4.1 Estructura del sitio</h3>
+    <table>
+      <thead>
+        <tr><th>Página</th><th>Estado</th><th>Función comercial</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-label="Página"><code>index.html</code> (home)</td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Landing editorial + reservation bar</td></tr>
+        <tr><td data-label="Página"><code>habitaciones.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Showcase + integración iHotelier</td></tr>
+        <tr><td data-label="Página"><code>eventos.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial"><strong>Funnel de leads B2B</strong></td></tr>
+        <tr><td data-label="Página"><code>restaurante.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Reservas mesa + posicionamiento Murano</td></tr>
+        <tr><td data-label="Página"><code>servicios.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Justifica la categoría 5★</td></tr>
+        <tr><td data-label="Página"><code>galeria.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Material visual filtrable</td></tr>
+        <tr><td data-label="Página"><code>ubicacion.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Mapa Google + 16 lugares + transporte</td></tr>
+        <tr><td data-label="Página"><code>ofertas.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Promociones con códigos</td></tr>
+        <tr><td data-label="Página"><code>acerca.html</code></td><td data-label="Estado">✅ Listo</td><td data-label="Función comercial">Historia, equipo, certificaciones</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.2 Componentes clave operativos</h3>
+    <ul>
+      <li>Reservation bar tri-modal (Hospedaje · Salones · Restaurante) anclada al pie de pantalla.</li>
+      <li>Mega menús con preview visual.</li>
+      <li>Formulario de cotización de eventos con campos preparados para Zoho.</li>
+      <li>Embed de Google Maps tinted al estilo de la marca en <code>ubicacion.html</code>.</li>
+      <li>Footer unificado con isotipo, redes sociales, datos de contacto y links a todas las secciones.</li>
+    </ul>
+
+    <h3>4.3 Decisiones de diseño aplicadas</h3>
+    <ul>
+      <li>Paginación independiente por tema (vs single-page) → mejor SEO, mejor tracking, mejor experiencia compartida.</li>
+      <li>Home "teaser" minimalista: cada sección tiene un avance breve con CTA "Ver todo" hacia la página dedicada.</li>
+      <li>Sección Ubicación edge-to-edge con grid 6×2 de lugares recomendados — diferenciación visual única.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 5. COMPARATIVA ============ -->
+  <section class="section">
+    <h2>5. Comparativa UX</h2>
+    <p class="pull">Web actual vs. Nueva web</p>
+    <table>
+      <thead>
+        <tr><th>Dimensión</th><th>Web actual</th><th>Nueva web</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-label="Dimensión"><strong>Eventos</strong></td><td data-label="Web actual">Sección informativa, 1 CTA email</td><td data-label="Nueva web">Página dedicada con funnel y formulario CRM-ready</td></tr>
+        <tr><td data-label="Dimensión"><strong>Reservas</strong></td><td data-label="Web actual">Botón "Reservar" → sale del sitio a iHotelier</td><td data-label="Nueva web">Reservation bar siempre visible, 3 modos, lleva a iHotelier con contexto</td></tr>
+        <tr><td data-label="Dimensión"><strong>Restaurante</strong></td><td data-label="Web actual">Página con horarios, sin carta</td><td data-label="Nueva web">Editorial con momentos del día, platos signature, reserva integrada</td></tr>
+        <tr><td data-label="Dimensión"><strong>Habitaciones</strong></td><td data-label="Web actual">9 cards estáticas con descripción</td><td data-label="Nueva web">Showcase interactivo, swap por click, specs detalladas</td></tr>
+        <tr><td data-label="Dimensión"><strong>Galería</strong></td><td data-label="Web actual">Filtros que no funcionan, sin captions</td><td data-label="Nueva web">Masonry filtrable con captions y categorías</td></tr>
+        <tr><td data-label="Dimensión"><strong>Ubicación</strong></td><td data-label="Web actual">Texto + lista de distancias</td><td data-label="Nueva web">Mapa Google + 16 lugares + transporte detallado</td></tr>
+        <tr><td data-label="Dimensión"><strong>Mobile</strong></td><td data-label="Web actual">Diseño antiguo, no optimizado</td><td data-label="Nueva web">Responsive nativo en todos los breakpoints</td></tr>
+        <tr><td data-label="Dimensión"><strong>Navegación</strong></td><td data-label="Web actual">Header estático básico</td><td data-label="Nueva web">Navbar adaptativa al contraste, mega menús con preview</td></tr>
+        <tr><td data-label="Dimensión"><strong>Performance</strong></td><td data-label="Web actual">Sin optimización visible</td><td data-label="Nueva web">Lazy-loading, CSS extraído, JS modular</td></tr>
+        <tr><td data-label="Dimensión"><strong>Marca</strong></td><td data-label="Web actual">Logo aplicado sin sistema</td><td data-label="Nueva web">Sistema visual cohesivo, isotipo en footer, paleta consistente</td></tr>
+        <tr><td data-label="Dimensión"><strong>Captura de consultas</strong></td><td data-label="Web actual">Mails dispersos, IG y FB sin centralizar</td><td data-label="Nueva web">Formularios y mensajes consolidados en Zoho</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ 6. CONTENIDO ============ -->
+  <section class="section">
+    <h2>6. Contenido y narrativa</h2>
+
+    <h3>6.1 Lo que la web actual no comunica (y la nueva sí)</h3>
+    <ul>
+      <li><strong>Por qué Sol de Oro y no otro 5★ en Miraflores</strong>: 30+ años, equipo de 180 personas, cocina de autor abierta al público, salones modulares hasta 1.000 invitados.</li>
+      <li><strong>Diferencial geográfico</strong>: caminable a Maido (#1 Latam según 50 Best), 4 min al Parque Kennedy, 8 min al Malecón, 15 min a San Isidro.</li>
+      <li><strong>Profundidad de oferta de eventos</strong>: bodas, conferencias, directorios, convenciones, lanzamientos, quinceañeros — cada uno con su tratamiento.</li>
+      <li><strong>Capacidades reales por salón</strong>: tabla con 6 configuraciones distintas y áreas en m². El comprador B2B ve lo que necesita sin tener que pedir.</li>
+      <li><strong>Profesionalización del Restaurante</strong>: tres momentos al día, no sólo "buffet".</li>
+    </ul>
+
+    <h3>6.2 Pendientes de contenido a coordinar con marketing</h3>
+    <ul>
+      <li>Confirmar capacidades reales de cada salón (la web actual tiene datos contradictorios entre home y página de eventos).</li>
+      <li>Carta o link descargable del Restaurante Murano.</li>
+      <li>Casos de éxito reales (bodas o corporativos memorables) para landing de eventos.</li>
+      <li>Material fotográfico oficial de habitaciones, salones armados, platos del Murano (actualmente usamos imágenes provisorias).</li>
+      <li>Política de cancelación, T&amp;C, libro de reclamaciones (obligatorio Indecopi).</li>
+      <li>Versión en inglés.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 7. ZOHO ============ -->
+  <section class="section">
+    <h2>7. Captura de requerimientos vía Zoho</h2>
+    <p>El alcance de Zoho en este proyecto es <strong>acotado y específico</strong>: ser el punto único donde lleguen todos los requerimientos de clientes — los que entran por la web y los que entran por redes sociales — para que el equipo comercial los gestione sin perder ninguno.</p>
+
+    <h3>7.1 Qué resuelve Zoho aquí</h3>
+    <ul>
+      <li><strong>Una sola bandeja</strong> para todas las consultas, sin importar el canal de origen.</li>
+      <li><strong>Trazabilidad</strong> de cada requerimiento: fecha, canal, tipo de interés, datos de contacto.</li>
+      <li><strong>Asignación clara</strong> al responsable comercial (eventos / hospedaje / restaurante).</li>
+      <li><strong>Sin pérdida</strong> de mensajes que hoy llegan dispersos a varios correos y a inbox de redes.</li>
+    </ul>
+
+    <h3>7.2 Fuentes de entrada</h3>
+    <table>
+      <thead>
+        <tr><th>Origen</th><th>Tipo de requerimiento</th><th>Llega a Zoho como</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-label="Origen">Formulario de cotización (<code>eventos.html</code>)</td><td data-label="Tipo">Cotización de salones / eventos</td><td data-label="Zoho">Lead categoría <strong>Eventos</strong></td></tr>
+        <tr><td data-label="Origen">Formulario de reserva de mesa (<code>restaurante.html</code>)</td><td data-label="Tipo">Reserva del Restaurante Murano</td><td data-label="Zoho">Lead categoría <strong>Restaurante</strong></td></tr>
+        <tr><td data-label="Origen">Reservation bar — tab Hospedaje</td><td data-label="Tipo">Solicitud de reserva (deriva al motor iHotelier)</td><td data-label="Zoho">Lead categoría <strong>Hospedaje</strong></td></tr>
+        <tr><td data-label="Origen">Mensajes de Instagram</td><td data-label="Tipo">Consultas vía DM</td><td data-label="Zoho">Mensaje en bandeja unificada</td></tr>
+        <tr><td data-label="Origen">Mensajes de Facebook</td><td data-label="Tipo">Consultas vía Messenger</td><td data-label="Zoho">Mensaje en bandeja unificada</td></tr>
+        <tr><td data-label="Origen">WhatsApp Business</td><td data-label="Tipo">Consultas vía WhatsApp del hotel</td><td data-label="Zoho">Conversación en Zoho</td></tr>
+        <tr><td data-label="Origen">Email a <code>reservas@</code> y <code>comercial@</code></td><td data-label="Tipo">Consultas escritas</td><td data-label="Zoho">Ticket en Zoho</td></tr>
+      </tbody>
+    </table>
+
+    <h3>7.3 Cómo funciona en la práctica</h3>
+    <ol>
+      <li>El cliente llena un formulario en la web o escribe por redes / WhatsApp.</li>
+      <li>El requerimiento entra automáticamente a Zoho con su origen identificado (web · IG · FB · WhatsApp · email).</li>
+      <li>Zoho avisa al responsable comercial correspondiente.</li>
+      <li>El equipo responde desde Zoho, dejando el historial completo guardado.</li>
+    </ol>
+
+    <h3>7.4 Implementación necesaria</h3>
+    <ul>
+      <li>Conectar los 3 formularios web (eventos, restaurante, hospedaje) al endpoint de Zoho.</li>
+      <li>Vincular Instagram y Facebook Messenger del hotel a la bandeja unificada de Zoho.</li>
+      <li>Vincular WhatsApp Business a Zoho.</li>
+      <li>Configurar reglas simples de asignación: cotización de eventos → comercial; reservas de mesa / hospedaje → recepción.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 8. PRÓXIMOS PASOS ============ -->
+  <section class="section">
+    <h2>8. Próximos pasos</h2>
+
+    <h3>8.1 Corto plazo · 2–4 semanas</h3>
+    <ul>
+      <li>Conectar formularios web a Zoho y vincular Instagram, Facebook y WhatsApp al mismo punto de captura.</li>
+      <li>Reemplazar imágenes provisorias por material fotográfico oficial.</li>
+      <li>Sumar páginas legales: Libro de Reclamaciones, T&amp;C, Política de Privacidad, Cookies.</li>
+      <li>Versión EN del sitio (al menos las 4 páginas comerciales: home, habitaciones, eventos, restaurante).</li>
+      <li>Carta del Restaurante Murano embebida o descargable.</li>
+      <li>Configurar Google Maps real con la ficha del hotel.</li>
+    </ul>
+
+    <h3>8.2 Mediano plazo · 1–3 meses</h3>
+    <ul>
+      <li>Casos de éxito en landing de eventos (1 boda, 1 corporativo, 1 social).</li>
+      <li>Blog reactivado con contenido estratégico SEO (gastronomía, eventos en Lima, viajes corporativos).</li>
+      <li>Live chat / botón WhatsApp persistente en la web.</li>
+      <li>Versión PT-BR del sitio.</li>
+    </ul>
+
+    <h3>8.3 Largo plazo · 3–6 meses</h3>
+    <ul>
+      <li>Motor de reserva propio sustituyendo iHotelier (sujeto a evaluación).</li>
+      <li>Calendario público de disponibilidad de salones.</li>
+      <li>Tour virtual 360° de salones y suites.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 9. KPIS ============ -->
+  <section class="section">
+    <h2>9. KPIs propuestos</h2>
+    <table>
+      <thead>
+        <tr><th>KPI</th><th>Línea base actual</th><th>Objetivo 6 meses</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-label="KPI">Cotizaciones de eventos / mes</td><td data-label="Línea base">No medible (todo manual)</td><td data-label="Objetivo">Capturar y medir, base mes 1</td></tr>
+        <tr><td data-label="KPI">Conversión visita → cotización en <code>eventos.html</code></td><td data-label="Línea base">n/a</td><td data-label="Objetivo">≥ 4%</td></tr>
+        <tr><td data-label="KPI">Conversión visita → reserva directa hospedaje</td><td data-label="Línea base">Estimado &lt; 1%</td><td data-label="Objetivo">≥ 3%</td></tr>
+        <tr><td data-label="KPI">Tiempo en página <code>eventos.html</code></td><td data-label="Línea base">n/a</td><td data-label="Objetivo">≥ 2 min</td></tr>
+        <tr><td data-label="KPI">Click-through reservation bar</td><td data-label="Línea base">n/a</td><td data-label="Objetivo">≥ 8%</td></tr>
+        <tr><td data-label="KPI">Reservas de mesa Restaurante</td><td data-label="Línea base">Manual</td><td data-label="Objetivo">Trazables, base mes 1</td></tr>
+        <tr><td data-label="KPI">Requerimientos consolidados en Zoho / mes</td><td data-label="Línea base">0 (dispersos en mails y redes)</td><td data-label="Objetivo">≥ 30</td></tr>
+        <tr><td data-label="KPI">Reseñas Google / TripAdvisor / Booking nuevas</td><td data-label="Línea base">Tendencia actual</td><td data-label="Objetivo">+25%</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ 10. CIERRE ============ -->
+  <section class="section">
+    <h2>10. Cierre</h2>
+    <p>La nueva web no es un rediseño cosmético. Es <strong>una herramienta comercial</strong> que prioriza eventos como protagonista, sostiene la oferta de hospedaje y restaurante, y consolida en Zoho los requerimientos que entran tanto por la web como por redes sociales. Todo lo construido hasta ahora está listo para ser activado comercialmente; lo que falta es el contenido oficial (fotos, carta, casos), las páginas legales, y la conexión técnica de Zoho.</p>
+    <div class="callout">
+      <strong>Recomendación:</strong> validar este reporte con marketing y comercial, confirmar prioridades del próximo sprint y arrancar con la conexión del formulario de eventos a Zoho como primer entregable medible.
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="doc-footer">
+    <img class="logo" src="aittro-logo.png" alt="Aittro" />
+    <p>Documento elaborado por <strong>Aittro</strong> · v1 · Mayo 2026</p>
+  </footer>
+
+</article>
+
+</body>
+</html>

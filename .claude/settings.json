@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"c:\\\\aittro\\\\Proyectos\\\\Hotel Sol de Oro\\\\Proyecto web\\\\images\" -Recurse | Where-Object { !$_.PSIsContainer } | Measure-Object)"
+    ]
+  }
+}
