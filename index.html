@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/styles.css?v=2" />
 </head>
-<body class="reserve-docked">
+<body>
 
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="siteHeader">
@@ -111,7 +111,7 @@
     </ul>
 
     <a href="index.html" class="brand" aria-label="Sol de Oro Hotel & Suites">
-      <img class="brand-logo" src="logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
+      <img class="brand-logo" src="assets/brand/logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
     </a>
 
     <ul class="nav right">
@@ -125,7 +125,15 @@
       <span></span><span></span><span></span>
     </button>
   </div>
+  <!-- Overlay para cerrar menú al tocar fuera -->
+  <div class="mobile-nav-overlay"></div>
   <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav-header">
+      <span class="mobile-nav-label">Menú</span>
+      <button class="mobile-nav-close" aria-label="Cerrar menú" type="button">
+        <span></span><span></span>
+      </button>
+    </div>
     <ul class="mobile-nav-links">
       <li><a href="habitaciones.html">Habitaciones</a></li>
       <li><a href="eventos.html">Salones &amp; Eventos</a></li>
@@ -807,7 +815,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img class="footer-brand-logo" src="logotipo.png" alt="Sol de Oro" />
+        <img class="footer-brand-logo" src="assets/brand/logotipo.png" alt="Sol de Oro" />
         <p>Hotel cinco estrellas en el corazón turístico y financiero de Miraflores. Una experiencia auténticamente peruana con servicio internacional.</p>
         <div class="stars">★★★★★</div>
         <div class="brand-social">
@@ -885,8 +893,8 @@
      No es la integración final. Requiere el backend corriendo en localhost:8001
      (sol-de-oro-concierge/backend). Quitar este bloque + el connect-src del CSP
      de arriba antes de desplegar a producción. -->
-<link rel="stylesheet" href="sol-de-oro-concierge/frontend/widget/concierge.css?v=3" />
-<script src="sol-de-oro-concierge/frontend/widget/concierge.js?v=3" defer></script>
+<link rel="stylesheet" href="sol-de-oro-concierge/frontend/widget/concierge.css?v=12" />
+<script src="sol-de-oro-concierge/frontend/widget/concierge.js?v=15" defer></script>
 <!-- ============ FIN AI CONCIERGE — prueba local temporal ============ -->
 </body>
 </html>

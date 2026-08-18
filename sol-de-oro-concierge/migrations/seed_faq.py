@@ -47,7 +47,7 @@ FAQ = [
     dict(sort_order=18, category="Eventos y reuniones", question="¿Tienen salones para eventos?",
          answer="Sí. Cuatro grupos de espacios distribuidos en tres pisos: Salones Ejecutivos I, II, III — pisos 1 y 2, capacidad 60 a 120 personas. Salones Empresariales I, II, III — piso 2, hasta 500 personas unidos. Salón Sol de Oro — piso 12 con terraza panorámica, hasta 100 personas en cóctel. Centro de Convenciones — segundo piso, capacidad variable según montaje."),
     dict(sort_order=19, category="Eventos y reuniones", question="¿Cómo cotizo un evento?",
-         answer="Escribe a comercial@soldeoro.pe, llama al +51 988 861 380 o escríbenos por WhatsApp (https://wa.link/dc0dft). Te respondemos con cotización personalizada en menos de 24 horas hábiles."),
+         answer="Escribe a comercial@soldeoro.pe, llama al +51 924 664 487 o escríbenos por WhatsApp (https://wa.me/51924664487). Te respondemos con cotización personalizada en menos de 24 horas hábiles."),
     # Información para huéspedes internacionales
     dict(sort_order=20, category="Información para huéspedes internacionales", question="¿Cuál es el voltaje en Perú?",
          answer="220 V · 60 Hz · Tomas tipo A/B/C. Si tu equipo es 110 V (común en Estados Unidos y partes de México), necesitarás un convertidor o adaptador. Si vienes de Europa (230 V), basta con un adaptador de pin."),

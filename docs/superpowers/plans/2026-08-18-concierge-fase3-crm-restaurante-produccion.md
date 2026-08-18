@@ -826,21 +826,15 @@ def test_create_lead_from_capture_maps_corporate_event_fields(monkeypatch):
     monkeypatch.setattr(zoho_module.settings, "zoho_refresh_token", "refresh")
     zoho_module._cached_token.clear()
 
+    calls = []
+
     def fake_post(url, **kwargs):
+        calls.append((url, kwargs))
         if url == zoho_module._TOKEN_URL:
             return _FakeResponse({"access_token": "tok-123", "expires_in": 3600})
         return _FakeResponse({"data": [{"code": "SUCCESS"}]})
 
     monkeypatch.setattr(zoho_module.httpx, "post", fake_post)
-
-    calls = []
-    original = zoho_module.httpx.post
-
-    def spy_post(url, **kwargs):
-        calls.append((url, kwargs))
-        return original(url, **kwargs)
-
-    monkeypatch.setattr(zoho_module.httpx, "post", spy_post)
 
     create_lead_from_capture({
         "name": "Luis Pérez", "event_type": "Corporativo", "event_date": "5 de octubre", "guests": 40,

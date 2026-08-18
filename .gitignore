@@ -12,6 +12,10 @@ sol-de-oro-concierge/backend/.env
 node_modules/
 .pnpm/
 
+# Scratch / debug output from manual test runs
+sol-de-oro-concierge/backend/diag_instalaciones*.txt
+sol-de-oro-concierge/backend/full_run_final.txt
+
 # OS
 .DS_Store
 Thumbs.db

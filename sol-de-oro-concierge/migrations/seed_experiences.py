@@ -20,8 +20,8 @@ def login() -> str:
 EXPERIENCES = [
     # cat=hotel
     dict(sort_order=1, mode="modern", cat="hotel", title="Piscina temperada", zone="En el hotel",
-         excerpt="Piscina temperada en la terraza del piso 14, climatizada todo el año con vista a Miraflores.",
-         tag="En el hotel · Piso 14", photo_url=f"{BUCKET}/explore/piscina-hotel.webp",
+         excerpt="Piscina temperada en la terraza del piso 12, climatizada todo el año con vista a Miraflores.",
+         tag="En el hotel · Piso 12", photo_url=f"{BUCKET}/explore/piscina-hotel.webp",
          maps_url="https://maps.google.com/?q=Sol+de+Oro+Hotel+Suites+Miraflores"),
     dict(sort_order=2, mode="modern", cat="hotel", title="Gimnasio 24h", zone="En el hotel",
          excerpt="Equipamiento Technogym, peso libre y cardio con vista al Pacífico, abierto las 24 horas.",

@@ -38,10 +38,12 @@ QUESTIONS = [
     # COMPRAS
     ("¿Dónde puedo comprar souvenirs?", ["Mercado Indio", "artesanía"]),
     ("¿Dónde está Larcomar?", ["Larcomar", "min"]),
-    # EVENTOS
-    ("¿Qué salones tienen?", ["Ejecutivo", "Empresarial", "Sol de Oro"]),
-    ("Necesito un salón para 80 personas", ["Ejecutivo II", "Ejecutivo III", "Empresarial"]),
-    ("Quiero cotizar un evento", ["comercial@soldeoro.pe", "988 861 380", "WhatsApp"]),
+    # EVENTOS — Fase 2: ya no deriva a ciegas, primero puede confirmar capacidad agregada
+    # (get_salons) y recién después ofrece WhatsApp; por eso el set de keywords es más amplio
+    # que antes (cualquiera de las dos etapas del flujo es una respuesta válida).
+    ("¿Qué salones tienen?", ["personas", "evento", "WhatsApp", "wa.me", "comercial@soldeoro.pe"]),
+    ("Necesito un salón para 80 personas", ["80", "personas", "espacio", "WhatsApp", "wa.me", "comercial@soldeoro.pe"]),
+    ("Quiero cotizar un evento", ["comercial@soldeoro.pe", "924 664 487", "WhatsApp", "personas", "tipo de evento"]),
     # RESERVAS
     ("Quiero reservar una habitación", ["ihotelier", "reservar", "Reservar"]),
     ("Quiero contactar al hotel", ["reservas@soldeoro.pe", "610-7000", "WhatsApp"]),
@@ -82,5 +84,41 @@ def test_no_fabricated_contact_info(question):
     # Si la respuesta menciona un email o teléfono, debe ser uno de los reales.
     if "@" in answer:
         assert "soldeoro.pe" in lowered, f"Email mencionado no es un dominio real del hotel: {answer!r}"
-    if "http" in lowered and "soldeoro" not in lowered and "wa.link" not in lowered:
+    if "http" in lowered and "soldeoro" not in lowered and "wa.me" not in lowered:
         assert False, f"Link mencionado no es un dominio real del hotel: {answer!r}"
+
+
+# Regresión Fase 2: get_salons() ahora está reconectada y le da al modelo un resumen de
+# capacidad agregado — la regla "nunca menciones nombres de salones" ya no depende solo del
+# prompt (la garantía real vive en _get_salons_summary, que nunca incluye nombres), pero esta
+# prueba confirma que además no se cuela ningún nombre real por otra vía (ej. una FAQ).
+def test_events_answer_never_leaks_real_salon_names():
+    from app.tools.supabase import get_salons
+
+    real_names = {s["name"] for s in get_salons()}
+    answer = ask("Necesito un salón para 80 personas", session_id="salon-names-leak")
+    for name in real_names:
+        assert name not in answer, f"La respuesta mencionó el nombre real de un salón ({name!r}): {answer!r}"
+
+
+# Regresión Fase 2: antes de esta fase, pedirle al modelo resolver dos tools en el mismo
+# turno (ej. habitaciones + restaurante) tumbaba el request con un 500 real de la API NVIDIA
+# ("This model only supports single tool-calls at once") — ver _resolve_tool_calls, ahora
+# hecho de rondas secuenciales (una tool por turno) en vez de varias en la misma respuesta.
+# Esta prueba en vivo confirma esa regresión puntual: la pregunta compuesta ya NO tumba el
+# turno (no cae al mensaje de fallback) y responde al menos la primera parte. Que el modelo
+# de 8B encadene ambas herramientas y cubra las dos partes en la misma respuesta es
+# deseable pero no 100% consistente (limitación conocida del tamaño del modelo, no de esta
+# arquitectura) — esa cobertura determinística está en
+# test_events_and_leads.py::test_resolve_tool_calls_supports_sequential_multi_round, que no
+# depende del juicio del LLM.
+def test_multi_intent_question_does_not_crash_and_answers_first_part():
+    from app.api.concierge import _FALLBACK_MESSAGE
+
+    answer = ask(
+        "¿Qué habitación me recomiendas y puedo cenar en el hotel?",
+        session_id="multi-intent-rooms-restaurant",
+    )
+    assert answer != _FALLBACK_MESSAGE, f"El turno cayó al mensaje de fallback (posible 500): {answer!r}"
+    lowered = answer.lower()
+    assert any(kw in lowered for kw in ["suite", "habitación", "room"]), f"No respondió la parte de habitaciones: {answer!r}"

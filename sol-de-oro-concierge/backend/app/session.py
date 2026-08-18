@@ -3,7 +3,7 @@ _SESSIONS: dict[str, dict] = {}
 
 def get_session(session_id: str) -> dict:
     if session_id not in _SESSIONS:
-        _SESSIONS[session_id] = {"history": [], "party": None, "time_available_minutes": None}
+        _SESSIONS[session_id] = {"history": [], "party": None, "time_available_minutes": None, "lead": {}}
     return _SESSIONS[session_id]
 
 

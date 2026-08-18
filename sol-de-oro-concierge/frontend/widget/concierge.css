@@ -5,58 +5,45 @@
 *{box-sizing:border-box;}
 body{margin:0; font-family:'Roboto',system-ui,sans-serif; background:var(--cream);}
 
-/* Orbe animado — "plasma" dorado/negro moviéndose dentro del círculo, efecto mini-Siri */
-.cc-bubble{
-  position:fixed; bottom:24px; right:24px; width:64px; height:64px; border-radius:50%;
-  border:none; cursor:pointer; z-index:1000; overflow:hidden; padding:0;
-  background:#0c0a08;
-  animation:cc-orb-glow 3.4s ease-in-out infinite;
-  transition:transform .2s ease;
+/* Botón cerrado = "equipo Concierge": 3 avatares superpuestos en diagonal (la persona activa
+   de esta sesión al frente, las otras dos detrás/arriba-izquierda) — comunica de un vistazo
+   que hay un equipo disponible, sin taparse entre sí ni verse como 3 fotos sueltas. */
+.cc-bubble.cc-team-toggle{
+  position:fixed; bottom:24px; right:24px; width:80px; height:80px;
+  border:none; background:transparent; cursor:pointer; z-index:1000; padding:0;
 }
-.cc-bubble:hover{transform:scale(1.06);}
-.cc-bubble:active{transform:scale(.97);}
+.cc-team-avatar{
+  position:absolute; border-radius:50%; object-fit:cover; display:block;
+  border:2px solid var(--gold-light); background:#0c0a08;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.cc-team-front{ width:56px; height:56px; right:0; bottom:0; z-index:3; animation:cc-orb-glow 3.4s ease-in-out infinite; }
+.cc-team-back1{ width:42px; height:42px; right:28px; bottom:20px; z-index:2; opacity:.94; }
+.cc-team-back2{ width:32px; height:32px; right:10px; bottom:44px; z-index:1; opacity:.86; }
 
-.cc-blob{
-  position:absolute; border-radius:50%; filter:blur(8px); opacity:.92; pointer-events:none;
-}
-.cc-blob-1{
-  width:75%; height:75%; top:-12%; left:-12%;
-  background:radial-gradient(circle, var(--gold-light), var(--gold) 55%, transparent 75%);
-  animation:cc-drift-1 5.5s ease-in-out infinite;
-}
-.cc-blob-2{
-  width:68%; height:68%; bottom:-16%; right:-12%;
-  background:radial-gradient(circle, #000000, #1a1612 55%, transparent 75%);
-  animation:cc-drift-2 6.5s ease-in-out infinite;
-}
-.cc-blob-3{
-  width:52%; height:52%; top:22%; right:2%;
-  background:radial-gradient(circle, var(--gold), transparent 72%);
-  animation:cc-drift-3 4.5s ease-in-out infinite;
-}
-.cc-blob-sheen{
-  position:absolute; inset:0; border-radius:50%; pointer-events:none;
-  background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.4), transparent 45%);
+.cc-team-toggle:hover .cc-team-avatar{ transform:translateY(-3px); }
+.cc-team-toggle:hover .cc-team-front{ transform:translateY(-4px) scale(1.05); }
+.cc-team-toggle:active .cc-team-avatar{ transform:scale(.96); }
+
+/* Mientras se procesa una respuesta, el equipo entero "respira" en vez de mostrar un spinner
+   — la sensación es "el equipo está atendiendo", no "el sistema está cargando". */
+.cc-team-toggle.processing .cc-team-avatar{ animation:cc-team-pulse 1.3s ease-in-out infinite; }
+.cc-team-toggle.processing .cc-team-back1{ animation-delay:.12s; }
+.cc-team-toggle.processing .cc-team-back2{ animation-delay:.24s; }
+@keyframes cc-team-pulse{
+  0%,100%{ box-shadow:0 6px 16px rgba(0,0,0,.35), 0 0 0 0 rgba(212,168,92,0); }
+  50%{ box-shadow:0 6px 16px rgba(0,0,0,.35), 0 0 0 5px rgba(212,168,92,.3); }
 }
 
-@keyframes cc-drift-1{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  50%{ transform:translate(20%, 16%) scale(1.18); }
-}
-@keyframes cc-drift-2{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  50%{ transform:translate(-16%, -20%) scale(1.12); }
-}
-@keyframes cc-drift-3{
-  0%,100%{ transform:translate(0,0) rotate(0deg) scale(1); }
-  50%{ transform:translate(-12%, 14%) rotate(50deg) scale(1.2); }
-}
+.cc-avatar-small{width:28px; height:28px; border-radius:50%; object-fit:cover; flex-shrink:0;}
+
 @keyframes cc-orb-glow{
   0%,100%{ box-shadow:0 10px 28px rgba(0,0,0,.4), 0 0 16px rgba(179,139,58,.35), 0 0 0 1px rgba(179,139,58,.3); }
   50%{ box-shadow:0 10px 34px rgba(0,0,0,.45), 0 0 28px rgba(212,168,92,.55), 0 0 0 1px rgba(212,168,92,.45); }
 }
 @media (prefers-reduced-motion: reduce){
-  .cc-bubble, .cc-blob{ animation:none !important; }
+  .cc-team-avatar{ animation:none !important; }
 }
 
 .cc-panel{
@@ -65,29 +52,108 @@ body{margin:0; font-family:'Roboto',system-ui,sans-serif; background:var(--cream
   display:none; flex-direction:column; overflow:hidden; z-index:1000;
 }
 .cc-panel.open{display:flex;}
-.cc-header{padding:16px 18px; border-bottom:1px solid var(--line); font-weight:500; color:var(--ink);}
-.cc-messages{flex:1; overflow-y:auto; padding:14px 16px; display:flex; flex-direction:column; gap:10px;}
-.cc-msg{max-width:82%; padding:9px 13px; border-radius:12px; font-size:.86rem; line-height:1.45;}
+.cc-header{
+  padding:14px 14px 14px 18px; border-bottom:1px solid var(--line); font-weight:500; color:var(--ink);
+  display:flex; align-items:center; gap:10px;
+}
+.cc-header span{flex:1;}
+/* Flecha hacia abajo: señal visible de que la conversación se puede minimizar, sin tener que
+   adivinar que hay que volver a tocar el grupo de avatares. */
+.cc-minimize{
+  display:flex; align-items:center; justify-content:center; width:32px; height:32px;
+  border:none; background:transparent; color:#8a8577; border-radius:50%; cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.cc-minimize:hover{background:var(--cream); color:var(--ink);}
+.cc-messages{
+  flex:1; overflow-y:auto; padding:14px 16px; display:flex; flex-direction:column; gap:10px;
+  scroll-behavior:smooth;
+}
+/* Tira de fotos con scroll lateral (habitaciones/espacios del hotel mencionados) — un par para
+   mostrar, no una galería: se autoalinea con la burbuja del asistente, cabe 2-3 sin recortarse. */
+.cc-img-strip{
+  display:flex; gap:8px; overflow-x:auto; align-self:flex-start; max-width:92%;
+  padding:2px 2px 8px; margin-top:-4px; scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  flex-shrink:0; /* overflow-x:auto vuelve automático el min-height a 0 — sin esto, el flex
+    column de .cc-messages lo aplasta a 0px de alto en cuanto el contenido no entra */
+}
+.cc-img-strip::-webkit-scrollbar{height:5px;}
+.cc-img-strip::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px;}
+.cc-img-item{
+  flex:0 0 auto; width:118px; scroll-snap-align:start; position:relative;
+  border-radius:10px; overflow:hidden; display:block; text-decoration:none;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+.cc-img-item img{width:100%; height:82px; object-fit:cover; display:block; transition:transform .25s ease;}
+.cc-img-item:hover img{transform:scale(1.07);}
+.cc-img-caption{
+  position:absolute; left:0; right:0; bottom:0; padding:5px 7px 4px;
+  background:linear-gradient(to top, rgba(0,0,0,.7), transparent);
+  color:#fff; font-size:.66rem; font-weight:600; letter-spacing:.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cc-msg{
+  max-width:82%; padding:9px 13px; border-radius:12px; font-size:.86rem; line-height:1.5;
+  white-space:pre-line; /* respeta los saltos de párrafo que arma formatForDisplay() */
+  overflow-wrap:anywhere; word-break:break-word; /* un link largo (wa.me/...) envuelve, no desborda */
+}
 .cc-msg.user{align-self:flex-end; background:var(--gold); color:#fff;}
 .cc-msg.assistant{align-self:flex-start; background:var(--cream); color:var(--ink);}
+.cc-msg.assistant a{color:var(--gold); font-weight:500; text-decoration:underline; padding:2px 0;}
+.cc-msg.assistant a:hover{color:var(--gold-light);}
+.cc-msg.assistant strong{color:#8a6a24; font-weight:700;}
+.cc-msg.assistant em{font-style:italic; color:#5a5247;}
+/* CTAs tipo "[**Ver habitaciones →**](url)" — el <strong> queda dentro del <a>, se estiliza
+   como una píldora dorada en vez de texto subrayado, para que se lea como una acción, no un
+   link perdido en medio del párrafo. */
+.cc-msg.assistant a:has(strong){
+  display:inline-block; margin:6px 0 2px; padding:7px 14px; border-radius:20px;
+  background:var(--gold); text-decoration:none; min-height:32px; line-height:1.3;
+}
+.cc-msg.assistant a:has(strong):hover{background:var(--gold-light);}
+.cc-msg.assistant a:has(strong) strong{color:#fff;}
 .cc-input-row{display:flex; gap:8px; padding:12px; border-top:1px solid var(--line);}
 .cc-input-row input{flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-family:inherit;}
 .cc-input-row input:disabled{background:var(--cream); color:var(--line);}
 .cc-input-row button{padding:9px 16px; background:var(--gold); color:#fff; border:none; border-radius:8px; cursor:pointer;}
 .cc-input-row button:disabled{background:var(--line); cursor:default;}
 
-/* Indicador de "escribiendo" — dona dorada con cola difuminada y brillo, gira dentro
-   de la misma burbuja de mensaje del asistente (no un spinner genérico). */
-.cc-msg-loading{padding:11px 16px;}
-.cc-loading{
-  display:block; width:22px; height:22px; border-radius:50%;
-  background:conic-gradient(from 0deg, transparent 0%, var(--gold-light) 55%, var(--gold) 75%, transparent 92%);
-  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
-  mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
-  filter:drop-shadow(0 0 3px rgba(179,139,58,.6));
-  animation:cc-donut-spin .85s linear infinite;
+/* Indicador de "escribiendo" — los típicos 3 puntos que rebotan, como en cualquier app de
+   mensajería (WhatsApp/iMessage), en vez de un spinner genérico. Vive dentro de la misma
+   burbuja de mensaje del asistente y se reemplaza por el texto real en cuanto llega. */
+.cc-msg-loading{padding:13px 16px;}
+.cc-typing{display:inline-flex; align-items:center; gap:4px;}
+.cc-typing span{
+  width:7px; height:7px; border-radius:50%; background:var(--gold);
+  opacity:.45; animation:cc-typing-bounce 1.3s ease-in-out infinite;
 }
-@keyframes cc-donut-spin{ to{ transform:rotate(360deg); } }
+.cc-typing span:nth-child(2){animation-delay:.16s;}
+.cc-typing span:nth-child(3){animation-delay:.32s;}
+@keyframes cc-typing-bounce{
+  0%, 60%, 100%{transform:translateY(0); opacity:.45;}
+  30%{transform:translateY(-4px); opacity:1;}
+}
 @media (prefers-reduced-motion: reduce){
-  .cc-loading{ animation-duration:2.4s; }
+  .cc-typing span{animation:none; opacity:.75;}
+}
+
+/* Mobile: el Concierge es sobre todo para huéspedes desde el celular — panel casi a pantalla
+   completa (nunca tapa el input con el teclado), textos y CTAs con más aire para el dedo, y
+   el equipo de avatares un poco más chico para no competir con el contenido de la página. */
+@media (max-width:480px){
+  .cc-bubble.cc-team-toggle{ width:64px; height:64px; bottom:16px; right:16px; }
+  .cc-team-front{ width:46px; height:46px; }
+  .cc-team-back1{ width:34px; height:34px; right:22px; bottom:16px; }
+  .cc-team-back2{ width:26px; height:26px; right:8px; bottom:34px; }
+
+  .cc-panel{
+    right:8px; left:8px; bottom:88px; width:auto; max-width:none;
+    height:auto; max-height:calc(100vh - 104px);
+  }
+  .cc-msg{max-width:88%; font-size:.9rem;}
+  .cc-input-row{padding:10px;}
+  .cc-input-row input{padding:11px 12px; font-size:16px;} /* 16px: evita el zoom automático de iOS al enfocar */
+  .cc-input-row button{padding:11px 16px; min-width:44px;}
+  .cc-msg.assistant a:has(strong){padding:9px 16px; min-height:40px;}
 }

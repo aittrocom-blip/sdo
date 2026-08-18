@@ -59,9 +59,21 @@
   (function(){
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.getElementById('mobileNav');
+    const closeBtn = document.querySelector('.mobile-nav-close');
+    let overlay = document.querySelector('.mobile-nav-overlay');
+    
     if (!toggle || !nav) return;
+    
+    // Crear overlay si no existe
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'mobile-nav-overlay';
+      document.body.appendChild(overlay);
+    }
+    
     function open(){
       nav.classList.add('is-open');
+      overlay.classList.add('is-visible');
       toggle.classList.add('is-open');
       nav.setAttribute('aria-hidden','false');
       toggle.setAttribute('aria-expanded','true');
@@ -69,12 +81,15 @@
     }
     function close(){
       nav.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
       toggle.classList.remove('is-open');
       nav.setAttribute('aria-hidden','true');
       toggle.setAttribute('aria-expanded','false');
       document.body.classList.remove('nav-open');
     }
     toggle.addEventListener('click', () => nav.classList.contains('is-open') ? close() : open());
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', close);
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
     document.addEventListener('keydown', e => { if(e.key==='Escape') close(); });
   })();
@@ -179,7 +194,20 @@
     });
   }
   document.querySelectorAll('.reserve-tabs .tab').forEach(t => {
-    t.addEventListener('click', () => setReserveMode(t.dataset.mode));
+    t.addEventListener('click', () => {
+      setReserveMode(t.dataset.mode);
+      // En mobile, desplegar el formulario hacia arriba
+      if (window.innerWidth <= 560) {
+        document.body.classList.add('reserve-docked');
+        // Scroll suave al formulario
+        setTimeout(() => {
+          const reserveSection = document.querySelector('.reserve-section');
+          if (reserveSection) {
+            reserveSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }
+        }, 300);
+      }
+    });
   });
   /* Activar el tab correcto según la página */
   (function(){
@@ -416,9 +444,9 @@
   })();
 
   /* Restaurante & Salones → WhatsApp al agente
-     Número: +51 988 861 380 */
+     Número: +51 924 664 487 */
   (function(){
-    const WA = 'https://wa.me/51988861380?text=';
+    const WA = 'https://wa.me/51924664487?text=';
 
     function fmtDate(iso){
       if (!iso) return '—';
@@ -479,3 +507,74 @@
       };
     }
   })();
+
+  /* Cotización de eventos (eventos.html) — el tipo de evento es de 2 pasos: primero Social o
+     Corporativo, después el subtipo exacto que corresponde en Zoho (Tipo_evento_social /
+     Tipo_evento_corp). Los dos <select> de subtipo tienen name distinto cada uno (mapea 1 a 1
+     a su campo de Zoho); el que no está activo queda disabled para no enviarse. La fecha
+     comparte un solo input visible, pero su name se renombra según el rubro elegido. */
+  (function(){
+    const vertical = document.getElementById('evtVertical');
+    if (!vertical) return;
+    const socialWrap = document.getElementById('evtTipoSocialWrap');
+    const corpWrap = document.getElementById('evtTipoCorpWrap');
+    const socialSelect = document.getElementById('evtTipoSocial');
+    const corpSelect = document.getElementById('evtTipoCorp');
+    const fecha = document.getElementById('evtFecha');
+    function syncTipoEvento() {
+      const isSocial = vertical.value === 'Social';
+      const isCorp = vertical.value === 'Corporativo';
+      // .form-field ya trae display:flex propio, que le gana a la regla por defecto de
+      // [hidden] — se fuerza display:none/'' directamente en vez de confiar en el atributo.
+      socialWrap.style.display = isSocial ? '' : 'none';
+      corpWrap.style.display = isCorp ? '' : 'none';
+      socialSelect.disabled = !isSocial;
+      corpSelect.disabled = !isCorp;
+      if (fecha) fecha.name = isCorp ? 'Fecha de evento (corporativo)' : 'Fecha de evento (social)';
+    }
+    vertical.addEventListener('change', syncTipoEvento);
+    syncTipoEvento(); // estado inicial: ninguno seleccionado -> ambos ocultos
+  })();
+
+  /* Formularios que envían por email (empresarial.html, eventos.html "Solicitar cotización")
+     — vía Formspree (formspree.io), sin backend propio que mantener.
+     ACTIVAR: crear una cuenta gratuita en formspree.io, verificar reservas@soldeoro.pe o
+     comercial@soldeoro.pe como destino, crear un form, y reemplazar el ID de abajo (lo que va
+     después de "/f/") por el que te da Formspree. Mientras tanto, el envío fallará limpio y el
+     formulario muestra un aviso para escribir directo al correo — nunca finge un éxito falso. */
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/TU_FORM_ID_AQUI';
+
+  document.querySelectorAll('[data-email-form]').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalLabel = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; }
+
+      try {
+        const resp = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+        if (!resp.ok) throw new Error('Formspree respondió ' + resp.status);
+
+        const successMsg = form.dataset.successMsg || 'Gracias. Nos pondremos en contacto pronto.';
+        form.textContent = ''; // limpia los campos sin usar innerHTML (el texto es propio, pero se evita por buena práctica)
+        const p = document.createElement('p');
+        p.style.cssText = 'color:var(--sand-deep);font-weight:500;text-align:center;padding:24px 0';
+        p.textContent = successMsg;
+        form.appendChild(p);
+      } catch (err) {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+        let notice = form.querySelector('.email-form-error');
+        if (!notice) {
+          notice = document.createElement('p');
+          notice.className = 'email-form-error';
+          notice.style.cssText = 'color:#b3261e;font-size:.85rem;margin-top:10px;text-align:center;';
+          form.appendChild(notice);
+        }
+        notice.textContent = 'No pudimos enviar tu solicitud. Escríbenos directo a comercial@soldeoro.pe mientras lo resolvemos.';
+      }
+    });
+  });

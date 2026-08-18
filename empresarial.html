@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self'; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' http://localhost:8001 https://formspree.io; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="robots" content="index, follow" />
@@ -400,7 +400,7 @@
     </ul>
 
     <a href="index.html" class="brand" aria-label="Sol de Oro Hotel & Suites">
-      <img class="brand-logo" src="logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
+      <img class="brand-logo" src="assets/brand/logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
     </a>
 
     <ul class="nav right">
@@ -414,7 +414,15 @@
       <span></span><span></span><span></span>
     </button>
   </div>
+  <!-- Overlay para cerrar menú al tocar fuera -->
+  <div class="mobile-nav-overlay"></div>
   <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav-header">
+      <span class="mobile-nav-label">Menú</span>
+      <button class="mobile-nav-close" aria-label="Cerrar menú" type="button">
+        <span></span><span></span>
+      </button>
+    </div>
     <ul class="mobile-nav-links">
       <li><a href="habitaciones.html">Habitaciones</a></li>
       <li><a href="eventos.html">Salones &amp; Eventos</a></li>
@@ -540,38 +548,45 @@
   <div class="emp-split-right">
     <p class="emp-form-heading">Solicite su cuenta corporativa y acceda a todos los beneficios</p>
     <p class="emp-form-sub">Complete el formulario y nuestro equipo comercial lo contactará en menos de 24 horas con una propuesta a medida.</p>
-    <form class="emp-form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;color:var(--sand-deep);font-weight:500;text-align:center;padding:24px 0&quot;>Gracias. Nos pondremos en contacto pronto.</p>';">
-      <div class="emp-field">
-        <label>Empresa</label>
-        <input type="text" placeholder="Razón social" required />
+    <form class="emp-form" id="empForm" data-email-form data-success-msg="Gracias. Nos pondremos en contacto pronto.">
+      <input type="hidden" name="_subject" value="Nueva solicitud de cuenta corporativa · Sol de Oro" />
+      <div class="emp-form-row">
+        <div class="emp-field">
+          <label>Empresa</label>
+          <input type="text" name="Empresa" placeholder="Razón social" required />
+        </div>
+        <div class="emp-field">
+          <label>RUC</label>
+          <input type="text" name="RUC" placeholder="20123456789" />
+        </div>
       </div>
       <div class="emp-form-row">
         <div class="emp-field">
           <label>Nombre</label>
-          <input type="text" placeholder="Juan" required />
+          <input type="text" name="Nombre" placeholder="Juan" required />
         </div>
         <div class="emp-field">
           <label>Apellido</label>
-          <input type="text" placeholder="Pérez" required />
+          <input type="text" name="Apellido" placeholder="Pérez" required />
         </div>
       </div>
       <div class="emp-field">
         <label>Cargo</label>
-        <input type="text" placeholder="Gerente de Administración" />
+        <input type="text" name="Cargo" placeholder="Gerente de Administración" />
       </div>
       <div class="emp-form-row">
         <div class="emp-field">
           <label>Teléfono</label>
-          <input type="tel" placeholder="+51 999 000 000" />
+          <input type="tel" name="Teléfono" placeholder="+51 999 000 000" />
         </div>
         <div class="emp-field">
           <label>Correo electrónico</label>
-          <input type="email" placeholder="correo@empresa.com" required />
+          <input type="email" name="Correo" placeholder="correo@empresa.com" required />
         </div>
       </div>
       <div class="emp-field">
         <label>Comentarios</label>
-        <textarea placeholder="Cuéntenos cómo podemos ayudar a su empresa…"></textarea>
+        <textarea name="Comentarios" placeholder="Cuéntenos cómo podemos ayudar a su empresa…"></textarea>
       </div>
       <div class="emp-check">
         <input type="checkbox" id="empTerms" required />
@@ -726,7 +741,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img class="footer-brand-logo" src="logotipo.png" alt="Sol de Oro" />
+        <img class="footer-brand-logo" src="assets/brand/logotipo.png" alt="Sol de Oro" />
         <p>Hotel cinco estrellas en el corazón turístico y financiero de Miraflores. Una experiencia auténticamente peruana con servicio internacional.</p>
         <div class="stars">★★★★★</div>
         <div class="brand-social">
@@ -783,5 +798,13 @@
 </footer>
 
 <script src="assets/scripts.js" defer></script>
+
+<!-- ============ AI CONCIERGE — prueba local temporal (Fase 1) ============
+     No es la integración final. Requiere el backend corriendo en localhost:8001
+     (sol-de-oro-concierge/backend). Quitar este bloque + el connect-src del CSP
+     de arriba antes de desplegar a producción. -->
+<link rel="stylesheet" href="sol-de-oro-concierge/frontend/widget/concierge.css?v=12" />
+<script src="sol-de-oro-concierge/frontend/widget/concierge.js?v=15" defer></script>
+<!-- ============ FIN AI CONCIERGE — prueba local temporal ============ -->
 </body>
 </html>

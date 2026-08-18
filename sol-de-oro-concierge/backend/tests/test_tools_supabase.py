@@ -46,3 +46,32 @@ def test_get_cultural_returns_rows():
 def test_get_offers_returns_list():
     offers = get_offers()
     assert isinstance(offers, list)
+
+
+# site_section: cada fila debe traer la sección REAL del sitio donde el huésped puede
+# ampliar la información — es el dato que el Concierge usa para guiar sin inventar.
+def test_get_rooms_site_section():
+    rooms = get_rooms()
+    assert all(r["site_section"] == "Habitaciones" for r in rooms)
+
+
+def test_get_salons_site_section():
+    salons = get_salons()
+    assert all("Eventos" in s["site_section"] for s in salons)
+
+
+def test_get_nearby_site_section_matches_category():
+    coast = get_nearby(cat="coast")
+    assert all(item["site_section"] == "Experiencias → Costa" for item in coast)
+    hotel = get_nearby(cat="hotel")
+    assert all(item["site_section"] == "Experiencias → En el Hotel" for item in hotel)
+
+
+def test_get_restaurants_site_section():
+    restaurants = get_restaurants()
+    assert all(r["site_section"] == "Experiencias → Gastronomía" for r in restaurants)
+
+
+def test_get_cultural_site_section():
+    cultural = get_cultural()
+    assert all(c["site_section"] == "Experiencias → Cultura" for c in cultural)
