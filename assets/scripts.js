@@ -215,6 +215,87 @@
     if (initial) setReserveMode(initial);
   })();
 
+  /* Huéspedes/Comensales: panel superpuesto con steppers -/+ (reemplaza los <select>
+     de Adultos/Niños en Hospedaje y Comensales en Restaurante — Asistentes en Salones
+     sigue siendo un <select> normal porque es un rango, no un conteo). */
+  (function(){
+    const fields = document.querySelectorAll('.guest-field');
+    if (!fields.length) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'guest-overlay';
+    document.body.appendChild(overlay);
+
+    function closeAll(){
+      fields.forEach(f => {
+        f.classList.remove('open');
+        f.querySelector('.guest-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+      overlay.classList.remove('open');
+    }
+
+    function summarize(field){
+      const trigger = field.querySelector('.guest-trigger');
+      if (!trigger) return;
+      const parts = [];
+      field.querySelectorAll('.stepper').forEach(s => {
+        const val = parseInt(s.querySelector('.stepper-value').textContent, 10);
+        if (s.dataset.hideZero === 'true' && val === 0) return;
+        const max = parseInt(s.dataset.max, 10);
+        const label = (s.dataset.maxLabel && val >= max) ? s.dataset.maxLabel : String(val);
+        const unit = val === 1 ? (s.dataset.unitOne || '') : (s.dataset.unitMany || s.dataset.unitOne || '');
+        parts.push(`${label} ${unit}`.trim());
+      });
+      trigger.textContent = parts.join(', ');
+    }
+
+    fields.forEach(field => {
+      const trigger = field.querySelector('.guest-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = !field.classList.contains('open');
+        closeAll();
+        if (willOpen){
+          field.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+          overlay.classList.add('open');
+        }
+      });
+      field.querySelector('.guest-panel')?.addEventListener('click', (e) => e.stopPropagation());
+
+      field.querySelectorAll('.stepper').forEach(stepper => {
+        const min = parseInt(stepper.dataset.min, 10) || 0;
+        const max = parseInt(stepper.dataset.max, 10) || 99;
+        const valueEl = stepper.querySelector('.stepper-value');
+        const hiddenInput = field.querySelector(`input[type="hidden"][name="${stepper.dataset.stepper}"]`);
+        const decBtn = stepper.querySelector('[data-action="dec"]');
+        const incBtn = stepper.querySelector('[data-action="inc"]');
+
+        function render(){
+          const val = parseInt(valueEl.textContent, 10);
+          if (decBtn) decBtn.disabled = val <= min;
+          if (incBtn) incBtn.disabled = val >= max;
+          if (hiddenInput) hiddenInput.value = val;
+          summarize(field);
+        }
+        function change(delta){
+          const val = Math.min(max, Math.max(min, parseInt(valueEl.textContent, 10) + delta));
+          valueEl.textContent = val;
+          render();
+        }
+        decBtn?.addEventListener('click', (e) => { e.stopPropagation(); change(-1); });
+        incBtn?.addEventListener('click', (e) => { e.stopPropagation(); change(1); });
+        render();
+      });
+    });
+
+    overlay.addEventListener('click', closeAll);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+    document.querySelectorAll('.reserve-tabs .tab').forEach(t => t.addEventListener('click', closeAll));
+  })();
+
   /* Mesa de fotos: filtro, layout dinámico (hasta 2 filas) y nav lateral */
   (function(){
     const wrap = document.querySelector('.loc-scatter-wrap');

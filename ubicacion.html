@@ -162,15 +162,51 @@
   <form class="reserve form-stay active" data-mode="stay">
     <div class="field"><label>Llegada</label><input class="control" type="date" name="checkin" /></div>
     <div class="field"><label>Salida</label><input class="control" type="date" name="checkout" /></div>
-    <div class="field"><label>Adultos</label><select class="control" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
-    <div class="field"><label>Niños</label><select class="control" name="kids"><option selected>0</option><option>1</option><option>2</option><option>3</option></select></div>
+    <div class="field guest-field">
+      <label>Huéspedes</label>
+      <button type="button" class="control guest-trigger" aria-haspopup="true" aria-expanded="false">2 adultos</button>
+      <input type="hidden" name="adults" value="2" />
+      <input type="hidden" name="kids" value="0" />
+      <div class="guest-panel" role="dialog" aria-label="Huéspedes">
+        <div class="guest-row">
+          <span class="guest-row-label">Adultos</span>
+          <div class="stepper" data-stepper="adults" data-min="1" data-max="8" data-unit-one="adulto" data-unit-many="adultos">
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos adultos">−</button>
+            <span class="stepper-value">2</span>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más adultos">+</button>
+          </div>
+        </div>
+        <div class="guest-row">
+          <span class="guest-row-label">Niños <small>0-12 años</small></span>
+          <div class="stepper" data-stepper="kids" data-min="0" data-max="6" data-unit-one="niño" data-unit-many="niños" data-hide-zero="true">
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos niños">−</button>
+            <span class="stepper-value">0</span>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más niños">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="field"><label>Código</label><input class="control" type="text" name="promo" placeholder="Promocional" /></div>
     <button type="submit" class="submit">Reservar</button>
   </form>
   <form class="reserve form-dining" data-mode="dining" onsubmit="event.preventDefault(); alert('Restaurante · Te confirmaremos por correo.');">
     <div class="field"><label>Fecha</label><input class="control" type="date" name="dining-date" /></div>
     <div class="field"><label>Hora</label><select class="control" name="dining-time"><option>12:30</option><option>13:00</option><option selected>13:30</option><option>14:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option></select></div>
-    <div class="field"><label>Comensales</label><select class="control" name="dining-pax"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7+</option></select></div>
+    <div class="field guest-field">
+      <label>Comensales</label>
+      <button type="button" class="control guest-trigger" aria-haspopup="true" aria-expanded="false">2 personas</button>
+      <input type="hidden" name="dining-pax" value="2" />
+      <div class="guest-panel" role="dialog" aria-label="Comensales">
+        <div class="guest-row">
+          <span class="guest-row-label">Personas</span>
+          <div class="stepper" data-stepper="dining-pax" data-min="1" data-max="7" data-max-label="7+" data-unit-one="persona" data-unit-many="personas">
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos personas">−</button>
+            <span class="stepper-value">2</span>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más personas">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="field"><label>Ocasión</label><select class="control" name="dining-occasion"><option selected>Almuerzo</option><option>Cena</option><option>Aniversario</option><option>Cumpleaños</option><option>Negocios</option></select></div>
     <div class="field"><label>Teléfono</label><input class="control" type="tel" name="dining-tel" placeholder="+51 999 000 000" /></div>
     <button type="submit" class="submit">Reservar mesa</button>

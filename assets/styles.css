@@ -616,6 +616,7 @@
     align-items:stretch;
     transition:max-width .35s ease, padding .35s ease, box-shadow .35s ease;
   }
+  .reserve.form-stay{ grid-template-columns: repeat(4, 1fr) auto; }
   .reserve{ display:none; }
   .reserve.active{ display:grid; }
 
@@ -746,6 +747,105 @@
       border-radius:6px;
       font-size:.58rem;
     }
+  }
+
+  /* ---------- Guest/pax field with stepper popover (barra de reserva) ---------- */
+  .guest-field{ position:relative; }
+  .guest-trigger{
+    text-align:left; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  .guest-trigger::after{
+    content:"";
+    width:7px; height:7px;
+    border-right:1.4px solid var(--sand-deep);
+    border-bottom:1.4px solid var(--sand-deep);
+    transform:rotate(45deg);
+    transition:transform .25s ease;
+    flex-shrink:0;
+  }
+  .guest-field.open .guest-trigger::after{ transform:rotate(225deg); }
+
+  .guest-panel{
+    display:none;
+    position:absolute;
+    top:calc(100% + 10px);
+    left:0;
+    min-width:280px;
+    background:var(--white);
+    border:1px solid var(--line);
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.35);
+    padding:22px 24px;
+    z-index:120;
+  }
+  .guest-field.open .guest-panel{ display:block; animation:guestPanelIn .2s ease; }
+  @keyframes guestPanelIn{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  /* Barra anclada abajo (scroll): el panel se abre hacia arriba — hacia abajo se saldría
+     de la pantalla, porque la barra ya está pegada al borde inferior. */
+  body.reserve-docked .guest-panel{
+    top:auto;
+    bottom:calc(100% + 10px);
+  }
+  body.reserve-docked .guest-field.open .guest-panel{ animation:guestPanelInUp .2s ease; }
+  @keyframes guestPanelInUp{
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .guest-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 0;
+  }
+  .guest-row + .guest-row{ border-top:1px solid var(--line); }
+  .guest-row-label{ font-size:.86rem; color:var(--ink); }
+  .guest-row-label small{ display:block; font-size:.68rem; color:var(--muted); font-weight:300; margin-top:2px; }
+
+  .stepper{ display:flex; align-items:center; gap:14px; }
+  .stepper-btn{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--white); color:var(--ink);
+    font-size:1rem; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  .stepper-btn:hover:not(:disabled){ border-color:var(--sand-deep); color:var(--sand-deep); }
+  .stepper-btn:disabled{ opacity:.3; cursor:default; }
+  .stepper-value{ font-size:.92rem; color:var(--ink); min-width:14px; text-align:center; }
+
+  /* El panel vive dentro de .reserve-section (z-index:50, o 80 anclada), su propio
+     contexto de apilamiento — sin esto, el overlay (z-index:110, hijo directo de body)
+     lo tapa aunque .guest-panel tenga z-index:120, porque ese 120 solo compite dentro
+     del contexto de .reserve-section, no contra hermanos de body. */
+  .reserve-section:has(.guest-field.open){ z-index:130; }
+
+  .guest-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(20,18,14,.5);
+    z-index:110;
+  }
+  .guest-overlay.open{ display:block; animation:guestOverlayIn .25s ease; }
+  @keyframes guestOverlayIn{ from{ opacity:0; } to{ opacity:1; } }
+
+  @media (max-width:1100px){
+    .guest-panel{ left:0; right:auto; }
+  }
+  @media (max-width:560px){
+    .guest-field{ flex-direction:column !important; align-items:stretch !important; }
+    .guest-trigger{ text-align:right; }
+    /* position:fixed y anclado a los bordes del viewport (no del field, que en mobile
+       es angosto e inconsistente en ancho) — evita que el panel se salga de pantalla. */
+    .guest-panel{
+      position:fixed;
+      top:100px; bottom:auto; left:18px; right:18px;
+      width:auto; min-width:0; max-width:none;
+    }
+    body.reserve-docked .guest-panel{ top:auto; bottom:100px; }
   }
 
   /* ---------- Section base ---------- */
