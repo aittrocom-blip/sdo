@@ -585,4 +585,57 @@ window.I18N_EN = {
 
   "eventos.award_band.label": "Sol de Oro · Salons & Banquets",
   "eventos.award_band.title": "From cocktails to conventions · 1,000 guests",
+
+  // ---- restaurante.html ----
+  "restaurante.meta_description": "Restaurante Murano · Signature Peruvian cuisine with breakfast buffet, executive lunch and tasting dinner. Open to the public in Miraflores.",
+
+  "restaurante.hero.eyebrow": "Murano · Signature Peruvian Cuisine",
+  "restaurante.hero.title": "One table open to the public, every day of the year.",
+  "restaurante.hero.lead": "Products from the sea and the Andean valleys meet in every dish. Breakfast buffet, executive lunch and tasting dinner paired with Peruvian wines.",
+  "restaurante.hero.cta_book": "Book a table",
+  "restaurante.hero.cta_menu": "View the menu",
+
+  "restaurante.intro.eyebrow": "The Hotel's Table",
+  "restaurante.intro.title": "Peruvian cuisine that understands travel. Without overwhelming, without losing its identity.",
+  "restaurante.intro.body": "Murano opens early for guests and stays open to the public for lunch and dinner. The menu changes with the season: ceviches of the day, reinvented causas, grilled fish and Lima-style desserts. Reservations recommended on weekends.",
+
+  "restaurante.stage.eyebrow": "Three Moments",
+  "restaurante.stage.title": "One table, three rhythms a day.",
+  "restaurante.stage.body": "Murano opens early for guests and stays open to the public for lunch and dinner. Reservations recommended on weekends.",
+  "restaurante.stage.quote_text": "We cook with Peruvian products, but we think about the traveler: food that teaches without overwhelming, flavors that are understood at ease.",
+  "restaurante.stage.quote_author": "Murano Team · Head Chef",
+  "restaurante.stage.side_title": "Book your table.",
+  "restaurante.stage.side_lead": "We accept reservations 24 hours in advance for lunch and dinner. Breakfast is included in the room rate and requires no reservation.",
+  "restaurante.stage.cta_book": "Book a table",
+  "restaurante.stage.cta_menu_email": "Request the menu by email",
+
+  "restaurante.moment.breakfast.title": "Breakfast Buffet",
+  "restaurante.moment.breakfast.body": "Tropical fruits, Peruvian pastries, fresh-pressed juices, an eggs-to-order station and highland coffee. Extended until 11:00 AM on Saturdays, Sundays and holidays.",
+  "restaurante.moment.lunch.title": "Executive Lunch",
+  "restaurante.moment.lunch.body": "A three-course menu rotating market products. Designed for business meetings. Monday to Saturday.",
+  "restaurante.moment.dinner.title": "À la Carte Dinner",
+  "restaurante.moment.dinner.body": "Peruvian and international cuisine in a sophisticated, casual setting. Available every day during general service hours.",
+  "restaurante.moment.bar.title": "Bar Murano",
+  "restaurante.moment.bar.body": "Pisco sours, chilcanos, Peruvian wines by the glass and a signature cocktail menu at the bar. Open every day.",
+
+  "restaurante.plate.tuna": "Seared Sesame Tuna",
+  "restaurante.plate.lomo_saltado": "Lomo Saltado",
+  "restaurante.plate.crostini": "Ham Crostini",
+  "restaurante.plate.octopus": "Grilled Octopus",
+  "restaurante.plate.cheese_board": "Cheese & Charcuterie Board",
+
+  "restaurante.stats.breakfast_days": "Breakfast days · 7 lunch/dinner",
+  "restaurante.stats.seats": "Seats in the dining room",
+  "restaurante.stats.wines": "Peruvian wines by the glass",
+  "restaurante.stats.opening": "Opens daily",
+
+  "restaurante.testimonials.eyebrow": "Guest Reviews",
+  "restaurante.testimonials.title": "\"The hotel's cuisine alone was worth the trip.\"",
+  "restaurante.testimonials.review1_body": "I came just to stay and ended up dining three nights at Murano. The ceviche and the seafood rice were my favorites.",
+  "restaurante.testimonials.review1_context": "Business",
+  "restaurante.testimonials.review2_body": "The wine pairing on the tasting menu is a masterclass in Peruvian wines. I'll be back just to have dinner.",
+  "restaurante.testimonials.review2_context": "Anniversary",
+
+  "restaurante.award_band.label": "Restaurante Murano · Sol de Oro",
+  "restaurante.award_band.title": "Signature Peruvian cuisine, every day",
 };
