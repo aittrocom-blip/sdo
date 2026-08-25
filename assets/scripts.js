@@ -49,6 +49,7 @@
     document.querySelectorAll('.lang-btn').forEach(function(btn){
       btn.addEventListener('click', function(){
         var lang = btn.dataset.lang;
+        if (lang === getSiteLang()) return; // already at this language
         setSiteLang(lang);
         document.querySelectorAll('.lang-btn').forEach(function(b){
           b.classList.toggle('active', b.dataset.lang === lang);
