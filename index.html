@@ -136,7 +136,7 @@
     </div>
     <ul class="mobile-nav-links">
       <li><a href="habitaciones.html" data-i18n="common.nav.rooms">Habitaciones</a></li>
-      <li><a href="eventos.html" data-i18n="common.nav.salons_mega.eyebrow">Salones &amp; Eventos</a></li>
+      <li><a href="eventos.html" data-i18n="common.nav.salons_events">Salones &amp; Eventos</a></li>
       <li><a href="restaurante.html" data-i18n="common.nav.restaurant">Restaurante</a></li>
       <li><a href="galeria.html" data-i18n="common.nav.gallery">Galería</a></li>
       <li><a href="experiencias.html" data-i18n="common.nav.experiences">Experiencias</a></li>
@@ -251,17 +251,17 @@
         <div class="guest-row">
           <span class="guest-row-label" data-i18n="common.reserve.guests_adults">Adultos</span>
           <div class="stepper" data-stepper="adults" data-min="1" data-max="8" data-unit-one="adulto" data-unit-many="adultos">
-            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos adultos">−</button>
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos adultos" data-i18n-attr="aria-label:common.reserve.stepper_dec_adults">−</button>
             <span class="stepper-value">2</span>
-            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más adultos">+</button>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más adultos" data-i18n-attr="aria-label:common.reserve.stepper_inc_adults">+</button>
           </div>
         </div>
         <div class="guest-row">
           <span class="guest-row-label"><span data-i18n="common.reserve.guests_children">Niños</span> <small data-i18n="common.reserve.guests_children_age">0-12 años</small></span>
           <div class="stepper" data-stepper="kids" data-min="0" data-max="6" data-unit-one="niño" data-unit-many="niños" data-hide-zero="true">
-            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos niños">−</button>
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos niños" data-i18n-attr="aria-label:common.reserve.stepper_dec_children">−</button>
             <span class="stepper-value">0</span>
-            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más niños">+</button>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más niños" data-i18n-attr="aria-label:common.reserve.stepper_inc_children">+</button>
           </div>
         </div>
       </div>
@@ -299,9 +299,9 @@
         <div class="guest-row">
           <span class="guest-row-label" data-i18n="common.reserve.dining_pax">Personas</span>
           <div class="stepper" data-stepper="dining-pax" data-min="1" data-max="7" data-max-label="7+" data-unit-one="persona" data-unit-many="personas">
-            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos personas">−</button>
+            <button type="button" class="stepper-btn" data-action="dec" aria-label="Menos personas" data-i18n-attr="aria-label:common.reserve.stepper_dec_dining_pax">−</button>
             <span class="stepper-value">2</span>
-            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más personas">+</button>
+            <button type="button" class="stepper-btn" data-action="inc" aria-label="Más personas" data-i18n-attr="aria-label:common.reserve.stepper_inc_dining_pax">+</button>
           </div>
         </div>
       </div>
@@ -309,11 +309,11 @@
     <div class="field">
       <label data-i18n="common.reserve.dining_occasion">Ocasión</label>
       <select class="control" name="dining-occasion">
-        <option selected>Almuerzo</option>
-        <option>Cena</option>
-        <option>Aniversario</option>
-        <option>Cumpleaños</option>
-        <option>Negocios</option>
+        <option selected data-i18n="common.reserve.dining_occasion_lunch">Almuerzo</option>
+        <option data-i18n="common.reserve.dining_occasion_dinner">Cena</option>
+        <option data-i18n="common.reserve.dining_occasion_anniversary">Aniversario</option>
+        <option data-i18n="common.reserve.dining_occasion_birthday">Cumpleaños</option>
+        <option data-i18n="common.reserve.dining_occasion_business">Negocios</option>
       </select>
     </div>
     <div class="field">
@@ -327,11 +327,11 @@
     <div class="field">
       <label data-i18n="common.reserve.evt_type">Tipo de evento</label>
       <select class="control" name="evt-type">
-        <option>Boda</option>
-        <option>Conferencia</option>
-        <option>Reunión ejecutiva</option>
-        <option>Coctel · Cena</option>
-        <option>Convención</option>
+        <option data-i18n="common.reserve.evt_type_wedding">Boda</option>
+        <option data-i18n="common.reserve.evt_type_conference">Conferencia</option>
+        <option data-i18n="common.reserve.evt_type_meeting">Reunión ejecutiva</option>
+        <option data-i18n="common.reserve.evt_type_cocktail">Coctel · Cena</option>
+        <option data-i18n="common.reserve.evt_type_convention">Convención</option>
       </select>
     </div>
     <div class="field">
@@ -349,7 +349,7 @@
     </div>
     <div class="field">
       <label data-i18n="common.reserve.evt_email">Email</label>
-      <input class="control" type="email" name="evt-email" placeholder="tu@correo.com" />
+      <input class="control" type="email" name="evt-email" placeholder="tu@correo.com" data-i18n-attr="placeholder:common.reserve.evt_email_placeholder" />
     </div>
     <div class="field">
       <label data-i18n="common.reserve.evt_phone">Teléfono</label>
@@ -889,7 +889,7 @@
 
     <div class="footer-bottom">
       <span>© 2026 Sol de Oro Hotel &amp; Suites</span>
-      <div class="social" aria-label="Redes sociales">
+      <div class="social" aria-label="Redes sociales" data-i18n-attr="aria-label:common.footer.social_label">
         <a href="https://www.facebook.com/SoldeOroHotelSuites" target="_blank" rel="noopener" aria-label="Facebook">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h2.4V6.2c0-.5.5-3.2 3.7-3.2h2.4v2.9h-1.7c-.3 0-.7.2-.7.8V8h2.5l-.3 2.8h-2.2V21h-3.6v-10H9V8z"/></svg>
         </a>
