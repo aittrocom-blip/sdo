@@ -412,6 +412,7 @@ window.I18N_EN = {
   "eventos.salones.title": "Seven salons across three floors of the hotel.",
   "eventos.salones.body": "Versatility, technology and elegance in every salon. Total capacity for over 980 guests. Each space adapts to different layouts with air conditioning, Wi-Fi, projector, retractable screen, professional sound system and technical assistance throughout the event.",
 
+  "eventos.filter_nav_label": "Filter by floor",
   "eventos.filter_all": "All",
   "eventos.filter_floor1": "Floor 1",
   "eventos.filter_floor2": "Floor 2",
@@ -537,6 +538,7 @@ window.I18N_EN = {
 
   "eventos.stats.salones": "Salons",
   "eventos.stats.capacity": "Total capacity",
+  "eventos.stats.area_value": "1,458 m²",
   "eventos.stats.area": "Event space",
   "eventos.stats.rooms": "Rooms",
 
