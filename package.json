@@ -1,0 +1,8 @@
+{
+  "name": "sol-de-oro-web-devtools",
+  "private": true,
+  "description": "Local dev-only tooling for the static site (Playwright, coverage scripts). Not part of the shipped site — no build step.",
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}
