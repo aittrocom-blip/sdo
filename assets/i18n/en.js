@@ -611,6 +611,7 @@ window.I18N_EN = {
 
   "restaurante.moment.breakfast.title": "Breakfast Buffet",
   "restaurante.moment.breakfast.body": "Tropical fruits, Peruvian pastries, fresh-pressed juices, an eggs-to-order station and highland coffee. Extended until 11:00 AM on Saturdays, Sundays and holidays.",
+  "restaurante.moment.breakfast.time": "Mon–Fri 07:00 — 10:00",
   "restaurante.moment.lunch.title": "Executive Lunch",
   "restaurante.moment.lunch.body": "A three-course menu rotating market products. Designed for business meetings. Monday to Saturday.",
   "restaurante.moment.dinner.title": "À la Carte Dinner",
