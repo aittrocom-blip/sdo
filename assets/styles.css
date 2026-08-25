@@ -313,6 +313,11 @@
   }
   .site-header.scrolled .lang{ color:var(--ink); }
   .lang .active{ color:var(--sand); }
+  .lang-btn{
+    background:none; border:none; padding:0; margin:0;
+    font:inherit; color:inherit; cursor:pointer;
+  }
+  .lang-btn:hover{ color:var(--sand); }
   .menu-toggle{ display:none; }
 
   @media (max-width:1140px){

@@ -1,3 +1,76 @@
+  /* ---------- i18n: toggle ES/EN, persisted, no reload ----------
+     data-i18n="clave" traduce textContent; data-i18n-attr="attr:clave[,attr2:clave2]"
+     traduce atributos (placeholder, alt, aria-label, title, etc.). Ver spec:
+     docs/superpowers/specs/2026-08-21-site-i18n-en-toggle-design.md */
+  var SITE_LANG_KEY = 'site_lang';
+
+  function getSiteLang(){
+    try {
+      return localStorage.getItem(SITE_LANG_KEY) === 'en' ? 'en' : 'es';
+    } catch (e) {
+      return 'es';
+    }
+  }
+  window.getSiteLang = getSiteLang;
+
+  function setSiteLang(lang){
+    try { localStorage.setItem(SITE_LANG_KEY, lang); } catch (e) { /* ignore */ }
+  }
+
+  function applyI18n(lang){
+    document.documentElement.lang = lang;
+    if (lang !== 'en') return; // el markup ya está en español por defecto — no hay swap "a español"
+    var dict = window.I18N_EN || {};
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.textContent = dict[key];
+      } else {
+        console.warn('[i18n] missing EN key:', key);
+      }
+    });
+    document.querySelectorAll('[data-i18n-attr]').forEach(function(el){
+      el.getAttribute('data-i18n-attr').split(',').forEach(function(pair){
+        var parts = pair.split(':');
+        var attr = parts[0].trim();
+        var key = parts[1] ? parts[1].trim() : '';
+        if (!attr || !key) return;
+        if (Object.prototype.hasOwnProperty.call(dict, key)) {
+          el.setAttribute(attr, dict[key]);
+        } else {
+          console.warn('[i18n] missing EN key:', key);
+        }
+      });
+    });
+  }
+  window.applyI18n = applyI18n;
+
+  function wireLangToggle(){
+    document.querySelectorAll('.lang-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var lang = btn.dataset.lang;
+        setSiteLang(lang);
+        document.querySelectorAll('.lang-btn').forEach(function(b){
+          b.classList.toggle('active', b.dataset.lang === lang);
+        });
+        if (lang === 'es') {
+          location.reload(); // volver a español = recargar el HTML original en español
+        } else {
+          applyI18n('en');
+        }
+      });
+    });
+  }
+
+  (function(){
+    var lang = getSiteLang();
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if (lang === 'en') applyI18n('en');
+    wireLangToggle();
+  })();
+
   /* Manifiesto de imágenes — lee assets/images.json y reemplaza cada
      elemento con data-img="key" usando el src/alt definidos. Permite
      editar todas las imágenes del sitio desde editor-imagenes.html sin
