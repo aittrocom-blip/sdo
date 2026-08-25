@@ -42,6 +42,12 @@
         }
       });
     });
+    // Avisa a componentes que derivan su propio markup de atributos data-*
+    // (ej. el showcase de habitaciones, que arma <li> de amenidades a partir
+    // de data-features) para que se vuelvan a pintar con los atributos recién
+    // traducidos — data-i18n-attr ya actualizó el atributo, pero no repinta
+    // markup generado por JS a partir de ese atributo.
+    document.dispatchEvent(new CustomEvent('i18n:applied', { detail: { lang: lang } }));
   }
   window.applyI18n = applyI18n;
 
@@ -517,6 +523,13 @@
       });
     });
     setActive(0);
+    // Al togglear idioma sin recargar, data-i18n-attr ya tradujo los atributos
+    // data-cat/data-lead/etc. del thumbnail activo, pero el <ul> de amenidades
+    // (armado como innerHTML a partir de data-features) no se repinta solo —
+    // repetimos el render con el thumbnail que ya estaba activo.
+    document.addEventListener('i18n:applied', () => {
+      setActive(parseInt(showcase.dataset.current || '0', 10));
+    });
   });
 
   /* Galería: filtro por categoría */

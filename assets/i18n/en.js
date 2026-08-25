@@ -121,6 +121,9 @@ window.I18N_EN = {
   "common.footer.col_contact_reservations": "Reservations",
   "common.footer.social_label": "Social media",
 
+  // ---- common: breadcrumb (page-hero pages) ----
+  "common.breadcrumb_home": "Home",
+
   // ---- index.html ----
   "index.meta_description": "Five-star hotel in Miraflores. 123 rooms, salons for up to 1,000 guests, Restaurante Murano, spa and pool. A stay in the heart of Lima.",
 
@@ -276,4 +279,118 @@ window.I18N_EN = {
   "index.testimonials.review2_context": "Corporate event",
 
   "index.award_band.stars": "5 Stars",
+
+  // ---- habitaciones.html ----
+  "habitaciones.meta_description": "123 five-star rooms in Miraflores. Nine categories, from Standard to the Grand Deluxe Suite with Pacific views.",
+
+  "habitaciones.hero.eyebrow": "Rooms · 123 units",
+  "habitaciones.hero.title": "Nine categories to feel at home.",
+  "habitaciones.hero.lead": "From the Standard to the Grand Deluxe Suite. All with high-speed WiFi, travertine marble bathrooms, a safe and natural Miraflores light.",
+  "habitaciones.hero.cta_explore": "Explore categories",
+  "habitaciones.hero.cta_book": "Book now",
+
+  "habitaciones.intro.eyebrow": "The Sol de Oro Standard",
+  "habitaciones.intro.title": "Every room, a small Peruvian home with contemporary lines.",
+  "habitaciones.intro.body": "Fourteen floors. 123 rooms. Different scales of space and view, but the same care for detail: local woods, travertine marble, Peruvian textiles and the Lima light that fills every space.",
+
+  "habitaciones.showcase.eyebrow": "Categories",
+  "habitaciones.showcase.title": "Choose how you want to experience Lima.",
+  "habitaciones.showcase.body": "Click any category to see the full detail, dimensions, view and included amenities.",
+  "habitaciones.showcase.arrow_prev": "Previous",
+  "habitaciones.showcase.arrow_next": "Next",
+  "habitaciones.showcase.spec_size": "Size",
+  "habitaciones.showcase.spec_bed": "Bed",
+  "habitaciones.showcase.spec_view": "View",
+  "habitaciones.showcase.spec_cap": "Capacity",
+  "habitaciones.showcase.cta_book": "Book this room",
+  "habitaciones.showcase.cta_inquire": "Check availability",
+
+  "habitaciones.room.standard.cat": "01 · Essential",
+  "habitaciones.room.standard.lead": "This room features a double bed, a private bathroom with tub and hair dryer, air conditioning, a flat-screen TV with cable, a private entrance, soundproofed walls and a closet.",
+  "habitaciones.room.standard.bed": "1 Double bed",
+  "habitaciones.room.standard.cap": "2 people",
+  "habitaciones.room.standard.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with tub|Smart cable TV",
+
+  "habitaciones.room.standard_twin.cat": "02 · Essential",
+  "habitaciones.room.standard_twin.lead": "This room features two twin beds (100×200 cm), a private bathroom with tub and hair dryer, air conditioning, a flat-screen TV, a private entrance, soundproofed walls and a closet.",
+  "habitaciones.room.standard_twin.bed": "2 Twin beds (100×200 cm)",
+  "habitaciones.room.standard_twin.cap": "2 people",
+  "habitaciones.room.standard_twin.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with tub|Smart cable TV",
+
+  "habitaciones.room.superior_king.cat": "03 · Comfort",
+  "habitaciones.room.superior_king.lead": "The room features a king bed, air conditioning, a private entrance and a private bathroom with shower and hair dryer. Closet, safe and flat-screen TV with cable.",
+  "habitaciones.room.superior_king.bed": "1 King bed",
+  "habitaciones.room.superior_king.cap": "2 people",
+  "habitaciones.room.superior_king.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.superior_twin.cat": "04 · Comfort",
+  "habitaciones.room.superior_twin.lead": "The room features two queen beds, air conditioning, a private entrance and a private bathroom with shower and hair dryer. Closet, safe and flat-screen TV with cable.",
+  "habitaciones.room.superior_twin.bed": "2 Queen beds",
+  "habitaciones.room.superior_twin.cap": "2 people",
+  "habitaciones.room.superior_twin.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.junior_suite.cat": "05 · Suite",
+  "habitaciones.room.junior_suite.lead": "The room features a king bed, air conditioning, closet, safe, flat-screen TV with channels and a private bathroom with shower and hair dryer.",
+  "habitaciones.room.junior_suite.bed": "1 King bed",
+  "habitaciones.room.junior_suite.cap": "3 people",
+  "habitaciones.room.junior_suite.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.junior_twin.cat": "06 · Suite",
+  "habitaciones.room.junior_twin.lead": "The room features two queen beds, air conditioning, closet, safe, flat-screen TV with channels and a private bathroom with shower and hair dryer.",
+  "habitaciones.room.junior_twin.bed": "2 Queen beds",
+  "habitaciones.room.junior_twin.cap": "3 people",
+  "habitaciones.room.junior_twin.features": "Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.executive.cat": "07 · Premium",
+  "habitaciones.room.executive.lead": "The room features a king bed, air conditioning, closet, safe and flat-screen TV with cable. It includes a separate sitting room and a private bathroom with shower and hair dryer.",
+  "habitaciones.room.executive.bed": "1 King bed",
+  "habitaciones.room.executive.view": "Miraflores · upper floor",
+  "habitaciones.room.executive.cap": "2 people",
+  "habitaciones.room.executive.features": "Interior sitting room|Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.deluxe.cat": "08 · Premium",
+  "habitaciones.room.deluxe.lead": "The room features two queen beds, air conditioning, an in-room jacuzzi, closet, safe, flat-screen TV with channels and a private bathroom with shower and hair dryer.",
+  "habitaciones.room.deluxe.bed": "2 Queen beds",
+  "habitaciones.room.deluxe.view": "Miraflores · upper floor",
+  "habitaciones.room.deluxe.cap": "2 people",
+  "habitaciones.room.deluxe.features": "In-room jacuzzi|Air conditioning|Safe|Minibar|Blackout curtains|Bathroom with shower|Smart cable TV",
+
+  "habitaciones.room.grand_deluxe.cat": "09 · Signature",
+  "habitaciones.room.grand_deluxe.lead": "The room features a king bed, a sitting area, air conditioning, closet, safe and flat-screen TV with cable. It includes an in-room jacuzzi, a separate sitting room and a private bathroom with shower and hair dryer.",
+  "habitaciones.room.grand_deluxe.bed": "1 King bed",
+  "habitaciones.room.grand_deluxe.view": "Miraflores · upper floor",
+  "habitaciones.room.grand_deluxe.cap": "2 people",
+  "habitaciones.room.grand_deluxe.features": "In-room jacuzzi|Living area|Air conditioning|Safe|Minibar|Blackout curtains|Smart cable TV",
+
+  "habitaciones.reserve.dining_confirm": "Restaurant · We'll confirm by email.",
+
+  "habitaciones.amenities.eyebrow": "Included in every room",
+  "habitaciones.amenities.title": "Standard amenities, whatever the category.",
+  "habitaciones.amenities.body": "Whichever room you choose, these services are always included in the rate, at no extra charge.",
+  "habitaciones.amenities.wifi.title": "High-speed WiFi",
+  "habitaciones.amenities.wifi.body": "Symmetric fiber optic in every room.",
+  "habitaciones.amenities.tv.title": "Smart TV 50\"+",
+  "habitaciones.amenities.tv.body": "Streaming, international cable and casting.",
+  "habitaciones.amenities.safe.title": "Safe",
+  "habitaciones.amenities.safe.body": "Laptop-size, in every room.",
+  "habitaciones.amenities.minibar.title": "Curated minibar",
+  "habitaciones.amenities.minibar.body": "Selected Peruvian products.",
+  "habitaciones.amenities.ac.title": "Air conditioning",
+  "habitaciones.amenities.ac.body": "Silent dual-flow climate control.",
+  "habitaciones.amenities.peruvian.title": "Peruvian amenities",
+  "habitaciones.amenities.peruvian.body": "An exclusive line of artisanal products.",
+  "habitaciones.amenities.room_service.title": "24-Hour Room Service",
+  "habitaciones.amenities.room_service.body": "From the Restaurante Murano menu.",
+  "habitaciones.amenities.concierge.title": "Bilingual concierge",
+  "habitaciones.amenities.concierge.body": "24/7 assistance in Spanish and English.",
+
+  "habitaciones.testimonials.eyebrow": "What our guests are saying",
+  "habitaciones.testimonials.title": "A room with a view, a stay to remember.",
+  "habitaciones.testimonials.review1_body": "The Junior Suite exceeded our expectations. The terrace with Pacific views at sunset is what we'll remember most about Lima.",
+  "habitaciones.testimonials.review1_context": "Anniversary",
+  "habitaciones.testimonials.review2_body": "We booked the Family Suite with our two kids. Having two bathrooms and the mini kitchen changed the whole experience. We'd come back without hesitation.",
+  "habitaciones.testimonials.review2_context": "Family",
+
+  "habitaciones.award_band.stars": "5 Stars",
+  "habitaciones.award_band.stat": "123 rooms · 9 categories",
 };
