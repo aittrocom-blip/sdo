@@ -98,6 +98,7 @@ window.I18N_EN = {
   "common.reserve.evt_email_placeholder": "your@email.com",
   "common.reserve.evt_phone": "Phone",
   "common.reserve.submit_events": "Get a quote",
+  "common.reserve.dining_confirm": "Restaurant · We'll confirm by email.",
 
   // ---- common: footer ----
   "common.footer.brand_intro": "A five-star hotel in the heart of Miraflores' tourist and financial district. An authentically Peruvian experience with international service.",
@@ -361,8 +362,6 @@ window.I18N_EN = {
   "habitaciones.room.grand_deluxe.view": "Miraflores · upper floor",
   "habitaciones.room.grand_deluxe.cap": "2 people",
   "habitaciones.room.grand_deluxe.features": "In-room jacuzzi|Living area|Air conditioning|Safe|Minibar|Blackout curtains|Smart cable TV",
-
-  "habitaciones.reserve.dining_confirm": "Restaurant · We'll confirm by email.",
 
   "habitaciones.amenities.eyebrow": "Included in every room",
   "habitaciones.amenities.title": "Standard amenities, whatever the category.",
