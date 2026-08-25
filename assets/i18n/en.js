@@ -639,4 +639,59 @@ window.I18N_EN = {
 
   "restaurante.award_band.label": "Restaurante Murano · Sol de Oro",
   "restaurante.award_band.title": "Signature Peruvian cuisine, every day",
+
+  // ---- servicios.html ----
+  "servicios.meta_description": "Free WiFi, heated pool, spa, 24-hour gym, room service, bilingual concierge and transfers. Twelve services included in your stay.",
+
+  "servicios.hero.eyebrow": "Services & Amenities",
+  "servicios.hero.title": "Twelve services included in your stay.",
+  "servicios.hero.lead": "WiFi throughout the hotel, bilingual service around the clock and the kitchen of Restaurante Murano always close by. No surprise charges, no fine print.",
+  "servicios.hero.cta_amenities": "View amenities",
+  "servicios.hero.cta_book": "Book your stay",
+
+  "servicios.intro.eyebrow": "What's included in your stay",
+  "servicios.intro.title": "Services designed so everything flows.",
+  "servicios.intro.body": "Wellness, dining, connectivity and mobility. Every amenity is designed so your leisure or business trip feels effortless, with the care of a Peruvian five-star hotel.",
+
+  "servicios.amenities.eyebrow": "12 amenities",
+  "servicios.amenities.title": "What's included in a Sol de Oro stay.",
+  "servicios.amenities.body": "Every service listed is included in the rate, except where noted. No usage fees.",
+
+  "servicios.service.wifi.title": "High-Speed WiFi",
+  "servicios.service.wifi.desc": "Symmetric fiber optic in rooms, salons and common areas. No extra charge.",
+  "servicios.service.pool.title": "Heated Pool",
+  "servicios.service.pool.desc": "Climate-controlled year-round on the 12th-floor terrace, with views over Miraflores. 06:00–22:00.",
+  "servicios.service.gym.title": "24-Hour Gym",
+  "servicios.service.gym.desc": "Technogym equipment, free weights, cardio and Pacific views. Access with your room key.",
+  "servicios.service.spa.title": "Spa & Sauna",
+  "servicios.service.spa.desc": "Rituals rooted in Peruvian tradition, dry sauna, hydromassage and couples' treatment rooms. Reservations recommended.",
+  "servicios.service.restaurant.title": "Restaurante Murano",
+  "servicios.service.restaurant.desc": "Breakfast buffet, executive lunch and tasting dinner. Open to the public every day.",
+  "servicios.service.room_service.title": "24-Hour Room Service",
+  "servicios.service.room_service.desc": "A limited menu overnight and the full menu during restaurant hours.",
+  "servicios.service.concierge.title": "Bilingual Concierge",
+  "servicios.service.concierge.desc": "Restaurant reservations, transfers, tours and events around Lima, a message away. Spanish and English.",
+  "servicios.service.valet.title": "Valet Parking",
+  "servicios.service.valet.desc": "24/7 valet service with covered parking for guests and visitors.",
+  "servicios.service.business_center.title": "Business Center",
+  "servicios.service.business_center.desc": "Private rooms for quick meetings, printing, scanning and technical support.",
+  "servicios.service.laundry.title": "Laundry",
+  "servicios.service.laundry.desc": "Wash and press in under 24 hours. Express service available at an additional charge.",
+  "servicios.service.airport.title": "Airport Transfers",
+  "servicios.service.airport.desc": "Private service to Jorge Chávez Airport by sedan or van, coordinated by concierge. Preferential rate.",
+  "servicios.service.pet_friendly.title": "Pet Friendly",
+  "servicios.service.pet_friendly.desc": "We welcome small pets with a bed, bowl and a map of Miraflores' pet-friendly areas.",
+
+  "servicios.stats.reception": "Front desk & room service",
+  "servicios.stats.pool_floor": "Pool floor",
+  "servicios.stats.gym_opening": "Gym opens",
+  "servicios.stats.concierge_languages": "Concierge languages",
+
+  "servicios.feature_wellness.eyebrow": "Wellness · Floor 12",
+  "servicios.feature_wellness.title": "A terrace for swimming any time of day.",
+  "servicios.feature_wellness.body": "The heated pool on the 12th floor is climate-controlled year-round at 28°C. It's surrounded by a terrace with loungers, views over Miraflores and bar service during the Peruvian summer.",
+  "servicios.feature_wellness.cta": "Book your stay",
+
+  "servicios.award_band.label": "Sol de Oro · Five-Star Services",
+  "servicios.award_band.title": "Twelve amenities included in every stay",
 };
