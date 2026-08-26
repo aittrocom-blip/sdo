@@ -1209,4 +1209,58 @@ window.I18N_EN = {
   "ubicacion.transport.metro.desc": "Ricardo Palma station, a 10-minute taxi ride away. Connects to Lima's historic center in 25 minutes.",
 
   "ubicacion.award_band.title": "Calle San Martín 305 · Steps from the Pacific",
+
+  // ---- acerca.html ----
+  "acerca.meta_description": "Discover Sol de Oro, a five-star hotel in Miraflores. Over 30 years of Peruvian hospitality, 123 rooms, international certifications and a dedicated team.",
+
+  "acerca.hero.eyebrow": "The Hotel",
+  "acerca.hero.title": "More than 30 years of Peruvian hospitality in Miraflores.",
+  "acerca.hero.lead": "Sol de Oro opened its doors in 1992 with a simple idea: combine the service of an international five-star hotel with the warmth of a Peruvian home. Today we're a gathering place for travelers, executives and celebrations.",
+  "acerca.hero.cta_historia": "Our History",
+  "acerca.hero.cta_certificaciones": "Certifications",
+
+  "acerca.historia.eyebrow": "A Lima Story",
+  "acerca.historia.title": "A building that breathes Lima's light.",
+  "acerca.historia.body": "Fourteen floors of contemporary lines, terraces overlooking the Pacific and a lobby designed to welcome guests the way a Peruvian home would. Every space invites you to stay a little longer.",
+
+  "acerca.stats.years": "Years of hospitality",
+  "acerca.stats.rooms": "Rooms",
+  "acerca.stats.floors": "Floors",
+  "acerca.stats.rating": "Official rating",
+
+  "acerca.feature_story.eyebrow": "Since 1992",
+  "acerca.feature_story.title": "A five-star Peruvian home.",
+  "acerca.feature_story.body1": "A family of hoteliers for three generations. Sol de Oro was born from the idea that a five-star hotel could be elegant without being cold, and Peruvian without being touristy. Three decades later, that's still our compass.",
+  "acerca.feature_story.body2": "We're known by wedding planners from three countries, Fortune 500 executives and families who return every year from Buenos Aires, Bogotá or Santiago.",
+
+  "acerca.feature_team.eyebrow": "Our Team",
+  "acerca.feature_team.title": "180 people who make the hotel a home.",
+  "acerca.feature_team.body1": "Front desk, maintenance, kitchen, events, housekeeping, concierge. Every shift hands off to the next without losing track of who our guests are and what they like.",
+  "acerca.feature_team.body2": "More than 60% of our team has been with us for over five years. Some for decades. It shows in the small gestures.",
+
+  "acerca.certs.eyebrow": "Recognition",
+  "acerca.certs.title": "Distinctions, certifications and awards.",
+  "acerca.certs.body": "What validates the way we do things, year after year.",
+  "acerca.certs.mincetur.name": "Mincetur · 5 Stars",
+  "acerca.certs.mincetur.desc": "Official five-star rating awarded by Peru's Ministry of Foreign Trade and Tourism.",
+  "acerca.certs.tripadvisor.name": "TripAdvisor · Travelers Choice",
+  "acerca.certs.tripadvisor.desc": "Recognition among the top 10% of hotels rated by travelers worldwide.",
+  "acerca.certs.booking.name": "Booking · 9.0 Excellent",
+  "acerca.certs.booking.desc": "More than 4,000 verified reviews with an average rating of 9.0 out of 10.",
+  "acerca.certs.sol_privilege.name": "Sol Privilege Program",
+  "acerca.certs.sol_privilege.desc": "Our own loyalty program, featuring preferential rates, late check-out and benefits for returning guests.",
+  "acerca.certs.safe_travels.name": "Safe Travels · WTTC",
+  "acerca.certs.safe_travels.desc": "International seal for enhanced health and safety protocols from the World Travel & Tourism Council.",
+  "acerca.certs.iso9001.name": "ISO 9001 · Quality",
+  "acerca.certs.iso9001.desc": "International quality management certification, audited annually since 2018.",
+
+  "acerca.testimonials.eyebrow": "What Our Guests Say",
+  "acerca.testimonials.title": "\"We'd come back without hesitation.\"",
+  "acerca.testimonials.review1_body": "This is the fourth year in a row we've chosen Sol de Oro. Consistency of service is what we value most: the shift changes, but the attention never does.",
+  "acerca.testimonials.review1_context": "Returning guests",
+  "acerca.testimonials.review2_body": "We organized a conference for 600 people and the Sol de Oro team was on another level. Coordination, catering and setup — all flawless.",
+  "acerca.testimonials.review2_context": "Corporate event",
+
+  "acerca.award_band.since": "Since 1992",
+  "acerca.award_band.title": "Five-star hotel in Miraflores · Lima",
 };
