@@ -1579,7 +1579,7 @@ window.I18N_EN = {
   "terminos.s02.title": "Cancellation Policy",
   "terminos.s02.p1_lead": "If you need to cancel your reservation or check out earlier than planned, our ",
   "terminos.s02.p1_strong": "standard cancellation policy",
-  "terminos.s02.p1_mid": " will apply. For the specific deadlines and charges under your rate type, contact the Front Desk at extension ",
+  "terminos.s02.p1_mid": " will apply. For the specific deadlines and charges under your rate type, contact Reception at extension ",
   "terminos.s02.p1_mid2": " or call us at ",
   "terminos.s02.p1_end": ".",
   "terminos.s02.alert_strong": "Important:",
@@ -1650,7 +1650,7 @@ window.I18N_EN = {
   "terminos.s11.p_lead": "Electric current in Lima, Peru is ",
   "terminos.s11.p_mid": ", with type A, B and C outlets. If your equipment runs on 110 V (common in ",
   "terminos.s11.p_us": "the U.S.",
-  "terminos.s11.p_mid2": " and parts of Mexico), you will need a converter or adapter. For more information, contact the Front Desk at extension ",
+  "terminos.s11.p_mid2": " and parts of Mexico), you will need a converter or adapter. For more information, contact Reception at extension ",
   "terminos.s11.p_end": ".",
 
   "terminos.s12.title": "Liability",
@@ -1670,5 +1670,5 @@ window.I18N_EN = {
   "terminos.s14.updated": "Last updated: May 11, 2026.",
 
   "terminos.award_band.label": "Sol de Oro · Legal Information",
-  "terminos.award_band.title": "Front Desk 24h · +51 (1) 610-7000 ext. 2199",
+  "terminos.award_band.title": "Reception 24h · +51 (1) 610-7000 ext. 2199",
 };
