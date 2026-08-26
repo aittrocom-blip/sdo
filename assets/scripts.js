@@ -380,6 +380,16 @@
     overlay.addEventListener('click', closeAll);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
     document.querySelectorAll('.reserve-tabs .tab').forEach(t => t.addEventListener('click', closeAll));
+
+    // Al togglear idioma sin recargar: data-i18n-attr ya tradujo data-unit-one/
+    // data-unit-many en el DOM, pero si el guest-trigger ya fue reescrito por
+    // summarize() (conteo distinto al default), el <button> conserva su
+    // data-i18n original (ej. "2 adultos") y applyI18n lo vuelve a pisar con
+    // el texto por defecto en inglés — hay que re-summarizar después de cada
+    // toggle para que el conteo actual se muestre con las unidades correctas.
+    document.addEventListener('i18n:applied', () => {
+      fields.forEach(field => summarize(field));
+    });
   })();
 
   /* Mesa de fotos: filtro, layout dinámico (hasta 2 filas) y nav lateral */
@@ -723,7 +733,7 @@
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalLabel = submitBtn ? submitBtn.textContent : '';
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = form.dataset.pendingMsg || 'Enviando…'; }
 
       try {
         const resp = await fetch(FORMSPREE_ENDPOINT, {
@@ -748,7 +758,7 @@
           notice.style.cssText = 'color:#b3261e;font-size:.85rem;margin-top:10px;text-align:center;';
           form.appendChild(notice);
         }
-        notice.textContent = 'No pudimos enviar tu solicitud. Escríbenos directo a comercial@soldeoro.pe mientras lo resolvemos.';
+        notice.textContent = form.dataset.failureMsg || 'No pudimos enviar tu solicitud. Escríbenos directo a comercial@soldeoro.pe mientras lo resolvemos.';
       }
     });
   });

@@ -99,6 +99,16 @@ window.I18N_EN = {
   "common.reserve.evt_phone": "Phone",
   "common.reserve.submit_events": "Get a quote",
   "common.reserve.dining_confirm": "Restaurant · We'll confirm by email.",
+  "common.reserve.unit_adult_one": "adult",
+  "common.reserve.unit_adult_many": "adults",
+  "common.reserve.unit_child_one": "child",
+  "common.reserve.unit_child_many": "children",
+  "common.reserve.unit_person_one": "person",
+  "common.reserve.unit_person_many": "people",
+
+  // ---- common: forms (shared quote-request submit flow, assets/scripts.js) ----
+  "common.form.pending_msg": "Sending…",
+  "common.form.failure_msg": "We couldn't send your request. Email us directly at comercial@soldeoro.pe while we sort this out.",
 
   // ---- common: footer ----
   "common.footer.brand_intro": "A five-star hotel in the heart of Miraflores' tourist and financial district. An authentically Peruvian experience with international service.",
@@ -282,6 +292,7 @@ window.I18N_EN = {
   "index.award_band.stars": "5 Stars",
 
   // ---- habitaciones.html ----
+  "habitaciones.page_title": "Rooms · Sol de Oro Hotel & Suites",
   "habitaciones.meta_description": "123 five-star rooms in Miraflores. Nine categories, from Standard to the Grand Deluxe Suite with Pacific views.",
 
   "habitaciones.hero.eyebrow": "Rooms · 123 units",
@@ -394,6 +405,7 @@ window.I18N_EN = {
   "habitaciones.award_band.stat": "123 rooms · 9 categories",
 
   // ---- eventos.html ----
+  "eventos.page_title": "Events & Salons · Sol de Oro Hotel & Suites",
   "eventos.meta_description": "7 salons for 980 guests in Miraflores · 1,458 m² across 3 floors. Executive and Business Salons (up to 500p), the panoramic Salón Sol de Oro terrace, and a Convention Center.",
 
   "eventos.breadcrumb": "Events & Salons",
@@ -587,6 +599,7 @@ window.I18N_EN = {
   "eventos.award_band.title": "From cocktails to conventions · 1,000 guests",
 
   // ---- restaurante.html ----
+  "restaurante.page_title": "Restaurante Murano · Sol de Oro Hotel & Suites",
   "restaurante.meta_description": "Restaurante Murano · Signature Peruvian cuisine with breakfast buffet, executive lunch and tasting dinner. Open to the public in Miraflores.",
 
   "restaurante.hero.eyebrow": "Murano · Signature Peruvian Cuisine",
@@ -641,6 +654,7 @@ window.I18N_EN = {
   "restaurante.award_band.title": "Signature Peruvian cuisine, every day",
 
   // ---- servicios.html ----
+  "servicios.page_title": "Services & Amenities · Sol de Oro Hotel & Suites",
   "servicios.meta_description": "Free WiFi, heated pool, spa, 24-hour gym, room service, bilingual concierge and transfers. Twelve services included in your stay.",
 
   "servicios.hero.eyebrow": "Services & Amenities",
@@ -696,6 +710,7 @@ window.I18N_EN = {
   "servicios.award_band.title": "Twelve amenities included in every stay",
 
   // ---- experiencias.html ----
+  "experiencias.page_title": "Experiences · Sol de Oro Hotel & Suites",
   "experiencias.meta_description": "Experiences at Sol de Oro — a curated guide to the neighborhood and points of interest in Lima. Dining, culture and lifestyle recommendations from our concierge.",
 
   "experiencias.hero.eyebrow": "Lima Guide · Miraflores",
@@ -826,6 +841,7 @@ window.I18N_EN = {
   "experiencias.modal.close": "Close",
 
   // ---- ofertas.html ----
+  "ofertas.page_title": "Offers & Promotions · Sol de Oro Hotel & Suites",
   "ofertas.meta_description": "Special hospitality, dining and experience promotions. Anniversary packages, getaways, tasting dinners and corporate discounts.",
 
   "ofertas.hero.eyebrow": "Current Offers",
@@ -887,6 +903,7 @@ window.I18N_EN = {
   "ofertas.award_band.title": "Book direct for exclusive benefits",
 
   // ---- faq.html ----
+  "faq.page_title": "Frequently Asked Questions · Sol de Oro Hotel & Suites",
   "faq.meta_description": "Answers to the most frequently asked questions about check-in, pets, Wi-Fi, parking, dining, events and more at Hotel Sol de Oro in Miraflores.",
 
   "faq.hero.eyebrow": "Help Center",
@@ -1064,6 +1081,7 @@ window.I18N_EN = {
   "faq.award_band.title": "24-hour guest service",
 
   // ---- galeria.html ----
+  "galeria.page_title": "Gallery · Sol de Oro Hotel & Suites",
   "galeria.meta_description": "Photo gallery of Hotel Sol de Oro: rooms, common areas, dining and events. A visual tour of our five-star hotel in Miraflores.",
 
   "galeria.hero.eyebrow": "Visual Gallery",
@@ -1127,6 +1145,7 @@ window.I18N_EN = {
   "galeria.award_band.title": "Five-star hotel · Miraflores",
 
   // ---- ubicacion.html ----
+  "ubicacion.page_title": "Location · Sol de Oro Hotel & Suites · Miraflores, Lima",
   "ubicacion.meta_description": "Located at Calle San Martín 305, Miraflores · Lima. Steps from the Malecón, Larcomar and Lima's finest restaurants and business districts.",
 
   "ubicacion.hero.title": "The tourist and financial heart of Lima, on foot.",
@@ -1211,6 +1230,7 @@ window.I18N_EN = {
   "ubicacion.award_band.title": "Calle San Martín 305 · Steps from the Pacific",
 
   // ---- acerca.html ----
+  "acerca.page_title": "The Hotel · Sol de Oro Hotel & Suites",
   "acerca.meta_description": "Discover Sol de Oro, a five-star hotel in Miraflores. Over 30 years of Peruvian hospitality, 123 rooms, international certifications and a dedicated team.",
 
   "acerca.breadcrumb.hotel": "The Hotel",
@@ -1266,6 +1286,7 @@ window.I18N_EN = {
   "acerca.award_band.title": "Five-star hotel in Miraflores · Lima",
 
   // ---- empresarial.html ----
+  "empresarial.page_title": "Sol de Oro · Business · Lima",
   "empresarial.meta_description": "Corporate rates, executive event spaces, and dining for businesses at Sol de Oro Hotel & Suites, Miraflores, Lima.",
 
   "empresarial.corporate_eyebrow": "Sol de Oro Corporate",
@@ -1374,6 +1395,7 @@ window.I18N_EN = {
   // ANPDP) are kept in their official Spanish form and glossed in English
   // parentheses the first time each appears, per the binding note on this
   // task — never given a fabricated English legal name.
+  "privacidad.page_title": "Privacy Policy · Sol de Oro Hotel & Suites",
   "privacidad.meta_description": "Privacy policy and personal data handling practices at Hotel Sol de Oro Miraflores, in accordance with Ley N.° 29733 (Peru's Personal Data Protection Law).",
 
   "privacidad.breadcrumb": "Privacy Policy",
@@ -1460,7 +1482,7 @@ window.I18N_EN = {
   "privacidad.s04.li3_label": "Complementary service providers:",
   "privacidad.s04.li3_text": "if you arrange a tour, transfer or experience through the hotel, we share only the information essential to the provider carrying out the service.",
   "privacidad.s04.li4_label": "Competent authorities:",
-  "privacidad.s04.li4_text": "when required by law (Policía Nacional, Migraciones, SUNAT, INDECOPI, ANPDP — Peru's National Data Protection Authority —, public prosecutors or judges).",
+  "privacidad.s04.li4_text": "when required by law (Policía Nacional, Migraciones, SUNAT, INDECOPI, ANPDP (Peru's National Data Protection Authority), public prosecutors or judges).",
   "privacidad.s04.li5_label": "Legal advisors and insurers:",
   "privacidad.s04.li5_text": "in the event of claims, disputes or legal proceedings.",
   "privacidad.s04.note": "All of our providers are contractually required to maintain the confidentiality of your data and apply appropriate security measures.",
@@ -1545,6 +1567,7 @@ window.I18N_EN = {
   "privacidad.award_band.title": "Your information, protected under Ley N.° 29733",
 
   // ---- terminos.html ----
+  "terminos.page_title": "Terms and Conditions · Sol de Oro Hotel & Suites",
   "terminos.meta_description": "Terms and conditions of Hotel Sol de Oro: cancellation policy, check-in/check-out, pets, no-smoking policy, accepted cards, parking and general policies.",
 
   "terminos.breadcrumb": "Terms and Conditions",
