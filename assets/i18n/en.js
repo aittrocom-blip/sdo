@@ -824,4 +824,65 @@ window.I18N_EN = {
   "experiencias.itin_business.day3.steps": "Arrival: check-in + 60-minute express massage at the Spa|07:00 Breakfast buffet at Murano|Power walk along the Malecón (09:00)|Lunch at Murano|Afternoon: sauna + heated pool|19:00 Cocktail at Bar Murano|Light dinner + 22:00 sleep",
 
   "experiencias.modal.close": "Close",
+
+  // ---- ofertas.html ----
+  "ofertas.meta_description": "Special hospitality, dining and experience promotions. Anniversary packages, getaways, tasting dinners and corporate discounts.",
+
+  "ofertas.hero.eyebrow": "Current Offers",
+  "ofertas.hero.title": "Special hotel promotions.",
+  "ofertas.hero.lead": "Stay packages, dining experiences, anniversary getaways and corporate discounts. All offers have limited availability.",
+  "ofertas.hero.cta_view": "View promotions",
+  "ofertas.hero.cta_book": "Book with a code",
+
+  "ofertas.intro.eyebrow": "Benefits of Booking Direct",
+  "ofertas.intro.title": "Best rate guaranteed on our website.",
+  "ofertas.intro.body": "If you find a lower rate on another channel, we'll match it and add an extra benefit. Flexible bookings with cancellation up to 48 hours before check-in.",
+
+  "ofertas.promo1.tag": "Stay · Up to -25%",
+  "ofertas.promo1.title": "Miraflores Getaway",
+  "ofertas.promo1.desc": "Two nights in a Superior King room with breakfast buffet at Murano and spa access. Valid Sunday through Thursday.",
+  "ofertas.promo1.cta": "Book",
+  "ofertas.promo1.code": "Code ESCAPE25",
+
+  "ofertas.promo2.tag": "Dining",
+  "ofertas.promo2.title": "Romantic Dinner · Murano",
+  "ofertas.promo2.desc": "Five-course tasting menu paired with Peruvian wines, a welcome glass of wine and a table dressed with flowers.",
+  "ofertas.promo2.cta": "Book a table",
+  "ofertas.promo2.price": "S/ 320 / couple",
+
+  "ofertas.promo3.tag": "Wellness",
+  "ofertas.promo3.title": "Spa Day & Lunch",
+  "ofertas.promo3.desc": "Spa access with a 60-minute massage, sauna, hydromassage and a three-course lunch at Murano. Book 24 hours in advance.",
+  "ofertas.promo3.cta": "Book a spa day",
+  "ofertas.promo3.price": "S/ 380 / person",
+
+  "ofertas.promo4.tag": "Anniversary · 3 nights",
+  "ofertas.promo4.title": "Suite with Pacific Views",
+  "ofertas.promo4.desc": "Three nights in a Deluxe Suite with a private jacuzzi, tasting dinner, in-room breakfast and late check-out.",
+  "ofertas.promo4.cta": "Book the suite",
+  "ofertas.promo4.code": "Code SUITE3",
+
+  "ofertas.promo5.tag": "Family · Up to -20%",
+  "ofertas.promo5.title": "Family Getaway",
+  "ofertas.promo5.desc": "Family Suite for 4 people, two full bathrooms, breakfast included for everyone and an activity map for kids.",
+  "ofertas.promo5.cta": "Book for family",
+  "ofertas.promo5.code": "Code FAMILY20",
+
+  "ofertas.promo6.tag": "Corporate",
+  "ofertas.promo6.title": "Corporate Rate",
+  "ofertas.promo6.desc": "A permanent discount for companies with a minimum volume. Premium WiFi, late check-out, complimentary meeting room.",
+  "ofertas.promo6.cta": "Request rate",
+  "ofertas.promo6.price": "By agreement",
+
+  "ofertas.terms.eyebrow": "In Plain Terms",
+  "ofertas.terms.title": "How our offers work.",
+  "ofertas.terms.cancel.title": "Flexible Cancellation",
+  "ofertas.terms.cancel.body": "Free cancellation up to 48 hours before check-in. After that, the first night is charged.",
+  "ofertas.terms.rate.title": "Best Rate",
+  "ofertas.terms.rate.body": "If you find it cheaper on another channel, we'll match the price and add an extra benefit.",
+  "ofertas.terms.hidden.title": "No Hidden Charges",
+  "ofertas.terms.hidden.body": "Rates include taxes, WiFi and breakfast (where applicable). What you see is what you pay.",
+
+  "ofertas.award_band.label": "Best Rate Guaranteed",
+  "ofertas.award_band.title": "Book direct for exclusive benefits",
 };
