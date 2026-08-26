@@ -113,6 +113,12 @@
           const key = el.dataset.img;
           if (images[key]) setImage(el, images[key]);
         });
+        // Este fetch es async y puede resolver después de applyI18n() en la
+        // carga inicial (idioma EN persistido) — setImage() ya sobreescribió
+        // el alt en español del manifiesto sobre las <img data-img> (ej.
+        // galería de fotos), pisando la traducción recién aplicada. Volvemos
+        // a traducir para que el alt en inglés no se pierda.
+        if (getSiteLang() === 'en') applyI18n('en');
       })
       .catch(() => { /* fallback a src inline */ });
   })();
