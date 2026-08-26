@@ -885,4 +885,181 @@ window.I18N_EN = {
 
   "ofertas.award_band.label": "Best Rate Guaranteed",
   "ofertas.award_band.title": "Book direct for exclusive benefits",
+
+  // ---- faq.html ----
+  "faq.meta_description": "Answers to the most frequently asked questions about check-in, pets, Wi-Fi, parking, dining, events and more at Hotel Sol de Oro in Miraflores.",
+
+  "faq.hero.eyebrow": "Help Center",
+  "faq.hero.title": "Answers to what we're asked most.",
+  "faq.hero.lead_1": "Reservations, arrival, services, pets, events and everything you need to know before your stay. If you can't find your answer, write to us at ",
+  "faq.hero.cta_view": "View questions",
+  "faq.hero.cta_whatsapp": "Chat with an advisor",
+
+  "faq.cat_arrival": "Arrival & Stay",
+
+  "faq.q1.question": "What time can I check in and check out?",
+  "faq.q1.answer.checkin_label": "Check-in:",
+  "faq.q1.answer.checkin_value": "3:00 PM",
+  "faq.q1.answer.checkout_label": "Check-out:",
+  "faq.q1.answer.checkout_value": "12:00 PM",
+  "faq.q1.answer.note": "If you need an early check-in or a late check-out, let us know in advance and we'll coordinate it, subject to availability.",
+
+  "faq.q2.question": "How do I get to the hotel from Jorge Chávez Airport?",
+  "faq.q2.answer.p1_lead": "Jorge Chávez International Airport is approximately ",
+  "faq.q2.answer.distance": "20 km",
+  "faq.q2.answer.p1_tail": " (35 to 45 minutes by car depending on traffic) from our hotel at ",
+  "faq.q2.answer.options_label": "Recommended options:",
+  "faq.q2.answer.opt1_label": "Official airport taxi",
+  "faq.q2.answer.opt1_detail": " (counter inside the terminal, fixed rate).",
+  "faq.q2.answer.opt2_label": "Ride-hailing app",
+  "faq.q2.answer.opt2_detail": " (Uber, Cabify, Didi, InDriver) from the designated pickup area.",
+  "faq.q2.answer.opt3_label": "Private hotel transfer",
+  "faq.q2.answer.opt3_detail": " — arrange in advance at ",
+
+  "faq.q3.question": "Do you have parking?",
+  "faq.q3.answer.lead": "Yes. Three parking levels with capacity for ",
+  "faq.q3.answer.capacity": "62 vehicles",
+  "faq.q3.answer.tail": ", including spaces for guests with disabilities and racks for bicycles or motorcycles. The service is included for guests.",
+
+  "faq.q4.question": "What cards do you accept?",
+  "faq.q4.answer.lead": "We accept: ",
+  "faq.q4.answer.cards": "American Express, Diners Club, Mastercard and Visa",
+  "faq.q4.answer.tail": ". The hotel reserves the right to accept cards only when presented by their registered holder.",
+
+  "faq.q5.question": "What happens if I need to cancel or leave early?",
+  "faq.q5.answer.lead": "A ",
+  "faq.q5.answer.link_text": "standard cancellation policy",
+  "faq.q5.answer.mid": " applies. For specific cases or early departures, contact Reception at extension ",
+  "faq.q5.answer.tail": " or call us at ",
+
+  "faq.cat_rooms": "Rooms",
+
+  "faq.q6.question": "How many room types are there?",
+  "faq.q6.answer.lead": "We have ",
+  "faq.q6.answer.count": "9 categories",
+  "faq.q6.answer.room1": "Standard Room — 25 m², 2 people, double bed.",
+  "faq.q6.answer.room2": "Standard Room Twin — 25 m², 2 people, two twin beds.",
+  "faq.q6.answer.room3": "Superior King Room — 27 m², 2 people, king bed.",
+  "faq.q6.answer.room4": "Superior Twin Room — 27 m², 2 people, two queen beds.",
+  "faq.q6.answer.room5": "Junior Suite — 40 m², 3 people, king bed.",
+  "faq.q6.answer.room6": "Junior Suite Twin — 40 m², 3 people, two queen beds.",
+  "faq.q6.answer.room7": "Executive Suite — 80 m², 2 people, king bed + living area.",
+  "faq.q6.answer.room8": "Suite Deluxe — 80 m², 2 people, two queen beds + jacuzzi.",
+  "faq.q6.answer.room9": "Grand Deluxe Suite — 80 m², 2 people, king bed + living area + jacuzzi.",
+  "faq.q6.answer.cta": "See details for every room →",
+
+  "faq.q7.question": "Is there Wi-Fi and is it free?",
+  "faq.q7.answer.lead": "Yes. ",
+  "faq.q7.answer.highlight": "Free Wi-Fi",
+  "faq.q7.answer.tail": " throughout the entire hotel: rooms, common areas, terrace, spa and gym.",
+
+  "faq.q8.question": "Do the rooms have air conditioning?",
+  "faq.q8.answer": "Yes. Every room has independent air conditioning.",
+
+  "faq.q9.question": "Is there a safe?",
+  "faq.q9.answer.lead": "Yes. Every room has a laptop-size safe. The service is ",
+  "faq.q9.answer.highlight": "free of charge",
+  "faq.q9.answer.tail": ". The hotel is not responsible for valuables left outside the safe.",
+
+  "faq.q10.question": "Do you have cribs for babies?",
+  "faq.q10.answer.lead": "Yes. We provide cribs ",
+  "faq.q10.answer.highlight": "free of charge",
+  "faq.q10.answer.tail": ", upon request when booking or at check-in.",
+
+  "faq.cat_pets_rules": "Pets, Smoking & House Rules",
+
+  "faq.q11.question": "Can I bring my pet?",
+  "faq.q11.answer.intro": "Yes, with conditions:",
+  "faq.q11.answer.rule1_lead": "Only ",
+  "faq.q11.answer.rule1_highlight": "guide dogs",
+  "faq.q11.answer.rule1_tail": " are allowed inside the hotel's common areas.",
+  "faq.q11.answer.rule2_lead": "We allow ",
+  "faq.q11.answer.rule2_highlight": "one dog up to 6 kg",
+  "faq.q11.answer.rule2_tail": " in the room.",
+  "faq.q11.answer.contact_lead": "For more details, contact ",
+  "faq.q11.answer.contact_tail": " before your arrival.",
+
+  "faq.q12.question": "Can I smoke inside the hotel?",
+  "faq.q12.answer.lead": "No. All rooms and facilities are ",
+  "faq.q12.answer.highlight": "100% smoke-free",
+  "faq.q12.answer.mid": ". Non-compliance incurs a penalty of ",
+
+  "faq.cat_services": "Services",
+
+  "faq.q13.question": "What services are included in my stay?",
+  "faq.q13.answer.item1": "Free Wi-Fi throughout the hotel.",
+  "faq.q13.answer.item2": "Parking.",
+  "faq.q13.answer.item3": "In-room safe.",
+  "faq.q13.answer.item4": "Access to the outdoor pool.",
+  "faq.q13.answer.item5": "Access to the gym and spa.",
+  "faq.q13.answer.item6": "Room service.",
+  "faq.q13.answer.item7": "Laundry service (charged based on use).",
+
+  "faq.q14.question": "What time is breakfast served?",
+  "faq.q14.answer.lead": "Breakfast buffet at ",
+  "faq.q14.answer.tail": " (first floor):",
+  "faq.q14.answer.weekday_label": "Monday to Friday: ",
+  "faq.q14.answer.weekday_time": "7:00 AM – 10:00 AM",
+  "faq.q14.answer.weekend_label": "Saturdays, Sundays and holidays: ",
+  "faq.q14.answer.weekend_time": "7:00 AM – 11:00 AM",
+
+  "faq.q15.question": "Do you have a restaurant? Is it open to the public?",
+  "faq.q15.answer.lead": "Yes. ",
+  "faq.q15.answer.tail": ", Peruvian and international cuisine, open to the public:",
+  "faq.q15.answer.hours_general": "General hours: 7:00 AM – 11:00 PM, every day.",
+  "faq.q15.answer.hours_lunch": "Executive lunch: Monday to Saturday, 12:00 PM – 3:00 PM.",
+  "faq.q15.answer.hours_bar": "Bar Murano: every day, 7:00 AM – 11:00 PM.",
+  "faq.q15.answer.cta": "View the menu and book a table →",
+
+  "faq.q16.question": "Is there room service?",
+  "faq.q16.answer": "Yes, room service is available during set hours. Check the in-room menu or call Reception to arrange it.",
+
+  "faq.q17.question": "Do you have a pool, gym and spa?",
+  "faq.q17.answer.intro": "Yes. We offer:",
+  "faq.q17.answer.pool": "Outdoor pool.",
+  "faq.q17.answer.gym_label": "Gym",
+  "faq.q17.answer.gym_tail": " with free access for guests.",
+  "faq.q17.answer.spa_label": "Spa",
+  "faq.q17.answer.spa_tail": " with treatments available. To book a treatment, check with Reception.",
+
+  "faq.cat_events": "Events & Meetings",
+
+  "faq.q18.question": "Do you have salons for events?",
+  "faq.q18.answer.intro": "Yes. Four groups of spaces spread across three floors:",
+  "faq.q18.answer.exec_label": "Executive Salons I, II, III",
+  "faq.q18.answer.exec_tail": " — floors 1 and 2, capacity 60 to 120 people.",
+  "faq.q18.answer.biz_label": "Business Salons I, II, III",
+  "faq.q18.answer.biz_tail": " — floor 2, up to 500 people combined.",
+  "faq.q18.answer.solderoro_tail": " — 12th floor with a panoramic terrace, up to 100 guests for a cocktail reception.",
+  "faq.q18.answer.convention_label": "Convention Center",
+  "faq.q18.answer.convention_tail": " — second floor, variable capacity depending on setup.",
+  "faq.q18.answer.cta": "See salon details →",
+
+  "faq.q19.question": "How do I get a quote for an event?",
+  "faq.q19.answer.lead": "Email ",
+  "faq.q19.answer.mid1": ", call ",
+  "faq.q19.answer.mid2": ", or message us on ",
+  "faq.q19.answer.tail": ". We'll respond with a personalized quote within 24 business hours.",
+
+  "faq.cat_international": "Information for International Guests",
+
+  "faq.q20.question": "What is the voltage in Peru?",
+  "faq.q20.answer.spec": "220 V · 60 Hz · Type A/B/C outlets.",
+  "faq.q20.answer.note": "If your device is 110 V (common in the United States and parts of Mexico), you'll need a converter or adapter. If you're coming from Europe (230 V), a simple pin adapter will do.",
+
+  "faq.q21.question": "What currency is used in Peru?",
+  "faq.q21.answer.lead": "The ",
+  "faq.q21.answer.currency": "Peruvian Sol (PEN, S/)",
+  "faq.q21.answer.tail": ". We accept all major international cards (Visa, Mastercard, Amex, Diners). ATMs are widely available throughout Miraflores.",
+
+  "faq.q22.question": "What languages are spoken at the hotel?",
+  "faq.q22.answer.lead": "We serve guests in ",
+  "faq.q22.answer.language": "Spanish",
+  "faq.q22.answer.tail": ". Our Reception team can also assist you in other languages — ask when you make your reservation.",
+
+  "faq.cta_final.question": "Didn't find your question?",
+  "faq.cta_final.email_btn": "Write to us",
+
+  "faq.award_band.label": "Sol de Oro · Help Center",
+  "faq.award_band.title": "24-hour guest service",
 };
