@@ -682,7 +682,7 @@ window.I18N_EN = {
   "servicios.service.pet_friendly.title": "Pet Friendly",
   "servicios.service.pet_friendly.desc": "We welcome small pets with a bed, bowl and a map of Miraflores' pet-friendly areas.",
 
-  "servicios.stats.reception": "Front desk & room service",
+  "servicios.stats.reception": "Reception & room service",
   "servicios.stats.pool_floor": "Pool floor",
   "servicios.stats.gym_opening": "Gym opens",
   "servicios.stats.concierge_languages": "Concierge languages",
@@ -1236,7 +1236,7 @@ window.I18N_EN = {
 
   "acerca.feature_team.eyebrow": "Our Team",
   "acerca.feature_team.title": "180 people who make the hotel a home.",
-  "acerca.feature_team.body1": "Front desk, maintenance, kitchen, events, housekeeping, concierge. Every shift hands off to the next without losing track of who our guests are and what they like.",
+  "acerca.feature_team.body1": "Reception, maintenance, kitchen, events, housekeeping, concierge. Every shift hands off to the next without losing track of who our guests are and what they like.",
   "acerca.feature_team.body2": "More than 60% of our team has been with us for over five years. Some for decades. It shows in the small gestures.",
 
   "acerca.certs.eyebrow": "Recognition",

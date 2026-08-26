@@ -58,6 +58,11 @@ if (missing.length) {
   missing.forEach((m) => console.error('  ' + m));
 }
 if (unused.length) {
+  // Known, expected exception: the 24 experiencias.itin_modern.* / experiencias.itin_business.*
+  // keys always show up here. They're consumed dynamically in experiencias.html's itinerary
+  // renderer via a string-concatenated lookup (d[prefix + '.title'], etc.), which this script's
+  // static data-i18n="..." regex scan can't see. Verified translated and wired correctly as of
+  // Task 16's final full-site check — not a real gap.
   console.warn('UNUSED DICTIONARY KEYS (defined but not referenced by any page):');
   unused.forEach((k) => console.warn('  ' + k));
 }
