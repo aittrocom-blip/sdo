@@ -1213,6 +1213,7 @@ window.I18N_EN = {
   // ---- acerca.html ----
   "acerca.meta_description": "Discover Sol de Oro, a five-star hotel in Miraflores. Over 30 years of Peruvian hospitality, 123 rooms, international certifications and a dedicated team.",
 
+  "acerca.breadcrumb.hotel": "The Hotel",
   "acerca.hero.eyebrow": "The Hotel",
   "acerca.hero.title": "More than 30 years of Peruvian hospitality in Miraflores.",
   "acerca.hero.lead": "Sol de Oro opened its doors in 1992 with a simple idea: combine the service of an international five-star hotel with the warmth of a Peruvian home. Today we're a gathering place for travelers, executives and celebrations.",
