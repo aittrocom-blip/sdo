@@ -13,6 +13,33 @@
   }
   window.getSiteLang = getSiteLang;
 
+  /* Atribución UTM: se captura al aterrizar en cualquier página del sitio con
+     parámetros ?utm_* en la URL y se guarda en sessionStorage — así sobrevive
+     la navegación entre páginas hasta que el visitante llegue a un formulario
+     de contacto, en otra página distinta de la de aterrizaje. Sin parámetros
+     nuevos se conserva lo ya capturado en la sesión; sin nada capturado nunca,
+     los campos utm_* viajan vacíos (comportamiento esperado, confirmado por
+     Gerencia General). */
+  (function(){
+    var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var params = new URLSearchParams(window.location.search);
+    var hasAny = UTM_KEYS.some(function(k){ return params.has(k); });
+    if (hasAny) {
+      var data = {};
+      UTM_KEYS.forEach(function(k){ data[k] = params.get(k) || ''; });
+      try { sessionStorage.setItem('sdo_utm', JSON.stringify(data)); } catch (e) {}
+    }
+    window.getSdoUtm = function(){
+      try {
+        var raw = sessionStorage.getItem('sdo_utm');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      var empty = {};
+      UTM_KEYS.forEach(function(k){ empty[k] = ''; });
+      return empty;
+    };
+  })();
+
   function setSiteLang(lang){
     try { localStorage.setItem(SITE_LANG_KEY, lang); } catch (e) { /* ignore */ }
   }
@@ -720,13 +747,35 @@
     syncTipoEvento(); // estado inicial: ninguno seleccionado -> ambos ocultos
   })();
 
-  /* Formularios que envían por email (empresarial.html, eventos.html "Solicitar cotización")
-     — vía Formspree (formspree.io), sin backend propio que mantener.
-     ACTIVAR: crear una cuenta gratuita en formspree.io, verificar reservas@soldeoro.pe o
-     comercial@soldeoro.pe como destino, crear un form, y reemplazar el ID de abajo (lo que va
-     después de "/f/") por el que te da Formspree. Mientras tanto, el envío fallará limpio y el
-     formulario muestra un aviso para escribir directo al correo — nunca finge un éxito falso. */
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/TU_FORM_ID_AQUI';
+  /* Formularios de captación (empresarial.html "Solicitar cuenta corporativa",
+     eventos.html "Solicitar cotización") — envían directo al webhook de Make.com
+     que alimenta el sistema comercial (Zoho, vía escenario de Make ya probado del
+     otro lado por Gerencia General). Contrato de 17 campos fijado por Gerencia:
+     nombres exactos, minúscula, sin acentos — si un nombre no calza tal cual, ese
+     dato se pierde sin aviso de error del otro lado, así que no se tocan sin avisar.
+     AVISO IMPORTANTE: antes de la primera prueba en producción hay que coordinar
+     con Gerencia General para que active el escenario de Make. Si está apagado, el
+     POST se recibe pero no se procesa — no llega ningún registro y el formulario
+     igual muestra éxito (la respuesta HTTP del webhook es 200 aunque el escenario
+     esté pausado). No concluir que "falló" ni que "funcionó" sin esa verificación
+     conjunta, registro por registro. */
+  const MAKE_WEBHOOK = 'https://hook.us2.make.com/y53oceqca465vcjscbg91138wv47wosq';
+
+  function val(form, selector){
+    const el = form.querySelector(selector);
+    return el ? (el.value || '').trim() : '';
+  }
+
+  /* Zoho/el sistema comercial exige Last Name. eventsContactForm solo pide un
+     "Nombre" único (mejor conversión que separar Nombre/Apellido en un formulario
+     rápido de cotización) — se parte aquí: la última palabra es el apellido, el
+     resto el nombre. Con una sola palabra, todo va a last_name (el campo obligatorio). */
+  function splitName(full){
+    const parts = (full || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return { first: '', last: '' };
+    if (parts.length === 1) return { first: '', last: parts[0] };
+    return { first: parts.slice(0, -1).join(' '), last: parts[parts.length - 1] };
+  }
 
   document.querySelectorAll('[data-email-form]').forEach(form => {
     form.addEventListener('submit', async (e) => {
@@ -735,13 +784,52 @@
       const originalLabel = submitBtn ? submitBtn.textContent : '';
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = form.dataset.pendingMsg || 'Enviando…'; }
 
+      const utm = (typeof window.getSdoUtm === 'function') ? window.getSdoUtm() : {};
+      const payload = {
+        first_name: '', last_name: '', company: '', cargo: '', email: '',
+        mobile: '', ruc: '', tipo_evento: '', fecha_evento: '', asistentes: '',
+        servicios: '', comentario: '',
+        utm_source: utm.utm_source || '', utm_medium: utm.utm_medium || '',
+        utm_campaign: utm.utm_campaign || '', utm_content: utm.utm_content || '',
+        utm_term: utm.utm_term || '',
+      };
+
+      if (form.id === 'eventsContactForm') {
+        const name = splitName(val(form, '[name="Nombre"]'));
+        payload.first_name = name.first;
+        payload.last_name = name.last;
+        payload.company = val(form, '[name="Empresa"]');
+        payload.email = val(form, '[name="Email"]');
+        payload.mobile = val(form, '[name="Teléfono"]');
+        const tipoSocial = form.querySelector('#evtTipoSocial');
+        const tipoCorp = form.querySelector('#evtTipoCorp');
+        payload.tipo_evento = (tipoSocial && !tipoSocial.disabled) ? tipoSocial.value
+                             : (tipoCorp && !tipoCorp.disabled) ? tipoCorp.value : '';
+        payload.fecha_evento = val(form, '#evtFecha');
+        payload.asistentes = val(form, '[name="Asistentes"]');
+        payload.servicios = Array.from(form.querySelectorAll('#evtServicios input[type="checkbox"]:checked'))
+          .map(cb => cb.value).join(';');
+        payload.comentario = val(form, '[name="Mensaje"]');
+      } else if (form.id === 'empForm') {
+        payload.first_name = val(form, '[name="Nombre"]');
+        payload.last_name = val(form, '[name="Apellido"]');
+        payload.company = val(form, '[name="Empresa"]');
+        payload.cargo = val(form, '[name="Cargo"]');
+        payload.email = val(form, '[name="Correo"]');
+        payload.mobile = val(form, '[name="Teléfono"]');
+        payload.ruc = val(form, '[name="RUC"]');
+        payload.comentario = val(form, '[name="Comentarios"]');
+      }
+
       try {
-        const resp = await fetch(FORMSPREE_ENDPOINT, {
+        const resp = await fetch(MAKE_WEBHOOK, {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
         });
-        if (!resp.ok) throw new Error('Formspree respondió ' + resp.status);
+        if (!resp.ok) throw new Error('Webhook respondió ' + resp.status);
+
+        if (typeof fbq === 'function') fbq('track', 'Lead');
 
         const successMsg = form.dataset.successMsg || 'Gracias. Nos pondremos en contacto pronto.';
         form.textContent = ''; // limpia los campos sin usar innerHTML (el texto es propio, pero se evita por buena práctica)
