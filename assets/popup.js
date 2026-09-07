@@ -8,6 +8,18 @@
   const SUPA_KEY = 'sb_publishable_gtCG2nBVE9ujjm6c28rlAw_g55hDYCY';
   const SEEN_KEY = 'sdo_popup_seen';
 
+  // Solo esquemas http(s) — bloquea "javascript:" y otros esquemas ejecutables
+  // aunque el link_url venga corrupto o mal cargado desde el admin.
+  function safeHttpUrl(raw) {
+    if (!raw) return null;
+    try {
+      const u = new URL(raw, location.href);
+      return (u.protocol === 'http:' || u.protocol === 'https:') ? u.href : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   if (typeof window.supabase === 'undefined') return; // CDN no cargó (ej. bloqueado)
   try { if (sessionStorage.getItem(SEEN_KEY)) return; } catch (e) { /* si falla, se muestra igual */ }
 
@@ -47,11 +59,12 @@
 
     card.appendChild(closeBtn);
 
-    if (popup.link_url) {
+    const safeHref = safeHttpUrl(popup.link_url);
+    if (safeHref) {
       const link = document.createElement('a');
-      link.href = popup.link_url;
+      link.href = safeHref;
       link.target = '_blank';
-      link.rel = 'noopener';
+      link.rel = 'noopener noreferrer';
       link.appendChild(img);
       card.appendChild(link);
     } else {

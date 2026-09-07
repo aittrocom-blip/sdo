@@ -618,6 +618,14 @@ function togField(id, active) {
   return `<div class="tog-wrap"><button class="tog${active?' on':''}" id="${id}" type="button" onclick="this.classList.toggle('on')"></button><span class="tog-lbl">${active?'Activo':'Inactivo'}</span></div>`;
 }
 function isOn(id) { return document.getElementById(id)?.classList.contains('on'); }
+// Solo esquemas http(s) — bloquea "javascript:" al renderizar un link guardado en la DB.
+function safeHttpUrl(raw) {
+  if (!raw) return null;
+  try {
+    const u = new URL(raw, location.href);
+    return (u.protocol === 'http:' || u.protocol === 'https:') ? u.href : null;
+  } catch (e) { return null; }
+}
 
 /* ================================================================
    RESUMEN
@@ -1019,7 +1027,7 @@ async function loadPopups() {
       cell(thumb(p.image_url)),
       cell(esc(p.title || '—')),
       cell(vigencia, true),
-      cell(p.link_url ? `<a href="${esc(p.link_url)}" target="_blank" rel="noopener">${esc(p.link_url)}</a>` : '—', true),
+      cell(safeHttpUrl(p.link_url) ? `<a href="${esc(safeHttpUrl(p.link_url))}" target="_blank" rel="noopener noreferrer">${esc(p.link_url)}</a>` : (p.link_url ? esc(p.link_url) + ' (link inválido)' : '—'), true),
       cell(badge(p.active)),
       cell(actBtns(() => editPopup(p), () => del('popups', p.id, loadPopups)))
     );
@@ -1085,14 +1093,16 @@ function editPopup(p) {
 
       const starts_on = document.getElementById('ps').value;
       const ends_on = document.getElementById('pe2').value;
+      const link_url = document.getElementById('pl').value.trim();
       if (!image_url) { toast('La foto es obligatoria','err'); return; }
       if (!starts_on || !ends_on) { toast('Las 2 fechas son obligatorias','err'); return; }
       if (ends_on < starts_on) { toast('"Hasta" no puede ser antes de "Desde"','err'); return; }
+      if (link_url && !safeHttpUrl(link_url)) { toast('El link debe empezar con http:// o https://','err'); return; }
 
       const body = {
         title: document.getElementById('pt').value.trim(),
         image_url,
-        link_url: document.getElementById('pl').value.trim(),
+        link_url,
         starts_on, ends_on,
         active: isOn('pa'), updated_at: new Date().toISOString()
       };
