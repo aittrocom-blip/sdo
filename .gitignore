@@ -23,3 +23,7 @@ Thumbs.db
 # Editores
 .vscode/
 .idea/
+
+# Vercel CLI local state / tokens
+.vercel
+.env*
