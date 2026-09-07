@@ -2483,6 +2483,42 @@
     cursor:pointer;
   }
   .contact-form button:hover{ background:var(--sand-deep); }
+  .sdo-popup-overlay{
+    position:fixed; inset:0; z-index:9999;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    background:rgba(0,0,0,0);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, background-color .25s ease;
+  }
+  .sdo-popup-overlay.is-visible{
+    background:rgba(0,0,0,.72);
+    opacity:1; pointer-events:auto;
+  }
+  .sdo-popup-card{
+    position:relative;
+    max-width:520px; width:100%;
+    transform:scale(.96);
+    transition:transform .25s ease;
+  }
+  .sdo-popup-overlay.is-visible .sdo-popup-card{ transform:scale(1); }
+  .sdo-popup-card img{
+    display:block; width:100%; height:auto;
+    border-radius:4px;
+  }
+  .sdo-popup-close{
+    position:absolute; top:-14px; right:-14px;
+    width:32px; height:32px; border-radius:50%;
+    background:var(--white); color:var(--ink);
+    border:none; cursor:pointer;
+    font-size:.9rem; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);
+  }
+  @media (max-width:560px){
+    .sdo-popup-close{ top:-12px; right:0; }
+  }
+
   .contact-form .checkbox-group{
     display:flex; flex-wrap:wrap; gap:10px 24px;
   }

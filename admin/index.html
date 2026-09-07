@@ -238,6 +238,10 @@ tbody tr:hover td{background:rgba(40,32,20,.02);}
           <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
           Ofertas
         </button>
+        <button class="nav-btn" data-tab="popups">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M9 21h6"/></svg>
+          Popup
+        </button>
       </div>
       <div class="sb-group">
         <span class="sb-group-label">LE Experience</span>
@@ -278,12 +282,14 @@ tbody tr:hover td{background:rgba(40,32,20,.02);}
           <div class="stat-card"><div class="stat-card-val" id="statRest">—</div><div class="stat-card-lbl">Restaurantes LE</div></div>
           <div class="stat-card"><div class="stat-card-val" id="statCult">—</div><div class="stat-card-lbl">Lugares culturales</div></div>
           <div class="stat-card"><div class="stat-card-val" id="statExp">—</div><div class="stat-card-lbl">Experiencias</div></div>
+          <div class="stat-card"><div class="stat-card-val" id="statPopups">—</div><div class="stat-card-lbl">Popups activos</div></div>
         </div>
         <div class="quick-links">
           <div class="quick-links-title">Accesos rápidos</div>
           <div class="quick-btns">
             <button class="qbtn" onclick="navTo('images')">Imágenes del sitio</button>
             <button class="qbtn" onclick="navTo('offers')">Gestionar ofertas</button>
+            <button class="qbtn" onclick="navTo('popups')">Gestionar popup</button>
             <button class="qbtn" onclick="navTo('restaurants')">Gastronomía LE</button>
             <button class="qbtn" onclick="navTo('cultural')">Lugares culturales LE</button>
             <button class="qbtn" onclick="navTo('experiences')">Experiencias LE</button>
@@ -375,6 +381,28 @@ tbody tr:hover td{background:rgba(40,32,20,.02);}
           <table>
             <thead><tr><th>Foto</th><th>Título & descripción</th><th>Precio</th><th>Badge</th><th>Vence</th><th>Estado</th><th></th></tr></thead>
             <tbody id="tbOffers"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- POPUP -->
+    <div class="panel" id="panel-popups">
+      <div class="main-head">
+        <div class="main-head-info">
+          <h2>Popup del sitio</h2>
+          <p>Aviso emergente con foto y link, programado por rango de fechas. Se muestra en todas las páginas mientras esté activo y dentro de su vigencia.</p>
+        </div>
+        <button class="btn-add" id="btnAddPopup">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo popup
+        </button>
+      </div>
+      <div class="main-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Foto</th><th>Título (interno)</th><th>Vigencia</th><th>Link</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbPopups"></tbody>
           </table>
         </div>
       </div>
@@ -482,7 +510,7 @@ function boot(user) {
 /* ================================================================
    NAVEGACIÓN
    ================================================================ */
-const LOADERS = { resumen: loadResumen, restaurants: loadRestaurants, cultural: loadCultural, experiences: loadExperiences, offers: loadOffers, images: loadPaginas };
+const LOADERS = { resumen: loadResumen, restaurants: loadRestaurants, cultural: loadCultural, experiences: loadExperiences, offers: loadOffers, popups: loadPopups, images: loadPaginas };
 
 function navTo(tab) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -595,18 +623,20 @@ function isOn(id) { return document.getElementById(id)?.classList.contains('on')
    RESUMEN
    ================================================================ */
 async function loadResumen() {
-  const [{ count: ci }, { count: co }, { count: cr }, { count: cc }, { count: ce }] = await Promise.all([
+  const [{ count: ci }, { count: co }, { count: cr }, { count: cc }, { count: ce }, { count: cp }] = await Promise.all([
     sb.from('site_images').select('*', { count: 'exact', head: true }),
     sb.from('offers').select('*', { count: 'exact', head: true }).eq('active', true),
     sb.from('le_restaurants').select('*', { count: 'exact', head: true }),
     sb.from('le_cultural').select('*', { count: 'exact', head: true }),
-    sb.from('le_experiences').select('*', { count: 'exact', head: true })
+    sb.from('le_experiences').select('*', { count: 'exact', head: true }),
+    sb.from('popups').select('*', { count: 'exact', head: true }).eq('active', true)
   ]);
   document.getElementById('statImages').textContent = ci ?? '—';
   document.getElementById('statOffers').textContent = co ?? '—';
   document.getElementById('statRest').textContent   = cr ?? '—';
   document.getElementById('statCult').textContent   = cc ?? '—';
   document.getElementById('statExp').textContent    = ce ?? '—';
+  document.getElementById('statPopups').textContent = cp ?? '—';
 }
 
 /* ================================================================
@@ -969,6 +999,111 @@ function editOffer(o) {
       closeModal(); loadOffers();
     },
     o ? () => del('offers', o.id, loadOffers) : null
+  );
+}
+
+/* ================================================================
+   POPUP
+   ================================================================ */
+async function loadPopups() {
+  const { data, error } = await sb.from('popups').select('*').order('starts_on', { ascending: false });
+  if (error) { toast('Error cargando popups','err'); return; }
+  const tb = document.getElementById('tbPopups');
+  if (!data.length) { tb.innerHTML = `<tr><td colspan="6"><div class="empty">Sin popups. Crea el primero.</div></td></tr>`; return; }
+  tb.innerHTML = '';
+  data.forEach(p => {
+    const fmt = d => d ? new Date(d + 'T00:00:00').toLocaleDateString('es-PE') : '—';
+    const vigencia = `${fmt(p.starts_on)} — ${fmt(p.ends_on)}`;
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(thumb(p.image_url)),
+      cell(esc(p.title || '—')),
+      cell(vigencia, true),
+      cell(p.link_url ? `<a href="${esc(p.link_url)}" target="_blank" rel="noopener">${esc(p.link_url)}</a>` : '—', true),
+      cell(badge(p.active)),
+      cell(actBtns(() => editPopup(p), () => del('popups', p.id, loadPopups)))
+    );
+    tb.appendChild(tr);
+  });
+}
+document.getElementById('btnAddPopup').onclick = () => editPopup(null);
+
+function popupForm(p) {
+  return `
+    <div class="fgroup"><label>Título (solo referencia interna, el visitante no lo ve)</label><input id="pt" value="${esc(p?.title)}" placeholder="Promo verano 2027"/></div>
+    <div class="fgroup"><label>Foto</label>
+      <div class="photo-tabs">
+        <button type="button" class="photo-tab active" data-mode="url" onclick="switchPhotoMode('url')">URL</button>
+        <button type="button" class="photo-tab" data-mode="upload" onclick="switchPhotoMode('upload')">Subir archivo</button>
+      </div>
+      <div id="epanel-url">
+        <input id="ep" data-prev="eprev" value="${esc(p?.image_url)}" placeholder="https://..."/>
+      </div>
+      <div id="epanel-upload" style="display:none">
+        <div class="file-drop">
+          <input type="file" id="efile" accept="image/jpeg,image/png,image/webp,image/gif" onchange="onExpFileChange()"/>
+          <div class="file-drop-inner">
+            <span class="file-drop-icon">📁</span>
+            <span class="file-drop-text">Arrastra una imagen o haz clic</span>
+            <span class="file-drop-hint">JPG, PNG, WebP · máx. 5 MB</span>
+          </div>
+        </div>
+        <div class="upload-status" id="eupload-status"></div>
+      </div>
+      <div class="img-prev" id="eprev">${p?.image_url?'':'Vista previa'}</div>
+    </div>
+    <div class="fgroup"><label>Link al hacer clic (opcional)</label><input id="pl" value="${esc(p?.link_url)}" placeholder="https://sitio.com/ofertas.html"/></div>
+    <div class="frow">
+      <div class="fgroup"><label>Desde</label><input id="ps" type="date" value="${p?.starts_on||''}"/></div>
+      <div class="fgroup"><label>Hasta</label><input id="pe2" type="date" value="${p?.ends_on||''}"/></div>
+    </div>
+    <div class="fgroup"><label>Estado</label>${togField('pa', p?.active!==false)}</div>`;
+}
+function editPopup(p) {
+  openModal(p ? 'Editar popup' : 'Nuevo popup', popupForm(p),
+    async () => {
+      let image_url = '';
+      const uploadPanel = document.getElementById('epanel-upload');
+      if (uploadPanel && uploadPanel.style.display !== 'none') {
+        const file = document.getElementById('efile')?.files[0];
+        if (file) {
+          if (file.size > 5 * 1024 * 1024) { toast('La imagen supera 5 MB','err'); return; }
+          const saveBtn = document.getElementById('modalSave');
+          saveBtn.disabled = true; saveBtn.textContent = 'Subiendo…';
+          const ext   = file.name.split('.').pop().toLowerCase();
+          const fname = Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+          const { error: upErr } = await sb.storage.from('popups').upload(fname, file, { upsert: true });
+          saveBtn.disabled = false; saveBtn.textContent = 'Guardar';
+          if (upErr) { toast('Error al subir imagen: ' + upErr.message, 'err'); return; }
+          image_url = sb.storage.from('popups').getPublicUrl(fname).data.publicUrl;
+        } else {
+          image_url = p?.image_url || '';
+        }
+      } else {
+        image_url = (document.getElementById('ep')?.value || '').trim();
+      }
+
+      const starts_on = document.getElementById('ps').value;
+      const ends_on = document.getElementById('pe2').value;
+      if (!image_url) { toast('La foto es obligatoria','err'); return; }
+      if (!starts_on || !ends_on) { toast('Las 2 fechas son obligatorias','err'); return; }
+      if (ends_on < starts_on) { toast('"Hasta" no puede ser antes de "Desde"','err'); return; }
+
+      const body = {
+        title: document.getElementById('pt').value.trim(),
+        image_url,
+        link_url: document.getElementById('pl').value.trim(),
+        starts_on, ends_on,
+        active: isOn('pa'), updated_at: new Date().toISOString()
+      };
+      const { error } = p
+        ? await sb.from('popups').update(body).eq('id',p.id)
+        : await sb.from('popups').insert(body);
+      if (error) { toast('Error: '+error.message,'err'); return; }
+      toast(p ? 'Popup actualizado' : 'Popup creado');
+      closeModal(); loadPopups();
+    },
+    p ? () => del('popups', p.id, loadPopups) : null
   );
 }
 
