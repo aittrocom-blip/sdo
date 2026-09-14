@@ -150,23 +150,27 @@
       .catch(() => { /* fallback a src inline */ });
   })();
 
-  /* Hero slider */
+  /* Hero slider — páginas sin carrusel (hero de imagen única, ej. eventos.html)
+     no tienen .slide/.hero-dot; sin este guard, autoplay() igual arrancaba un
+     setInterval que crasheaba cada 4s contra un slides[0] inexistente. */
   const slides = document.querySelectorAll('.slide');
   const dots = document.querySelectorAll('.hero-dot');
-  let current = 0, timer;
-  function go(i){
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (i + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
+  if (slides.length) {
+    let current = 0, timer;
+    function go(i){
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (i + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+    function autoplay(){
+      clearInterval(timer);
+      timer = setInterval(()=>go(current+1), 4000);
+    }
+    dots.forEach(d => d.addEventListener('click', ()=>{ go(parseInt(d.dataset.go,10)); autoplay(); }));
+    autoplay();
   }
-  function autoplay(){
-    clearInterval(timer);
-    timer = setInterval(()=>go(current+1), 4000);
-  }
-  dots.forEach(d => d.addEventListener('click', ()=>{ go(parseInt(d.dataset.go,10)); autoplay(); }));
-  autoplay();
 
   /* Mobile nav drawer */
   (function(){
@@ -822,6 +826,11 @@
       }
 
       try {
+        // empForm (empresarial.html) queda fuera del alcance aprobado por Gerencia
+        // General para esta etapa — solo eventsContactForm está autorizado a
+        // conectarse al webhook/CRM. No enviar hasta que se confirme el alcance.
+        if (form.id === 'empForm') throw new Error('empForm fuera de alcance — no se envía');
+
         const resp = await fetch(MAKE_WEBHOOK, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
