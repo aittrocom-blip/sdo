@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Security headers (fallback si el servidor no los aplica via HTTP) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://connect.facebook.net https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.facebook.com https://hook.us2.make.com https://fjzshpilzjtfjcouzzzz.supabase.co; worker-src 'self' blob:; form-action 'self' https://soldeoro.ihotelier.com mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<!-- Página en desarrollo, aún no enlazada del menú — no indexar hasta que tenga fotos reales. -->
+<meta name="robots" content="noindex, nofollow" />
+<title>Tour Virtual 360° · Salones · Sol de Oro Hotel &amp; Suites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css?v=2" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" integrity="sha384-02yn80EH0cF+s23taAmuhEZ04p3CTbQvV0QZMr2reUxajpfvcLNKlzsPkZwx14mf" crossorigin="anonymous" />
+<style>
+  .tour-hero{ padding:150px 0 40px; background:var(--ink); color:var(--white); }
+  .tour-hero .container{ max-width:1100px; }
+  .tour-hero .eyebrow{ color:var(--sand-deep); }
+  .tour-hero h1{ font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(2rem,4vw,3rem); font-weight:400; margin:10px 0 12px; }
+  .tour-hero p{ color:rgba(255,255,255,.65); font-size:.92rem; line-height:1.7; max-width:640px; }
+  .tour-badge{
+    display:inline-block; margin-top:16px; padding:6px 14px; border-radius:20px;
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25);
+    font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--sand-deep);
+  }
+  .tour-wrap{ max-width:1100px; margin:0 auto; padding:40px 24px 90px; display:grid; grid-template-columns:220px 1fr; gap:24px; }
+  .tour-list{ display:flex; flex-direction:column; gap:6px; }
+  .tour-list button{
+    text-align:left; padding:11px 14px; border-radius:6px; border:1px solid var(--line);
+    background:var(--white); color:var(--ink); font-size:.82rem; cursor:pointer;
+    font-family:inherit; transition:background .2s ease, border-color .2s ease;
+  }
+  .tour-list button:hover{ background:var(--card2,#f1ece3); }
+  .tour-list button.is-active{ border-color:var(--sand-deep); background:rgba(190,160,110,.12); font-weight:500; }
+  #panorama{ width:100%; height:560px; border-radius:6px; overflow:hidden; background:#111; }
+  @media (max-width:760px){
+    .tour-wrap{ grid-template-columns:1fr; }
+    #panorama{ height:400px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <ul class="nav left">
+      <li class="nav-item"><a href="habitaciones.html">Habitaciones</a></li>
+      <li class="nav-item"><a href="eventos.html">Salones</a></li>
+      <li class="nav-item"><a href="restaurante.html">Restaurante</a></li>
+    </ul>
+    <a href="index.html" class="brand" aria-label="Sol de Oro Hotel & Suites">
+      <img class="brand-logo" src="assets/brand/logo%20web1.png?v=2" alt="Sol de Oro Hotel &amp; Suites" />
+    </a>
+    <ul class="nav right">
+      <li class="nav-item"><a href="eventos.html">← Volver a Eventos</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============ TOUR HERO ============ -->
+<section class="tour-hero">
+  <div class="container">
+    <span class="eyebrow">Salones &amp; Eventos</span>
+    <h1>Tour virtual 360° de los salones.</h1>
+    <p>Recorré los 8 espacios de eventos de Sol de Oro sin salir del navegador. Arrastrá para rotar, hacé scroll/pinch para acercar, y usá los puntos de navegación o la lista para saltar de un salón a otro.</p>
+    <span class="tour-badge">Prototipo — panoramas de muestra, en espera de las fotos reales de cada salón</span>
+  </div>
+</section>
+
+<!-- ============ TOUR ============ -->
+<div class="tour-wrap">
+  <div class="tour-list" id="tourList"></div>
+  <div id="panorama"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js" integrity="sha384-S5+w/JlcNAOymqXGNrvzn2F++XsaHTJdex6KE5VbKryfFgqJiRUJOgOkUqaiOZTf" crossorigin="anonymous"></script>
+<script>
+/* Tour 360° de los 8 salones reales listados en eventos.html. Las imágenes de
+   images/tour-virtual/ son panoramas de muestra de Pannellum (CC-BY-SA,
+   pannellum.org/images/) — se reemplazan 1 a 1 por las fotos reales del hotel
+   cuando estén listas, sin tocar la configuración de escenas/hotspots. */
+(function () {
+  var SALONES = [
+    { id: 'sol_de_oro',            name: 'Salón Sol de Oro',            image: 'images/tour-virtual/cerro-toco-0.jpg' },
+    { id: 'ejecutivo_1',           name: 'Salón Ejecutivo I',           image: 'images/tour-virtual/alma.jpg' },
+    { id: 'ejecutivo_2',           name: 'Salón Ejecutivo II',          image: 'images/tour-virtual/bma-1.jpg' },
+    { id: 'ejecutivo_3',           name: 'Salón Ejecutivo III',         image: 'images/tour-virtual/jfk.jpg' },
+    { id: 'empresarial_1',         name: 'Salón Empresarial I',         image: 'images/tour-virtual/cerro-toco-1.jpg' },
+    { id: 'empresarial_2',         name: 'Salón Empresarial II',        image: 'images/tour-virtual/alma.jpg' },
+    { id: 'empresarial_3',         name: 'Salón Empresarial III',       image: 'images/tour-virtual/bma-1.jpg' },
+    { id: 'empresarial_completo',  name: 'Salón Empresarial Completo',  image: 'images/tour-virtual/jfk.jpg' },
+  ];
+
+  var scenes = {};
+  SALONES.forEach(function (s, i) {
+    var next = SALONES[(i + 1) % SALONES.length];
+    var prev = SALONES[(i - 1 + SALONES.length) % SALONES.length];
+    scenes[s.id] = {
+      title: s.name,
+      panorama: s.image,
+      autoLoad: i === 0,
+      hotSpots: [
+        { pitch: 0, yaw: 0,   type: 'scene', text: 'Ir a: ' + next.name, sceneId: next.id },
+        { pitch: 0, yaw: 180, type: 'scene', text: 'Ir a: ' + prev.name, sceneId: prev.id },
+      ],
+    };
+  });
+
+  var viewer = pannellum.viewer('panorama', {
+    default: { firstScene: SALONES[0].id, sceneFadeDuration: 600, autoLoad: true },
+    scenes: scenes,
+  });
+
+  var list = document.getElementById('tourList');
+  SALONES.forEach(function (s) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = s.name;
+    btn.dataset.scene = s.id;
+    if (s.id === SALONES[0].id) btn.classList.add('is-active');
+    btn.addEventListener('click', function () { viewer.loadScene(s.id); });
+    list.appendChild(btn);
+  });
+  viewer.on('scenechange', function (sceneId) {
+    list.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.scene === sceneId);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
