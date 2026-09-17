@@ -560,7 +560,7 @@ window.I18N_EN = {
   "eventos.contact.info_body": "We work with every client from the very first inquiry. You'll be assigned a dedicated coordinator who stays with you through the day of your event.",
   "eventos.contact.label_email": "Email",
   "eventos.contact.label_phone": "Phone",
-  "eventos.contact.value_phone": "+51 (1) 610-7000 ext. 8",
+  "eventos.contact.value_phone": "+51 (1) 610-7000 ext. 2199",
   "eventos.contact.label_hours": "Hours",
   "eventos.contact.hours_line1": "Mon to Fri · 9:00 AM — 6:00 PM",
   "eventos.contact.hours_line2": "Sat · 10:00 AM — 2:00 PM",
